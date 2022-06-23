@@ -1,0 +1,13 @@
+# IntelliJ project files
+.idea
+*.iml
+out
+gen
+
+# Build files
+build
+.gradle
+
+# Project specific
+steam_appid.txt
+latest-crash.log

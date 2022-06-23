@@ -1,0 +1,135 @@
+plugins {
+    id 'java'
+}
+
+// Change the values below this to your mods values
+
+project.ext.modID = "fair.examplemod" // The unique id of your mod. Must be all lowercase and cannot use special characters.
+project.ext.modName = "Example Mod" // The display name of your mod.
+project.ext.modVersion = "1.0" // Your current builds version. Must follow the xx.xx... format.
+project.ext.gameVersion = "0.21.23" // The target game version.
+project.ext.modDescription = "Just an example mod" // Short description of what your mod is.
+project.ext.author = "Fair" // Your name
+
+/**
+ * When setting clientside to true, it means servers do not need this mod for clients to connect and vice versa.
+ * IMPORTANT: If you set this to true, make sure that your mod does not add any content or do anything
+ * that could cause clients and servers to desync. This includes registering any items, objects, tiles, packets etc.
+ */
+project.ext.clientside = false
+
+/**
+ * The other mod dependencies of this mod
+ * Dependencies define the default load order of mods
+ * Uncomment and configure these if your mod has dependencies
+ */
+//project.ext.modDependencies = ["other.modid1", "other.modid2"]
+//project.ext.modOptionalDependencies = ["optional.modid1", "optional.modid2"]
+
+// The path to the games install directory
+def gameDirectory = "C:/Program Files (x86)/Steam/steamapps/common/Necesse"
+
+// =================================================
+// ========== DO NOT EDIT BELOW THIS LINE ==========
+// =================================================
+
+// Name of the jar
+def jarName = "${project.ext.modName.replace(" ", "")}-${project.ext.gameVersion}-${project.ext.modVersion}"
+
+group project.ext.modID
+version project.ext.modVersion
+
+setSourceCompatibility(JavaVersion.VERSION_1_8)
+setTargetCompatibility(JavaVersion.VERSION_1_8)
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets.main.output.resourcesDir = file("build/mod/resources/")
+sourceSets.main.java.outputDir = file("build/mod/")
+def buildLocation = "build/jar"
+
+compileJava.options.encoding = "UTF-8"
+
+if (!file(gameDirectory + "/Necesse.jar").exists()) {
+    throw new Exception("Could not find game install directory. Make sure it is correct in build.gradle file.")
+}
+
+dependencies {
+    implementation files(gameDirectory + "/Necesse.jar")
+    implementation fileTree(gameDirectory + "/lib/")
+    implementation fileTree("./mods/") // Add all mods located in local mods folder
+}
+
+classes.doLast {
+    // Creates mod.info file
+    new File("${sourceSets.main.java.outputDir}/mod.info").text = "{\n" +
+            "   id = ${project.ext.modID},\n" +
+            "   name = ${project.ext.modName},\n" +
+            "   version = ${project.ext.modVersion},\n" +
+            "   gameVersion = ${project.ext.gameVersion},\n" +
+            "   description = ${project.ext.modDescription},\n" +
+            "   author = ${project.ext.author},\n" +
+            (project.ext.clientside ? "   clientside = " + project.ext.clientside + ",\n" : "") +
+            (project.ext.has("modDependencies") ? "   dependencies = [" + project.ext.modDependencies.join(", ") + "],\n" : "") +
+            (project.ext.has("modOptionalDependencies") ? "   optionalDependencies = [" + project.ext.modOptionalDependencies.join(", ") + "],\n" : "") +
+            "}"
+}
+
+task createAppID {
+    group "necesse"
+    description "Creates steam_appid.txt file"
+
+    doLast {
+        new File("steam_appid.txt").text = "1169040"
+    }
+}
+
+task runClient(type: JavaExec) {
+    group "necesse"
+    description "Run client with current mod"
+    dependsOn "buildModJar", "createAppID"
+
+    classpath = files(gameDirectory + "/Necesse.jar")
+
+    main = "StartClient"
+    jvmArgs "-Xms512m", "-Xmx3G", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseG1GC", "-XX:G1NewSizePercent=20", "-XX:G1ReservePercent=20", "-XX:MaxGCPauseMillis=50", "-XX:G1HeapRegionSize=32M"
+    args "-mod \"${buildLocation}\""
+}
+
+task runDevClient(type: JavaExec) {
+    group "necesse"
+    description "Run client with current mod"
+    dependsOn "buildModJar", "createAppID"
+
+    classpath = files(gameDirectory + "/Necesse.jar")
+
+    main = "StartClient"
+    jvmArgs "-Xms512m", "-Xmx3G", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseG1GC", "-XX:G1NewSizePercent=20", "-XX:G1ReservePercent=20", "-XX:MaxGCPauseMillis=50", "-XX:G1HeapRegionSize=32M"
+    args "-dev 1", "-mod \"${buildLocation}\""
+}
+
+task runServer(type: JavaExec) {
+    group "necesse"
+    description "Run server with current mod"
+    dependsOn "buildModJar"
+
+    classpath = files(gameDirectory + "/Server.jar")
+
+    main = "StartServer"
+    jvmArgs "-Xms512m", "-Xmx3G", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseG1GC", "-XX:G1NewSizePercent=20", "-XX:G1ReservePercent=20", "-XX:MaxGCPauseMillis=50", "-XX:G1HeapRegionSize=32M"
+    args "-mod \"${buildLocation}\""
+}
+
+task buildModJar(type: Jar) {
+    group "necesse"
+    description "Generates the mod jar into the build folder"
+    dependsOn "classes"
+
+    // Add mod output
+    from sourceSets.main.java.outputDir
+
+    archiveName "${jarName}.jar"
+    destinationDir file(buildLocation)
+}

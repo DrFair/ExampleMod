@@ -1,0 +1,82 @@
+package examplemod.examples;
+
+import necesse.engine.network.PacketReader;
+import necesse.engine.network.packet.PacketSpawnProjectile;
+import necesse.engine.util.GameRandom;
+import necesse.entity.mobs.GameDamage;
+import necesse.entity.mobs.PlayerMob;
+import necesse.entity.projectile.Projectile;
+import necesse.entity.projectile.QuartzBoltProjectile;
+import necesse.gfx.gameTooltips.ListGameTooltips;
+import necesse.inventory.InventoryItem;
+import necesse.inventory.PlayerInventorySlot;
+import necesse.inventory.item.toolItem.projectileToolItem.ProjectileToolItem;
+import necesse.level.maps.Level;
+
+public class ExampleProjectileWeapon extends ProjectileToolItem {
+
+    // This weapon will shoot out some projectiles.
+    // Different classes for specific projectile weapon are already in place that you can use:
+    // GunProjectileToolItem, BowProjectileToolItem, BoomerangToolItem, etc.
+
+    public ExampleProjectileWeapon() {
+        super(400);
+        rarity = Rarity.RARE;
+        animSpeed = 300; // 300 ms attack time
+        attackDmg = new GameDamage(GameDamage.DamageType.MAGIC, 20); // 20 magic damage
+        velocity = 100; // Velocity of projectiles
+        knockback = 50; // Knockback of projectiles
+        attackRange = 500; // Range of the projectile
+
+        // Offsets of the attack item sprite relative to the player arm
+        attackXOffset = 12;
+        attackYOffset = 22;
+    }
+
+    @Override
+    public ListGameTooltips getTooltips(InventoryItem item, PlayerMob perspective) {
+        ListGameTooltips tooltips = super.getTooltips(item, perspective);
+        tooltips.add(this.getAttackDamageTip(item, perspective)); // Add attack damage to tooltip
+        return tooltips;
+    }
+
+    @Override
+    public InventoryItem onAttack(Level level, int x, int y, PlayerMob player, int attackHeight, InventoryItem item, PlayerInventorySlot slot, int animAttack, int seed, PacketReader contentReader) {
+        super.onAttack(level, x, y, player, attackHeight, item, slot, animAttack, seed, contentReader);
+        // This method is ran on the attacking client and on the server.
+        // This means we need to tell other clients that a projectile is being "summoned".
+        // Every projectile weapon is set to include an integer seed used to used to make sure that the attacking client
+        // and the server gives the projectiles summoned the same uniqueID.
+
+        // Example we use is the Quartz Staff projectile
+        Projectile projectile = new QuartzBoltProjectile(
+                level, player, // Level and owner
+                player.x, player.y, // Start position of projectile
+                x, y, // Target position of projectile
+                getVelocity(item, player), // Will add player buffs, enchantments etc
+                getAttackRange(item), // Will add player buffs, enchantments etc
+                getDamage(item), // Will add player buffs, enchantments etc
+                getKnockback(item, player) // Will add player buffs, enchantments etc
+        );
+        // Sync the uniqueID using the given seed
+        GameRandom random = new GameRandom(seed);
+        projectile.resetUniqueID(random);
+
+        // We can move the projectile 40 units out
+        projectile.moveDist(40);
+
+        // Add the projectile without sending it to clients
+        level.entityManager.projectiles.addHidden(projectile);
+
+        // Since we didn't send it to clients, we can do it here
+        if (level.isServerLevel()) {
+            // We do attacking client as an exception, since the above logic is already running on his side
+            level.getServer().network.sendToClientsAtExcept(new PacketSpawnProjectile(projectile), player.getServerClient(), player.getServerClient());
+        }
+
+        // Should return the item after it's been used.
+        // Example: if it consumes the item, you can use item.setAmount(item.getAmount() - 1)
+        return item;
+    }
+
+}
