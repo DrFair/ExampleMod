@@ -3,6 +3,7 @@ plugins {
 }
 
 // Change the values below this to your mods values
+// To change the project name, edit the settings.gradle file
 
 project.ext.modID = "fair.examplemod" // The unique id of your mod. Must be all lowercase and cannot use special characters.
 project.ext.modName = "Example Mod" // The display name of your mod.
