@@ -19,10 +19,15 @@ import java.util.List;
 
 public class ExampleProjectile extends FollowingProjectile {
 
+    // Textures are loaded from resources/projectiles/<projectileStringID>
+    // If shadow path is defined when registering the projectile, it is loaded from
+    // that path into this projectile shadowTexture field
+
     // Each projectile must have an empty constructor for the registry to construct them
     public ExampleProjectile() {
     }
 
+    // We use this constructor on attack to spawn the projectile with the correct parameters
     public ExampleProjectile(Level level, Mob owner, float x, float y, float targetX, float targetY, float speed, int distance, GameDamage damage, int knockback) {
         this.setLevel(level);
         this.setOwner(owner);
@@ -48,11 +53,13 @@ public class ExampleProjectile extends FollowingProjectile {
 
     @Override
     public Color getParticleColor() {
+        // Projectiles sometimes spawn particles. You can return null for no particles.
         return new Color(63, 157, 18);
     }
 
     @Override
     public Trail getTrail() {
+        // Projectiles sometimes spawn trails. You can return null for no trail.
         return new Trail(this, getLevel(), new Color(191, 147, 22), 26, 500, getHeight());
     }
 

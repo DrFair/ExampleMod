@@ -1,6 +1,7 @@
 package examplemod.examples;
 
 import necesse.engine.Screen;
+import necesse.engine.localization.Localization;
 import necesse.engine.network.PacketReader;
 import necesse.engine.network.packet.PacketSpawnProjectile;
 import necesse.engine.sound.SoundEffect;
@@ -39,7 +40,10 @@ public class ExampleProjectileWeapon extends ProjectileToolItem {
     @Override
     public ListGameTooltips getTooltips(InventoryItem item, PlayerMob perspective) {
         ListGameTooltips tooltips = super.getTooltips(item, perspective);
-        tooltips.add(this.getAttackDamageTip(item, perspective)); // Add attack damage to tooltip
+        tooltips.add(Localization.translate("itemtooltip", "examplestafftip"));
+        tooltips.add(getAttackDamageTip(item, perspective)); // Add attack damage to tooltip
+        tooltips.add(getAttackSpeedTip(item, perspective)); // Adds attack speed to tooltip
+        addCritChanceTip(tooltips, item, perspective); // Adds crit chance if above 0%
         return tooltips;
     }
 

@@ -10,7 +10,7 @@ examplesword=Example Sword
 examplestaff=Example Staff
 
 [itemtooltip]
-customfurnituretip=My custom furniture tooltip
+examplestafftip=Shoots a homing, piercing projectile
 
 [mob]
 examplemob=Example Mob
