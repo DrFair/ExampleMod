@@ -30,6 +30,9 @@ public class ExampleMod {
         // Register our mob
         MobRegistry.registerMob("examplemob", ExampleMob.class, true);
 
+        // Register our projectile
+        ProjectileRegistry.registerProjectile("exampleprojectile", ExampleProjectile.class, "exampleprojectile", "exampleprojectile_shadow");
+
         // Register our buff
         BuffRegistry.registerBuff("examplebuff", new ExampleBuff());
 

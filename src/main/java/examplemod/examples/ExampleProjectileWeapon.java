@@ -1,12 +1,15 @@
 package examplemod.examples;
 
+import necesse.engine.Screen;
 import necesse.engine.network.PacketReader;
 import necesse.engine.network.packet.PacketSpawnProjectile;
+import necesse.engine.sound.SoundEffect;
 import necesse.engine.util.GameRandom;
+import necesse.entity.mobs.AttackAnimMob;
 import necesse.entity.mobs.GameDamage;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.projectile.Projectile;
-import necesse.entity.projectile.QuartzBoltProjectile;
+import necesse.gfx.GameResources;
 import necesse.gfx.gameTooltips.ListGameTooltips;
 import necesse.inventory.InventoryItem;
 import necesse.inventory.PlayerInventorySlot;
@@ -26,7 +29,7 @@ public class ExampleProjectileWeapon extends ProjectileToolItem {
         attackDmg = new GameDamage(GameDamage.DamageType.MAGIC, 20); // 20 magic damage
         velocity = 100; // Velocity of projectiles
         knockback = 50; // Knockback of projectiles
-        attackRange = 500; // Range of the projectile
+        attackRange = 1500; // Range of the projectile
 
         // Offsets of the attack item sprite relative to the player arm
         attackXOffset = 12;
@@ -41,15 +44,24 @@ public class ExampleProjectileWeapon extends ProjectileToolItem {
     }
 
     @Override
+    public void showAttack(Level level, int x, int y, AttackAnimMob mob, int attackHeight, InventoryItem item, int seed, PacketReader contentReader) {
+        if (level.isClientLevel()) {
+            // Play magic bolt sound effect with 70% volume, and a random pitch between 100 and 110%
+            Screen.playSound(GameResources.magicbolt1, SoundEffect.effect(mob)
+                    .volume(0.7f)
+                    .pitch(GameRandom.globalRandom.getFloatBetween(1.0f, 1.1f)));
+        }
+    }
+
+    @Override
     public InventoryItem onAttack(Level level, int x, int y, PlayerMob player, int attackHeight, InventoryItem item, PlayerInventorySlot slot, int animAttack, int seed, PacketReader contentReader) {
-        super.onAttack(level, x, y, player, attackHeight, item, slot, animAttack, seed, contentReader);
         // This method is ran on the attacking client and on the server.
         // This means we need to tell other clients that a projectile is being "summoned".
-        // Every projectile weapon is set to include an integer seed used to used to make sure that the attacking client
+        // Every projectile weapon is set to include an integer seed used to make sure that the attacking client
         // and the server gives the projectiles summoned the same uniqueID.
 
-        // Example we use is the Quartz Staff projectile
-        Projectile projectile = new QuartzBoltProjectile(
+        // Example we use our example projectile
+        Projectile projectile = new ExampleProjectile(
                 level, player, // Level and owner
                 player.x, player.y, // Start position of projectile
                 x, y, // Target position of projectile
