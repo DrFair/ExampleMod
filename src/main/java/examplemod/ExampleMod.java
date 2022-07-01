@@ -53,7 +53,7 @@ public class ExampleMod {
                 new Ingredient[]{
                         new Ingredient("ironbar", 2)
                 }
-        ));
+        ).showAfter("woodboat")); // Show recipe after wood boat recipe
         // Example sword recipe, crafted in iron anvil using 4 example items and 5 copper bars
         Recipes.registerModRecipe(new Recipe(
                 "examplesword",
@@ -73,7 +73,7 @@ public class ExampleMod {
                         new Ingredient("exampleitem", 4),
                         new Ingredient("goldbar", 10)
                 }
-        ));
+        ).showAfter("exampleitem")); // Show the recipe after example item recipe
 
         // Add out example mob to default cave mobs.
         // Spawn tables use a ticket/weight system. In general, common mobs have about 100 tickets.
