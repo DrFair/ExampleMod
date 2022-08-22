@@ -63,21 +63,6 @@ dependencies {
     implementation fileTree("./mods/") // Add all mods located in local mods folder
 }
 
-classes.doLast {
-    // Creates mod.info file
-    new File("${sourceSets.main.java.outputDir}/mod.info").text = "{\n" +
-            "   id = ${project.ext.modID},\n" +
-            "   name = ${project.ext.modName},\n" +
-            "   version = ${project.ext.modVersion},\n" +
-            "   gameVersion = ${project.ext.gameVersion},\n" +
-            "   description = ${project.ext.modDescription},\n" +
-            "   author = ${project.ext.author},\n" +
-            (project.ext.clientside ? "   clientside = " + project.ext.clientside + ",\n" : "") +
-            (project.ext.has("modDependencies") ? "   dependencies = [" + project.ext.modDependencies.join(", ") + "],\n" : "") +
-            (project.ext.has("modOptionalDependencies") ? "   optionalDependencies = [" + project.ext.modOptionalDependencies.join(", ") + "],\n" : "") +
-            "}"
-}
-
 task createAppID {
     group "necesse"
     description "Creates steam_appid.txt file"
@@ -86,6 +71,27 @@ task createAppID {
         new File("steam_appid.txt").text = "1169040"
     }
 }
+
+task createModInfoFile(type: JavaExec) {
+    group "necesse"
+    description "Creates the mod info file"
+
+    classpath = files(gameDirectory + "/Necesse.jar")
+
+    main = "CreateModInfoFile"
+    args "-file", "${sourceSets.main.java.outputDir}/mod.info",
+            "-id", "${project.ext.modID}",
+            "-name", "${project.ext.modName}",
+            "-version", "${project.ext.modVersion}",
+            "-gameVersion", "${project.ext.gameVersion}",
+            "-description", "${project.ext.modDescription}",
+            "-author", "${project.ext.author}",
+            "-clientside", "${project.ext.clientside}",
+            "-dependencies", project.ext.has("modDependencies") ? "[" + project.ext.modDependencies.join(", ") + "]" : "",
+            "-optionalDependencies", project.ext.has("modOptionalDependencies") ? "[" + project.ext.modOptionalDependencies.join(", ") + "]" : ""
+}
+// Makes compiling also create mod info file
+classes.dependsOn("createModInfoFile")
 
 task runClient(type: JavaExec) {
     group "necesse"
