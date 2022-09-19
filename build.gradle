@@ -68,7 +68,7 @@ task createAppID {
     description "Creates steam_appid.txt file"
 
     doLast {
-        new File("steam_appid.txt").text = "1169040"
+        file("steam_appid.txt").text = "1169040"
     }
 }
 
