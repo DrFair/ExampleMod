@@ -47,8 +47,13 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    libDepends
+}
+
 sourceSets.main.output.resourcesDir = file("build/mod/resources/")
 sourceSets.main.java.outputDir = file("build/mod/")
+sourceSets.main.compileClasspath += configurations.libDepends // Adds libDepends configuration to classpath
 def buildLocation = "build/jar"
 
 compileJava.options.encoding = "UTF-8"
@@ -61,6 +66,12 @@ dependencies {
     implementation files(gameDirectory + "/Necesse.jar")
     implementation fileTree(gameDirectory + "/lib/")
     implementation fileTree("./mods/") // Add all mods located in local mods folder
+
+    // Add any third party library dependencies here. Remember to use libDepends, so that they will be added to your jar on build
+    // These are some examples:
+//    libDepends group: 'org.slf4j', name: 'slf4j-api', version: '2.0.6'
+//    libDepends file("path/to/library/jar.jar")
+
 }
 
 task createAppID {
@@ -136,6 +147,8 @@ task buildModJar(type: Jar) {
 
     // Add mod output
     from sourceSets.main.java.outputDir
+    // Add the dependencies
+    from configurations.libDepends
 
     archiveName "${jarName}.jar"
     destinationDir file(buildLocation)
