@@ -69,9 +69,8 @@ dependencies {
 
     // Add any third party library dependencies here. Remember to use libDepends, so that they will be added to your jar on build
     // These are some examples:
-//    libDepends group: 'org.slf4j', name: 'slf4j-api', version: '2.0.6'
+//    libDepends group: 'com.google.guava', name: 'guava', version: '31.1-jre'
 //    libDepends files("path/to/library/jar.jar")
-
 }
 
 task createAppID {
@@ -148,7 +147,7 @@ task buildModJar(type: Jar) {
     // Add mod output
     from sourceSets.main.java.outputDir
     // Add the dependencies
-    from configurations.libDepends
+    from configurations.libDepends.collect { it.isDirectory() ? it : zipTree(it) }
 
     archiveName "${jarName}.jar"
     destinationDir file(buildLocation)
