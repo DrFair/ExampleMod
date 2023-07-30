@@ -54,7 +54,7 @@ configurations {
 sourceSets.main.output.resourcesDir = file("build/mod/resources/")
 sourceSets.main.java.outputDir = file("build/mod/")
 sourceSets.main.compileClasspath += configurations.libDepends // Adds libDepends configuration to classpath
-def buildLocation = "build/jar"
+def buildLocation = "build/jar/"
 
 compileJava.options.encoding = "UTF-8"
 
@@ -143,6 +143,12 @@ task buildModJar(type: Jar) {
     group "necesse"
     description "Generates the mod jar into the build folder"
     dependsOn "classes"
+
+    doFirst {
+        fileTree(dir: buildLocation).exclude("${jarName}.jar").visit { FileVisitDetails details ->
+            delete details.file
+        }
+    }
 
     // Add mod output
     from sourceSets.main.java.outputDir
