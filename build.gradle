@@ -88,7 +88,7 @@ task createModInfoFile(type: JavaExec) {
 
     classpath = files(gameDirectory + "/Necesse.jar")
 
-    main = "CreateModInfoFile"
+    main "CreateModInfoFile"
     args "-file", "${sourceSets.main.java.outputDir}/mod.info",
             "-id", "${project.ext.modID}",
             "-name", "${project.ext.modName}",
@@ -102,6 +102,16 @@ task createModInfoFile(type: JavaExec) {
 }
 // Makes compiling also create mod info file
 classes.dependsOn("createModInfoFile")
+
+task preAntialiasTextures(type: JavaExec) {
+    group "necesse"
+    description "Creates the mod info file"
+
+    classpath = files(gameDirectory + "/Necesse.jar")
+
+    main "PreAntialiasTextures"
+    args "-folders", "${sourceSets.main.resources.srcDirs.stream().map {file -> file.path}.toArray().join(";")}"
+}
 
 task runClient(type: JavaExec) {
     group "necesse"
