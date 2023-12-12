@@ -1,6 +1,7 @@
 package examplemod.examples;
 
 import necesse.entity.mobs.buffs.ActiveBuff;
+import necesse.entity.mobs.buffs.BuffEventSubscriber;
 import necesse.entity.mobs.buffs.BuffModifiers;
 import necesse.entity.mobs.buffs.staticBuffs.Buff;
 
@@ -12,8 +13,9 @@ public class ExampleBuff extends Buff {
         shouldSave = true;
     }
 
+
     @Override
-    public void init(ActiveBuff activeBuff) {
+    public void init(ActiveBuff activeBuff, BuffEventSubscriber buffEventSubscriber) {
         // Apply modifiers here
         activeBuff.setModifier(BuffModifiers.SPEED, 0.5f); // +50% speed
     }

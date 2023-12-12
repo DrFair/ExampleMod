@@ -42,8 +42,8 @@ public class ExampleProjectileWeapon extends ProjectileToolItem {
     public ListGameTooltips getTooltips(InventoryItem item, PlayerMob perspective) {
         ListGameTooltips tooltips = super.getTooltips(item, perspective);
         tooltips.add(Localization.translate("itemtooltip", "examplestafftip"));
-        tooltips.add(getAttackDamageTip(item, perspective)); // Add attack damage to tooltip
-        tooltips.add(getAttackSpeedTip(item, perspective)); // Adds attack speed to tooltip
+        addAttackDamageTip(tooltips, item, perspective); // Add attack damage to tooltip
+        addAttackSpeedTip(tooltips, item, perspective); // Adds attack speed to tooltip
         addCritChanceTip(tooltips, item, perspective); // Adds crit chance if above 0%
         return tooltips;
     }
