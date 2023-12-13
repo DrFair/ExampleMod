@@ -122,7 +122,7 @@ task runClient(type: JavaExec) {
 
     main = "StartClient"
     jvmArgs "-Xms512m", "-Xmx3G", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseG1GC", "-XX:G1NewSizePercent=20", "-XX:G1ReservePercent=20", "-XX:MaxGCPauseMillis=50", "-XX:G1HeapRegionSize=32M"
-    args "-mod \"${buildLocation}\""
+    args "-dev", "-mod \"${buildLocation}\""
 }
 
 task runDevClient(type: JavaExec) {
@@ -146,7 +146,7 @@ task runServer(type: JavaExec) {
 
     main = "StartServer"
     jvmArgs "-Xms512m", "-Xmx3G", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseG1GC", "-XX:G1NewSizePercent=20", "-XX:G1ReservePercent=20", "-XX:MaxGCPauseMillis=50", "-XX:G1HeapRegionSize=32M"
-    args "-mod \"${buildLocation}\""
+    args "-dev", "-mod \"${buildLocation}\""
 }
 
 task buildModJar(type: Jar) {
