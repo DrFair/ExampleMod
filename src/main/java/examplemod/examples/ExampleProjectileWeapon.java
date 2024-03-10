@@ -1,14 +1,17 @@
 package examplemod.examples;
 
 import necesse.engine.Screen;
+import necesse.engine.localization.Localization;
 import necesse.engine.network.PacketReader;
 import necesse.engine.network.packet.PacketSpawnProjectile;
 import necesse.engine.sound.SoundEffect;
+import necesse.engine.util.GameBlackboard;
 import necesse.engine.util.GameRandom;
 import necesse.entity.mobs.AttackAnimMob;
 import necesse.entity.mobs.PlayerMob;
 import necesse.entity.projectile.Projectile;
 import necesse.gfx.GameResources;
+import necesse.gfx.gameTooltips.ListGameTooltips;
 import necesse.inventory.InventoryItem;
 import necesse.inventory.PlayerInventorySlot;
 import necesse.inventory.item.toolItem.projectileToolItem.magicProjectileToolItem.MagicProjectileToolItem;
@@ -34,6 +37,13 @@ public class ExampleProjectileWeapon extends MagicProjectileToolItem {
         // Offsets of the attack item sprite relative to the player arm
         attackXOffset = 12;
         attackYOffset = 22;
+    }
+
+    @Override
+    public ListGameTooltips getPreEnchantmentTooltips(InventoryItem item, PlayerMob perspective, GameBlackboard blackboard) {
+        ListGameTooltips tooltips = super.getPreEnchantmentTooltips(item, perspective, blackboard);
+        tooltips.add(Localization.translate("itemtooltip", "examplestafftip"));
+        return tooltips;
     }
 
     @Override
@@ -78,6 +88,9 @@ public class ExampleProjectileWeapon extends MagicProjectileToolItem {
             // We do attacking client as an exception, since the above logic is already running on his side
             level.getServer().network.sendToClientsWithEntityExcept(new PacketSpawnProjectile(projectile), projectile, player.getServerClient());
         }
+
+        // Finally, consume the mana cost
+        consumeMana(player, item);
 
         // Should return the item after it's been used.
         // Example: if it consumes the item, you can use item.setAmount(item.getAmount() - 1)

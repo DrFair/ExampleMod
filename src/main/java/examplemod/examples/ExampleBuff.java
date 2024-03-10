@@ -13,6 +13,7 @@ public class ExampleBuff extends Buff {
         shouldSave = true;
     }
 
+
     @Override
     public void init(ActiveBuff activeBuff, BuffEventSubscriber buffEventSubscriber) {
         // Apply modifiers here
