@@ -1,14 +1,21 @@
 package examplemod.examples;
 
-import necesse.inventory.item.toolItem.swordToolItem.CustomSwordToolItem;
+import necesse.inventory.item.Item;
+import necesse.inventory.item.toolItem.swordToolItem.SwordToolItem;
 
-// Extends CustomSwordToolItem
-public class ExampleSwordItem extends CustomSwordToolItem {
+// Extends SwordToolItem
+public class ExampleSwordItem extends SwordToolItem {
 
     // Weapon attack textures are loaded from resources/player/weapons/<itemStringID>
 
     public ExampleSwordItem() {
-        super(Rarity.UNCOMMON, 300, 20, 120, 100, 400);
+        super(400);
+        rarity = Item.Rarity.UNCOMMON;
+        attackAnimTime.setBaseValue(300); // 300 ms attack time
+        attackDamage.setBaseValue(20) // Base sword damage
+                .setUpgradedValue(1, 95); // Upgraded tier 1 damage
+        attackRange.setBaseValue(120); // 120 range
+        knockback.setBaseValue(100); // 100 knockback
     }
 
 }
