@@ -1,10 +1,10 @@
 package examplemod.examples;
 
-import necesse.engine.Screen;
 import necesse.engine.localization.Localization;
 import necesse.engine.network.PacketReader;
 import necesse.engine.network.packet.PacketSpawnProjectile;
 import necesse.engine.sound.SoundEffect;
+import necesse.engine.sound.SoundManager;
 import necesse.engine.util.GameBlackboard;
 import necesse.engine.util.GameRandom;
 import necesse.entity.mobs.AttackAnimMob;
@@ -50,7 +50,7 @@ public class ExampleProjectileWeapon extends MagicProjectileToolItem {
     public void showAttack(Level level, int x, int y, AttackAnimMob mob, int attackHeight, InventoryItem item, int seed, PacketReader contentReader) {
         if (level.isClient()) {
             // Play magic bolt sound effect with 70% volume, and a random pitch between 100 and 110%
-            Screen.playSound(GameResources.magicbolt1, SoundEffect.effect(mob)
+            SoundManager.playSound(GameResources.magicbolt1, SoundEffect.effect(mob)
                     .volume(0.7f)
                     .pitch(GameRandom.globalRandom.getFloatBetween(1.0f, 1.1f)));
         }

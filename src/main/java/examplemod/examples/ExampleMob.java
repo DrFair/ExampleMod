@@ -1,6 +1,6 @@
 package examplemod.examples;
 
-import necesse.engine.tickManager.TickManager;
+import necesse.engine.gameLoop.tickManager.TickManager;
 import necesse.engine.util.GameRandom;
 import necesse.entity.mobs.GameDamage;
 import necesse.entity.mobs.MobDrawable;
@@ -79,7 +79,7 @@ public class ExampleMob extends HostileMob {
         int drawY = camera.getDrawY(y) - 51;
 
         // A helper method to get the sprite of the current animation/direction of this mob
-        Point sprite = getAnimSprite(x, y, dir);
+        Point sprite = getAnimSprite(x, y, getDir());
 
         drawY += getBobbing(x, y);
         drawY += getLevel().getTile(getTileX(), getTileY()).getMobSinkingAmount(this);
