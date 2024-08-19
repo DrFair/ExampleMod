@@ -7,7 +7,7 @@ ext {
     modID = "fair.examplemod"
     modName = "Example Mod"
     modVersion = "1.0"
-    gameVersion = "0.26.0"
+    gameVersion = "0.26.1"
     modDescription = "Just an example mod"
     author = "Fair"
 }
@@ -28,7 +28,7 @@ project.ext.clientside = false
 //project.ext.modOptionalDependencies = ["optional.modid1", "optional.modid2"]
 
 // The path to the games install directory
-project.ext.gameDirectory = "C:/Program Files (x86)/Steam/steamapps/common/Necesse"
+project.ext.gameDirectory = "/home/killin/.local/share/Steam/steamapps/common/Necesse"
 
 // =================================================
 // ========== DO NOT EDIT BELOW THIS LINE ==========
@@ -100,7 +100,7 @@ task createModInfoFile(type: JavaExec) {
     classpath = files(gameDirectory + "/Necesse.jar")
     main = "CreateModInfoFile"
 
-    args "-file", "${sourceSets.main.java.destinationDirectory}/mod.info",
+    args "-file", "${sourceSets.main.java.destinationDirectory.get()}/mod.info",
             "-id", modID,
             "-name", modName,
             "-version", modVersion,
