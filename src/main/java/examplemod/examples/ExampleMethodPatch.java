@@ -40,7 +40,7 @@ import net.bytebuddy.asm.Advice;
  *
  * "@Advice.Argument(n)" - The annotated parameter is mapped to the n argument passed into the target method.
  */
-@ModMethodPatch(target = SurfaceGrassObject.class, name = "getLootTable", arguments = {Level.class, int.class, int.class})
+@ModMethodPatch(target = SurfaceGrassObject.class, name = "getLootTable", arguments = {Level.class, int.class, int.class, int.class})
 public class ExampleMethodPatch {
 
     /*
@@ -50,7 +50,7 @@ public class ExampleMethodPatch {
     @Advice.OnMethodEnter(skipOn = Advice.OnNonDefaultValue.class)
     static boolean onEnter(@Advice.This SurfaceGrassObject grassObject, @Advice.Argument(0) Level level) {
         // Debug message to know it's working
-        System.out.println("Entered SurfaceGrassObject.getLootTable(level, x, y): " + grassObject.getStringID() + " on level " + level.getIdentifier());
+        System.out.println("Entered SurfaceGrassObject.getLootTable(level, layerID, x, y): " + grassObject.getStringID() + " on level " + level.getIdentifier());
         // We return true to skip the original method's execution, since we override the returned loot table anyway.
         // This only happens if you add "skipOn = Advice.OnNonDefaultValue.class" in the OnMethodEnter annotation.
         // Naturally, you can also return false to not skip the original method.
@@ -62,7 +62,7 @@ public class ExampleMethodPatch {
         // Grass now drops between 1 and 2 coins instead
         lootTable = new LootTable(LootItem.between("coin", 1, 2));
         // Debug message to know it's working
-        System.out.println("Exited SurfaceGrassObject.getLootTable(level, x, y): " + grassObject.getStringID() + " on level " + level.getIdentifier() + " with new return value: " + lootTable);
+        System.out.println("Exited SurfaceGrassObject.getLootTable(level, layerID, x, y): " + grassObject.getStringID() + " on level " + level.getIdentifier() + " with new return value: " + lootTable);
     }
 
 }
