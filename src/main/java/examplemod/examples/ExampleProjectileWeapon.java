@@ -1,19 +1,18 @@
 package examplemod.examples;
 
 import necesse.engine.localization.Localization;
-import necesse.engine.network.PacketReader;
-import necesse.engine.network.packet.PacketSpawnProjectile;
+import necesse.engine.network.gameNetworkData.GNDItemMap;
 import necesse.engine.sound.SoundEffect;
 import necesse.engine.sound.SoundManager;
 import necesse.engine.util.GameBlackboard;
 import necesse.engine.util.GameRandom;
-import necesse.entity.mobs.AttackAnimMob;
 import necesse.entity.mobs.PlayerMob;
+import necesse.entity.mobs.itemAttacker.ItemAttackSlot;
+import necesse.entity.mobs.itemAttacker.ItemAttackerMob;
 import necesse.entity.projectile.Projectile;
 import necesse.gfx.GameResources;
 import necesse.gfx.gameTooltips.ListGameTooltips;
 import necesse.inventory.InventoryItem;
-import necesse.inventory.PlayerInventorySlot;
 import necesse.inventory.item.toolItem.projectileToolItem.magicProjectileToolItem.MagicProjectileToolItem;
 import necesse.level.maps.Level;
 
@@ -47,17 +46,17 @@ public class ExampleProjectileWeapon extends MagicProjectileToolItem {
     }
 
     @Override
-    public void showAttack(Level level, int x, int y, AttackAnimMob mob, int attackHeight, InventoryItem item, int seed, PacketReader contentReader) {
+    public void showAttack(Level level, int x, int y, ItemAttackerMob attackerMob, int attackHeight, InventoryItem item, int animAttack, int seed, GNDItemMap mapContent) {
         if (level.isClient()) {
             // Play magic bolt sound effect with 70% volume, and a random pitch between 100 and 110%
-            SoundManager.playSound(GameResources.magicbolt1, SoundEffect.effect(mob)
+            SoundManager.playSound(GameResources.magicbolt1, SoundEffect.effect(attackerMob)
                     .volume(0.7f)
                     .pitch(GameRandom.globalRandom.getFloatBetween(1.0f, 1.1f)));
         }
     }
 
     @Override
-    public InventoryItem onAttack(Level level, int x, int y, PlayerMob player, int attackHeight, InventoryItem item, PlayerInventorySlot slot, int animAttack, int seed, PacketReader contentReader) {
+    public InventoryItem onAttack(Level level, int x, int y, ItemAttackerMob attackerMob, int attackHeight, InventoryItem item, ItemAttackSlot slot, int animAttack, int seed, GNDItemMap mapContent) {
         // This method is ran on the attacking client and on the server.
         // This means we need to tell other clients that a projectile is being added.
         // Every projectile weapon is set to include an integer seed used to make sure that the attacking client
@@ -65,13 +64,13 @@ public class ExampleProjectileWeapon extends MagicProjectileToolItem {
 
         // Example we use our example projectile
         Projectile projectile = new ExampleProjectile(
-                level, player, // Level and owner
-                player.x, player.y, // Start position of projectile
+                level, attackerMob, // Level and owner
+                attackerMob.x, attackerMob.y, // Start position of projectile
                 x, y, // Target position of projectile
-                getProjectileVelocity(item, player), // Will add player buffs, enchantments etc
+                getProjectileVelocity(item, attackerMob), // Will add player buffs, enchantments etc
                 getAttackRange(item), // Will add player buffs, enchantments etc
                 getAttackDamage(item), // Will add player buffs, enchantments etc
-                getKnockback(item, player) // Will add player buffs, enchantments etc
+                getKnockback(item, attackerMob) // Will add player buffs, enchantments etc
         );
         // Sync the uniqueID using the given seed
         GameRandom random = new GameRandom(seed);
@@ -80,17 +79,12 @@ public class ExampleProjectileWeapon extends MagicProjectileToolItem {
         // We can move the projectile 40 units out
         projectile.moveDist(40);
 
-        // Add the projectile without sending it to clients
-        level.entityManager.projectiles.addHidden(projectile);
 
-        // Since we didn't send it to clients, we can do it here
-        if (level.isServer()) {
-            // We do attacking client as an exception, since the above logic is already running on his side
-            level.getServer().network.sendToClientsWithEntityExcept(new PacketSpawnProjectile(projectile), projectile, player.getServerClient());
-        }
+        // Add the projectile without sending it to the local client that is running this as well
+        attackerMob.addAndSendAttackerProjectile(projectile);
 
         // Finally, consume the mana cost
-        consumeMana(player, item);
+        consumeMana(attackerMob, item);
 
         // Should return the item after it's been used.
         // Example: if it consumes the item, you can use item.setAmount(item.getAmount() - 1)
