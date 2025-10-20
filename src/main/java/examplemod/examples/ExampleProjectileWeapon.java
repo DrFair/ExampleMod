@@ -24,7 +24,7 @@ public class ExampleProjectileWeapon extends MagicProjectileToolItem {
     // GunProjectileToolItem, BowProjectileToolItem, BoomerangToolItem, etc.
 
     public ExampleProjectileWeapon() {
-        super(400);
+        super(400, null);
         rarity = Rarity.RARE;
         attackAnimTime.setBaseValue(300);
         attackDamage.setBaseValue(20) // Base sword damage
