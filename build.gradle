@@ -54,7 +54,7 @@ configurations {
 }
 
 sourceSets.main.output.resourcesDir = file("build/mod/resources/")
-sourceSets.main.java.destinationDirectory = file("build/mod/")
+sourceSets.main.java.destinationDirectory = file("build/mod/classes/")
 sourceSets.main.compileClasspath += configurations.libDepends // Adds libDepends configuration to classpath
 def buildLocation = "build/jar/"
 
@@ -154,6 +154,7 @@ task buildModJar(type: Jar) {
 
     // Add mod output
     from sourceSets.main.java.destinationDirectory.get()
+    from sourceSets.main.output.resourcesDir
     // Add the dependencies
     from configurations.libDepends.collect { it.isDirectory() ? it : zipTree(it) }
 
