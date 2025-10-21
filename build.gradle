@@ -5,19 +5,19 @@ plugins {
 // Change the values below this to your mods values
 // To change the project name, edit the settings.gradle file
 
-project.ext.modID = "fair.examplemod" // The unique id of your mod. Must be all lowercase and cannot use special characters.
-project.ext.modName = "Example Mod" // The display name of your mod.
+project.ext.modID = "br.com.aeyos" // The unique id of your mod. Must be all lowercase and cannot use special characters.
+project.ext.modName = "Player Health Bar" // The display name of your mod.
 project.ext.modVersion = "1.0" // Your current builds version. Must follow the xx.xx... format.
-project.ext.gameVersion = "0.31.0" // The target game version.
-project.ext.modDescription = "Just an example mod" // Short description of what your mod is.
-project.ext.author = "Fair" // Your name
+project.ext.gameVersion = "1.0.1" // The target game version.
+project.ext.modDescription = "Simply puts a health bar above the player's head just like any other mob." // Short description of what your mod is.
+project.ext.author = "Aeyos" // Your name
 
 /**
  * When setting clientside to true, it means servers do not need this mod for clients to connect and vice versa.
  * IMPORTANT: If you set this to true, make sure that your mod does not add any content or do anything
  * that could cause clients and servers to desync. This includes registering any items, objects, tiles, packets etc.
  */
-project.ext.clientside = false
+project.ext.clientside = true
 
 /**
  * The other mod dependencies of this mod
@@ -154,7 +154,9 @@ task buildModJar(type: Jar) {
 
     // Add mod output
     from sourceSets.main.java.destinationDirectory.get()
-    from sourceSets.main.output.resourcesDir
+    from(sourceSets.main.output.resourcesDir) {
+        into "resources"
+    }
     // Add the dependencies
     from configurations.libDepends.collect { it.isDirectory() ? it : zipTree(it) }
 

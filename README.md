@@ -1,3 +1,3 @@
-An example mod for Necesse.
+Simply puts a health bar above the player's head just like any other mob.
 
-Check out the [modding wiki page](https://necessewiki.com/Modding) for more.
+by [Aeyos](https://github.com/Aeyos).
