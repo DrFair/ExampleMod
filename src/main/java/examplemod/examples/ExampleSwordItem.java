@@ -2,6 +2,8 @@ package examplemod.examples;
 
 import necesse.inventory.item.Item;
 import necesse.inventory.item.toolItem.swordToolItem.SwordToolItem;
+import necesse.inventory.lootTable.lootItem.OneOfLootItems;
+import necesse.inventory.lootTable.presets.GunWeaponsLootTable;
 
 // Extends SwordToolItem
 public class ExampleSwordItem extends SwordToolItem {
@@ -9,7 +11,7 @@ public class ExampleSwordItem extends SwordToolItem {
     // Weapon attack textures are loaded from resources/player/weapons/<itemStringID>
 
     public ExampleSwordItem() {
-        super(400);
+        super(400, (OneOfLootItems) null);
         rarity = Item.Rarity.UNCOMMON;
         attackAnimTime.setBaseValue(300); // 300 ms attack time
         attackDamage.setBaseValue(20) // Base sword damage

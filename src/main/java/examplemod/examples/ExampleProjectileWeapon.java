@@ -14,6 +14,8 @@ import necesse.gfx.GameResources;
 import necesse.gfx.gameTooltips.ListGameTooltips;
 import necesse.inventory.InventoryItem;
 import necesse.inventory.item.toolItem.projectileToolItem.magicProjectileToolItem.MagicProjectileToolItem;
+import necesse.inventory.lootTable.lootItem.OneOfLootItems;
+import necesse.inventory.lootTable.presets.MagicWeaponsLootTable;
 import necesse.level.maps.Level;
 
 // Extends MagicProjectileToolItem
@@ -24,7 +26,7 @@ public class ExampleProjectileWeapon extends MagicProjectileToolItem {
     // GunProjectileToolItem, BowProjectileToolItem, BoomerangToolItem, etc.
 
     public ExampleProjectileWeapon() {
-        super(400);
+        super(400, MagicWeaponsLootTable.magicWeapons);
         rarity = Rarity.RARE;
         attackAnimTime.setBaseValue(300);
         attackDamage.setBaseValue(20) // Base sword damage
