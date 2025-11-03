@@ -14,7 +14,6 @@ import necesse.gfx.GameResources;
 import necesse.gfx.gameTooltips.ListGameTooltips;
 import necesse.inventory.InventoryItem;
 import necesse.inventory.item.toolItem.projectileToolItem.magicProjectileToolItem.MagicProjectileToolItem;
-import necesse.inventory.lootTable.lootItem.OneOfLootItems;
 import necesse.inventory.lootTable.presets.MagicWeaponsLootTable;
 import necesse.level.maps.Level;
 

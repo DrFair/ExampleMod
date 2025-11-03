@@ -3,7 +3,6 @@ package examplemod.examples;
 import necesse.inventory.item.Item;
 import necesse.inventory.item.toolItem.swordToolItem.SwordToolItem;
 import necesse.inventory.lootTable.lootItem.OneOfLootItems;
-import necesse.inventory.lootTable.presets.GunWeaponsLootTable;
 
 // Extends SwordToolItem
 public class ExampleSwordItem extends SwordToolItem {
