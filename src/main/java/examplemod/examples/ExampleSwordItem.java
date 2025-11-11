@@ -9,7 +9,7 @@ public class ExampleSwordItem extends SwordToolItem {
     // Weapon attack textures are loaded from resources/player/weapons/<itemStringID>
 
     public ExampleSwordItem() {
-        super(400);
+        super(400, null);
         rarity = Item.Rarity.UNCOMMON;
         attackAnimTime.setBaseValue(300); // 300 ms attack time
         attackDamage.setBaseValue(20) // Base sword damage
