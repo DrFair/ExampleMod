@@ -1,4 +1,4 @@
-package examplemod.examples;
+package examplemod.examples.items;
 
 import necesse.inventory.item.matItem.MatItem;
 

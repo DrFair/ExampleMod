@@ -6,6 +6,7 @@ exampleobject=Example Object
 
 [item]
 exampleitem=Example Item
+examplehuntincursionitem=Example Hunt Incursion Item
 examplesword=Example Sword
 examplestaff=Example Staff
 
@@ -17,3 +18,9 @@ examplemob=Example Mob
 
 [buff]
 examplebuff=Example Buff
+
+[biome]
+exampleincursion=Example Incursion
+
+[incursion]
+exampleincursion=Example Incursion

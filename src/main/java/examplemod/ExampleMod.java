@@ -1,5 +1,6 @@
 package examplemod;
 
+
 import examplemod.examples.*;
 import necesse.engine.commands.CommandsManager;
 import necesse.engine.modLoader.annotations.ModEntry;
@@ -9,12 +10,20 @@ import necesse.inventory.recipe.Ingredient;
 import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
 import necesse.level.maps.biomes.Biome;
+import examplemod.examples.items.*;
 
 @ModEntry
 public class ExampleMod {
 
     public void init() {
         System.out.println("Hello world from my example mod!");
+
+        // Register a simple biome that will not appear in natural world gen.
+        BiomeRegistry.registerBiome("exampleincursion", new ExampleBiome(), false);
+        // Register the incursion biome with tier requirement 1.
+        IncursionBiomeRegistry.registerBiome("exampleincursion", new ExampleIncursionBiome(), 1);
+        // Register the level class used for the incursion.
+        LevelRegistry.registerLevel("exampleincursionlevel", ExampleIncursionLevel.class);
 
         // Register our tiles
         TileRegistry.registerTile("exampletile", new ExampleTile(), 1, true);
@@ -24,6 +33,7 @@ public class ExampleMod {
 
         // Register our items
         ItemRegistry.registerItem("exampleitem", new ExampleMaterialItem(), 10, true);
+        ItemRegistry.registerItem("examplehuntincursionitem", new ExampleHuntIncursionMaterialItem(), 50, true);
         ItemRegistry.registerItem("examplesword", new ExampleSwordItem(), 20, true);
         ItemRegistry.registerItem("examplestaff", new ExampleProjectileWeapon(), 30, true);
 
@@ -37,6 +47,8 @@ public class ExampleMod {
         BuffRegistry.registerBuff("examplebuff", new ExampleBuff());
 
         PacketRegistry.registerPacket(ExamplePacket.class);
+
+
     }
 
     public void initResources() {
@@ -80,7 +92,7 @@ public class ExampleMod {
                 }
         ).showAfter("exampleitem")); // Show the recipe after example item recipe
 
-        // Add out example mob to default cave mobs.
+        // Add our example mob to default cave mobs.
         // Spawn tables use a ticket/weight system. In general, common mobs have about 100 tickets.
         Biome.defaultCaveMobs
                 .add(100, "examplemob");
