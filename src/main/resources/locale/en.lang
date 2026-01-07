@@ -7,11 +7,13 @@ exampleobject=Example Object
 [item]
 exampleitem=Example Item
 examplehuntincursionitem=Example Hunt Incursion Item
+examplepotionitem=Example Potion
 examplesword=Example Sword
 examplestaff=Example Staff
 
 [itemtooltip]
 examplestafftip=Shoots a homing, piercing projectile
+examplepotionitemtip= An example potion
 
 [mob]
 examplemob=Example Mob
