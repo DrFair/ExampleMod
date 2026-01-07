@@ -11,7 +11,6 @@ import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
 import necesse.level.maps.biomes.Biome;
 import examplemod.examples.items.*;
-import necesse.*;
 
 @ModEntry
 public class ExampleMod {
