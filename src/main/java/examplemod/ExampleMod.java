@@ -38,6 +38,7 @@ public class ExampleMod {
         ItemRegistry.registerItem("examplestaff", new ExampleProjectileWeapon(), 30, true);
         ItemRegistry.registerItem("examplepotionitem", new ExamplePotionItem(), 10, true);
 
+        ItemRegistry.registerItem("examplefooditem", new ExampleFoodItem(),15, true);
 
         // Register our mob
         MobRegistry.registerMob("examplemob", ExampleMob.class, true);
@@ -93,6 +94,18 @@ public class ExampleMod {
                         new Ingredient("goldbar", 10)
                 }
         ).showAfter("exampleitem")); // Show the recipe after example item recipe
+
+        // Example food item recipe
+        Recipes.registerModRecipe(new Recipe(
+                "examplefooditem",
+                1,
+                RecipeTechRegistry.COOKING_POT,
+                new Ingredient[]{
+                        new Ingredient("bread", 1),
+                        new Ingredient("strawberry", 2),
+                        new Ingredient("sugar", 1)
+                }
+        ));
 
         // Add our example mob to default cave mobs.
         // Spawn tables use a ticket/weight system. In general, common mobs have about 100 tickets.
