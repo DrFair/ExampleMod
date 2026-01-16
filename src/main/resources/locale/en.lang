@@ -10,6 +10,7 @@ examplehuntincursionitem=Example Hunt Incursion Item
 examplepotionitem=Example Potion
 examplesword=Example Sword
 examplestaff=Example Staff
+examplefooditem=Example Food
 
 [itemtooltip]
 examplestafftip=Shoots a homing, piercing projectile
