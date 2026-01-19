@@ -1,6 +1,5 @@
 package examplemod;
 
-
 import examplemod.examples.*;
 import examplemod.examples.items.ExampleFoodItem;
 import examplemod.examples.items.ExampleHuntIncursionMaterialItem;
@@ -18,20 +17,25 @@ import necesse.level.maps.biomes.Biome;
 @ModEntry
 public class ExampleMod {
 
+    // We define our static registered objects here, so they can be referenced elsewhere
+    public static ExampleBiome EXAMPLE_BIOME;
+
     public void init() {
         System.out.println("Hello world from my example mod!");
 
         // Register a simple biome that will not appear in natural world gen.
-        BiomeRegistry.registerBiome("exampleincursion", new ExampleBiome(), false);
+        EXAMPLE_BIOME = BiomeRegistry.registerBiome("exampleincursion", new ExampleBiome(), false);
+
         // Register the incursion biome with tier requirement 1.
         IncursionBiomeRegistry.registerBiome("exampleincursion", new ExampleIncursionBiome(), 1);
+
         // Register the level class used for the incursion.
         LevelRegistry.registerLevel("exampleincursionlevel", ExampleIncursionLevel.class);
 
         // Register our tiles
         TileRegistry.registerTile("exampletile", new ExampleTile(), 1, true);
 
-        // Register out objects
+        // Register our objects
         ObjectRegistry.registerObject("exampleobject", new ExampleObject(), 2, true);
 
         // Register our items
@@ -51,9 +55,8 @@ public class ExampleMod {
         // Register our buff
         BuffRegistry.registerBuff("examplebuff", new ExampleBuff());
 
+        // Register our packet
         PacketRegistry.registerPacket(ExamplePacket.class);
-
-
     }
 
     public void initResources() {
@@ -76,6 +79,7 @@ public class ExampleMod {
                         new Ingredient("ironbar", 2)
                 }
         ).showAfter("woodboat")); // Show recipe after wood boat recipe
+
         // Example sword recipe, crafted in iron anvil using 4 example items and 5 copper bars
         Recipes.registerModRecipe(new Recipe(
                 "examplesword",
@@ -86,6 +90,7 @@ public class ExampleMod {
                         new Ingredient("copperbar", 5)
                 }
         ));
+
         // Example staff recipe, crafted in workstation using 4 example items and 10 gold bars
         Recipes.registerModRecipe(new Recipe(
                 "examplestaff",
