@@ -2,6 +2,10 @@ package examplemod;
 
 
 import examplemod.examples.*;
+import examplemod.examples.items.ExampleFoodItem;
+import examplemod.examples.items.ExampleHuntIncursionMaterialItem;
+import examplemod.examples.items.ExampleMaterialItem;
+import examplemod.examples.items.ExamplePotionItem;
 import necesse.engine.commands.CommandsManager;
 import necesse.engine.modLoader.annotations.ModEntry;
 import necesse.engine.registries.*;
@@ -10,7 +14,6 @@ import necesse.inventory.recipe.Ingredient;
 import necesse.inventory.recipe.Recipe;
 import necesse.inventory.recipe.Recipes;
 import necesse.level.maps.biomes.Biome;
-import examplemod.examples.items.*;
 
 @ModEntry
 public class ExampleMod {
@@ -37,7 +40,6 @@ public class ExampleMod {
         ItemRegistry.registerItem("examplesword", new ExampleSwordItem(), 20, true);
         ItemRegistry.registerItem("examplestaff", new ExampleProjectileWeapon(), 30, true);
         ItemRegistry.registerItem("examplepotionitem", new ExamplePotionItem(), 10, true);
-
         ItemRegistry.registerItem("examplefooditem", new ExampleFoodItem(),15, true);
 
         // Register our mob
