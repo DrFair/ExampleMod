@@ -7,17 +7,16 @@ import necesse.engine.util.TicketSystemList;
 import necesse.engine.world.WorldEntity;
 import necesse.entity.objectEntity.FallenAltarObjectEntity;
 import necesse.inventory.item.Item;
-import necesse.inventory.lootTable.LootItemInterface;
+import necesse.inventory.lootTable.LootTable;
 import necesse.inventory.lootTable.lootItem.ChanceLootItem;
 import necesse.level.maps.IncursionLevel;
 import necesse.level.maps.incursion.*;
-import necesse.inventory.lootTable.LootTable;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Supplier;
-import java.awt.Color;
-import java.util.ArrayList;
 
 /**
  * An example incursion biome.
@@ -26,9 +25,8 @@ import java.util.ArrayList;
  */
 public class ExampleIncursionBiome extends IncursionBiome {
 
-    // String ID passed to the IncursionBiome base class
     public ExampleIncursionBiome() {
-        super("reaper");
+        super("reaper"); // The boss mob string ID for this incursion
     }
 
     // Items required to be obtained when completing an extraction objective in this incursion
@@ -43,15 +41,15 @@ public class ExampleIncursionBiome extends IncursionBiome {
      */
     @Override
     public LootTable getHuntDrop(IncursionData incursionData) {
-        return new LootTable(new LootItemInterface[] {
-                (LootItemInterface) new ChanceLootItem(0.66F, "examplehuntincursionitem")
-        });
+        return new LootTable(
+                new ChanceLootItem(0.66F, "examplehuntincursionitem")
+        );
     }
 
     // Defines which incursion types are available and their relative chances
     @Override
     public TicketSystemList<Supplier<IncursionData>> getAvailableIncursions(int tabletTier, IncursionData incursionData) {
-        TicketSystemList<Supplier<IncursionData>> system = new TicketSystemList();
+        TicketSystemList<Supplier<IncursionData>> system = new TicketSystemList<>();
 
         // Base ticket weights for each incursion type
         int huntTickets = 100;
@@ -59,15 +57,14 @@ public class ExampleIncursionBiome extends IncursionBiome {
 
         // Apply modifiers from the previous incursion, if present
         if (incursionData != null) {
-            huntTickets = (int)(huntTickets * ((Float)incursionData.nextIncursionModifiers
-                    .getModifier(IncursionDataModifiers.MODIFIER_HUNT_DROPS)).floatValue());
-            extractionTickets = (int)(extractionTickets * ((Float)incursionData.nextIncursionModifiers
-                    .getModifier(IncursionDataModifiers.MODIFIER_EXTRACTION_DROPS)).floatValue());
+            huntTickets = (int) (huntTickets * incursionData.nextIncursionModifiers.getModifier(IncursionDataModifiers.MODIFIER_HUNT_DROPS));
+            extractionTickets = (int) (extractionTickets * incursionData.nextIncursionModifiers.getModifier(IncursionDataModifiers.MODIFIER_EXTRACTION_DROPS));
         }
 
         // Register hunt and extraction incursions with their calculated weights
         system.addObject(huntTickets, () -> new BiomeHuntIncursionData(1.0F, this, tabletTier));
         system.addObject(extractionTickets, () -> new BiomeExtractionIncursionData(1.0F, this, tabletTier));
+
         return system;
     }
 
@@ -81,7 +78,7 @@ public class ExampleIncursionBiome extends IncursionBiome {
 
     /**
      * Colors used for the glowing gateway lights on the fallen altar.
-     * IncursionBiome requires this method; at least 4 colors are needed.
+     * IncursionBiome requires this method; expected to return list of 6 colors.
      */
     @Override
     public ArrayList<Color> getFallenAltarGatewayColorsForBiome() {
