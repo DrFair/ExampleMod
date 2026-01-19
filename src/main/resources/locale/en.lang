@@ -6,14 +6,24 @@ exampleobject=Example Object
 
 [item]
 exampleitem=Example Item
+examplehuntincursionitem=Example Hunt Incursion Item
+examplepotionitem=Example Potion
 examplesword=Example Sword
 examplestaff=Example Staff
+examplefooditem=Example Food
 
 [itemtooltip]
 examplestafftip=Shoots a homing, piercing projectile
+examplepotionitemtip= An example potion
 
 [mob]
 examplemob=Example Mob
 
 [buff]
 examplebuff=Example Buff
+
+[biome]
+exampleincursion=Example Incursion
+
+[incursion]
+exampleincursion=Example Incursion

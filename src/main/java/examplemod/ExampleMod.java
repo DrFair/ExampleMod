@@ -1,6 +1,10 @@
 package examplemod;
 
 import examplemod.examples.*;
+import examplemod.examples.items.ExampleFoodItem;
+import examplemod.examples.items.ExampleHuntIncursionMaterialItem;
+import examplemod.examples.items.ExampleMaterialItem;
+import examplemod.examples.items.ExamplePotionItem;
 import necesse.engine.commands.CommandsManager;
 import necesse.engine.modLoader.annotations.ModEntry;
 import necesse.engine.registries.*;
@@ -13,19 +17,34 @@ import necesse.level.maps.biomes.Biome;
 @ModEntry
 public class ExampleMod {
 
+    // We define our static registered objects here, so they can be referenced elsewhere
+    public static ExampleBiome EXAMPLE_BIOME;
+
     public void init() {
         System.out.println("Hello world from my example mod!");
+
+        // Register a simple biome that will not appear in natural world gen.
+        EXAMPLE_BIOME = BiomeRegistry.registerBiome("exampleincursion", new ExampleBiome(), false);
+
+        // Register the incursion biome with tier requirement 1.
+        IncursionBiomeRegistry.registerBiome("exampleincursion", new ExampleIncursionBiome(), 1);
+
+        // Register the level class used for the incursion.
+        LevelRegistry.registerLevel("exampleincursionlevel", ExampleIncursionLevel.class);
 
         // Register our tiles
         TileRegistry.registerTile("exampletile", new ExampleTile(), 1, true);
 
-        // Register out objects
+        // Register our objects
         ObjectRegistry.registerObject("exampleobject", new ExampleObject(), 2, true);
 
         // Register our items
         ItemRegistry.registerItem("exampleitem", new ExampleMaterialItem(), 10, true);
+        ItemRegistry.registerItem("examplehuntincursionitem", new ExampleHuntIncursionMaterialItem(), 50, true);
         ItemRegistry.registerItem("examplesword", new ExampleSwordItem(), 20, true);
         ItemRegistry.registerItem("examplestaff", new ExampleProjectileWeapon(), 30, true);
+        ItemRegistry.registerItem("examplepotionitem", new ExamplePotionItem(), 10, true);
+        ItemRegistry.registerItem("examplefooditem", new ExampleFoodItem(),15, true);
 
         // Register our mob
         MobRegistry.registerMob("examplemob", ExampleMob.class, true);
@@ -36,6 +55,7 @@ public class ExampleMod {
         // Register our buff
         BuffRegistry.registerBuff("examplebuff", new ExampleBuff());
 
+        // Register our packet
         PacketRegistry.registerPacket(ExamplePacket.class);
     }
 
@@ -59,6 +79,7 @@ public class ExampleMod {
                         new Ingredient("ironbar", 2)
                 }
         ).showAfter("woodboat")); // Show recipe after wood boat recipe
+
         // Example sword recipe, crafted in iron anvil using 4 example items and 5 copper bars
         Recipes.registerModRecipe(new Recipe(
                 "examplesword",
@@ -69,6 +90,7 @@ public class ExampleMod {
                         new Ingredient("copperbar", 5)
                 }
         ));
+
         // Example staff recipe, crafted in workstation using 4 example items and 10 gold bars
         Recipes.registerModRecipe(new Recipe(
                 "examplestaff",
@@ -80,7 +102,19 @@ public class ExampleMod {
                 }
         ).showAfter("exampleitem")); // Show the recipe after example item recipe
 
-        // Add out example mob to default cave mobs.
+        // Example food item recipe
+        Recipes.registerModRecipe(new Recipe(
+                "examplefooditem",
+                1,
+                RecipeTechRegistry.COOKING_POT,
+                new Ingredient[]{
+                        new Ingredient("bread", 1),
+                        new Ingredient("strawberry", 2),
+                        new Ingredient("sugar", 1)
+                }
+        ));
+
+        // Add our example mob to default cave mobs.
         // Spawn tables use a ticket/weight system. In general, common mobs have about 100 tickets.
         Biome.defaultCaveMobs
                 .add(100, "examplemob");
