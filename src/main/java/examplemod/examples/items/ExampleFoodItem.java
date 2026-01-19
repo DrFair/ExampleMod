@@ -7,19 +7,22 @@ import necesse.inventory.item.placeableItem.consumableItem.food.FoodConsumableIt
 import necesse.level.maps.levelData.settlementData.settler.Settler;
 
 public class ExampleFoodItem extends FoodConsumableItem {
+
     public ExampleFoodItem() {
         super(
-                250,        // stack size
-                Item.Rarity.COMMON,  // rarity
-                Settler.FOOD_FINE,   // food tier
-                20,                  // nutrition
-                480,                 // buff duration in seconds
+                250, // Stack size
+                Item.Rarity.COMMON, // Rarity
+                Settler.FOOD_FINE, // Food tier
+                20, // Nutrition
+                480, // Buff duration in seconds
+                // Then we define the modifiers this food gives when consumed
                 new ModifierValue<>(BuffModifiers.MAX_HEALTH_FLAT, 10),
                 new ModifierValue<>(BuffModifiers.SPEED, 0.05f)
         );
 
         // Configure additional properties after super()
-        this.spoilDuration(480);                  // spoil duration in minutes
-        this.addGlobalIngredient("anycookedfood");// NOTE: returns Item
+        spoilDuration(480); // Spoil duration in minutes
+        addGlobalIngredient("anycookedfood");
     }
+
 }
