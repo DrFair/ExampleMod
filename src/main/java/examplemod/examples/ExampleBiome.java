@@ -9,10 +9,12 @@ import necesse.level.maps.biomes.Biome;
 import necesse.level.maps.biomes.MobSpawnTable;
 
 // A minimalist biome used solely for the ExampleIncursion
-// the Example Mob is used here as the spawn
+// the Example Mob is used here as the enemy spawn
 public class ExampleBiome extends Biome {
-    public static  MobSpawnTable critters = (new MobSpawnTable())
+
+    public static  MobSpawnTable critters = new MobSpawnTable()
             .include(Biome.defaultCaveCritters);
+
     public static  MobSpawnTable mobs = new MobSpawnTable()
             .add(100,"examplemob");
 
@@ -28,7 +30,7 @@ public class ExampleBiome extends Biome {
 
     @Override
     public MobSpawnTable getMobSpawnTable(Level level) {
-
         return mobs;
     }
+
 }
