@@ -1,6 +1,6 @@
 package examplemod.examples.mobs;
 
-import examplemod.examples.ExampleAI;
+import examplemod.examples.ai.ExampleAI;
 import necesse.engine.eventStatusBars.EventStatusBarManager;
 import necesse.engine.gameLoop.tickManager.TickManager;
 import necesse.engine.registries.MusicRegistry;
