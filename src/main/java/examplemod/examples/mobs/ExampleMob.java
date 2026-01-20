@@ -1,4 +1,4 @@
-package examplemod.examples;
+package examplemod.examples.mobs;
 
 import necesse.engine.gameLoop.tickManager.TickManager;
 import necesse.engine.util.GameRandom;

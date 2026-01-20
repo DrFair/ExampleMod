@@ -1,4 +1,4 @@
-package examplemod.examples;
+package examplemod.examples.incursion;
 
 import necesse.engine.AbstractMusicList;
 import necesse.engine.MusicList;

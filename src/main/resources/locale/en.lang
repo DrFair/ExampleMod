@@ -3,9 +3,12 @@ exampletile=Example Tile
 
 [object]
 exampleobject=Example Object
+examplebaserock=Example Rock
+exampleore=Example Ore
 
 [item]
 exampleitem=Example Item
+exampleore=Example Ore
 examplehuntincursionitem=Example Hunt Incursion Item
 examplepotionitem=Example Potion
 examplesword=Example Sword
@@ -18,6 +21,7 @@ examplepotionitemtip= An example potion
 
 [mob]
 examplemob=Example Mob
+examplebossmob=Example Boss
 
 [buff]
 examplebuff=Example Buff

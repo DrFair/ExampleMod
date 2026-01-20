@@ -1,4 +1,4 @@
-package examplemod.examples;
+package examplemod.examples.incursion;
 
 import necesse.engine.network.server.Server;
 import necesse.engine.registries.ItemRegistry;
@@ -26,13 +26,13 @@ import java.util.function.Supplier;
 public class ExampleIncursionBiome extends IncursionBiome {
 
     public ExampleIncursionBiome() {
-        super("reaper"); // The boss mob string ID for this incursion
+        super("examplebossmob"); // The boss mob string ID for this incursion
     }
 
     // Items required to be obtained when completing an extraction objective in this incursion
     @Override
     public Collection<Item> getExtractionItems(IncursionData data) {
-        return Collections.singleton(ItemRegistry.getItem("tungstenore"));
+        return Collections.singleton(ItemRegistry.getItem("exampleore"));
     }
 
     /**
