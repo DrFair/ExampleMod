@@ -13,9 +13,13 @@ import examplemod.examples.objects.ExampleObject;
 import examplemod.examples.objects.ExampleBaseRockObject;
 import examplemod.examples.objects.ExampleOreRockObject;
 import examplemod.examples.ExampleRecipes;
+import examplemod.examples.packets.ExamplePacket;
+import examplemod.examples.packets.ExamplePlaySoundPacket;
 import necesse.engine.commands.CommandsManager;
 import necesse.engine.modLoader.annotations.ModEntry;
 import necesse.engine.registries.*;
+import necesse.engine.sound.SoundSettings;
+import necesse.engine.sound.gameSound.GameSound;
 import necesse.gfx.gameTexture.GameTexture;
 import necesse.level.maps.biomes.Biome;
 
@@ -24,6 +28,8 @@ public class ExampleMod {
 
     // We define our static registered objects here, so they can be referenced elsewhere
     public static ExampleBiome EXAMPLE_BIOME;
+    public static GameSound EXAMPLESOUND;
+    public static SoundSettings EXAMPLESOUNDSETTINGS;
 
     public void init() {
         System.out.println("Hello world from my example mod!");
@@ -72,8 +78,10 @@ public class ExampleMod {
         // Register our buff
         BuffRegistry.registerBuff("examplebuff", new ExampleBuff());
 
-        // Register our packet
+        // Register our packets
         PacketRegistry.registerPacket(ExamplePacket.class);
+
+        PacketRegistry.registerPacket(ExamplePlaySoundPacket.class);
     }
 
     public void initResources() {
@@ -83,8 +91,17 @@ public class ExampleMod {
         // It will process your textures and save them again with a fixed alpha edge color
 
         ExampleMob.texture = GameTexture.fromFile("mobs/examplemob");
-
         ExampleBossMob.texture = GameTexture.fromFile("mobs/examplebossmob");
+
+        //initialising the sound to be used by our boss mob
+        EXAMPLESOUND = GameSound.fromFile("examplesound");
+
+        // Optional settings (volume/pitch/falloff) – used when playing via SoundSettings
+        EXAMPLESOUNDSETTINGS = new SoundSettings(EXAMPLESOUND)
+                .volume(0.8f)
+                .basePitch(1.0f)
+                .pitchVariance(0.08f)
+                .fallOffDistance(900);
     }
 
     public void postInit() {

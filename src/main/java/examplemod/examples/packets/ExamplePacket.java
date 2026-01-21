@@ -1,4 +1,4 @@
-package examplemod.examples;
+package examplemod.examples.packets;
 
 import necesse.engine.network.NetworkPacket;
 import necesse.engine.network.Packet;
