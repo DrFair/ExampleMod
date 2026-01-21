@@ -1,4 +1,4 @@
-package examplemod.examples;
+package examplemod.examples.items.tools;
 
 import necesse.inventory.item.Item;
 import necesse.inventory.item.toolItem.swordToolItem.SwordToolItem;
@@ -16,6 +16,7 @@ public class ExampleSwordItem extends SwordToolItem {
                 .setUpgradedValue(1, 95); // Upgraded tier 1 damage
         attackRange.setBaseValue(120); // 120 range
         knockback.setBaseValue(100); // 100 knockback
+
     }
 
 }

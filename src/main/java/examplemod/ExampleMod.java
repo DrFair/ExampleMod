@@ -4,23 +4,19 @@ import examplemod.examples.*;
 import examplemod.examples.incursion.ExampleBiome;
 import examplemod.examples.incursion.ExampleIncursionBiome;
 import examplemod.examples.incursion.ExampleIncursionLevel;
-import examplemod.examples.items.ExampleFoodItem;
-import examplemod.examples.items.ExampleHuntIncursionMaterialItem;
-import examplemod.examples.items.ExampleMaterialItem;
-import examplemod.examples.items.ExamplePotionItem;
-import examplemod.examples.items.ExampleOreItem;
+import examplemod.examples.items.*;
+import examplemod.examples.items.tools.ExampleProjectileWeapon;
+import examplemod.examples.items.tools.ExampleSwordItem;
 import examplemod.examples.mobs.ExampleMob;
 import examplemod.examples.mobs.ExampleBossMob;
 import examplemod.examples.objects.ExampleObject;
 import examplemod.examples.objects.ExampleBaseRockObject;
 import examplemod.examples.objects.ExampleOreRockObject;
+import examplemod.examples.ExampleRecipes;
 import necesse.engine.commands.CommandsManager;
 import necesse.engine.modLoader.annotations.ModEntry;
 import necesse.engine.registries.*;
 import necesse.gfx.gameTexture.GameTexture;
-import necesse.inventory.recipe.Ingredient;
-import necesse.inventory.recipe.Recipe;
-import necesse.inventory.recipe.Recipes;
 import necesse.level.maps.biomes.Biome;
 
 @ModEntry
@@ -56,7 +52,8 @@ public class ExampleMod {
 
         // Register our items
         ItemRegistry.registerItem("exampleitem", new ExampleMaterialItem(), 10, true);
-        ItemRegistry.registerItem(ExampleOreItem.ID, new ExampleOreItem(), 25, true);
+        ItemRegistry.registerItem("exampleoreitem", new ExampleOreItem(), 25, true);
+        ItemRegistry.registerItem("examplebaritem", new ExampleBarItem(),50,true);
         ItemRegistry.registerItem("examplehuntincursionitem", new ExampleHuntIncursionMaterialItem(), 50, true);
         ItemRegistry.registerItem("examplesword", new ExampleSwordItem(), 20, true);
         ItemRegistry.registerItem("examplestaff", new ExampleProjectileWeapon(), 30, true);
@@ -91,50 +88,8 @@ public class ExampleMod {
     }
 
     public void postInit() {
-        // Add recipes
-        // Example item recipe, crafted in inventory for 2 iron bars
-        Recipes.registerModRecipe(new Recipe(
-                "exampleitem",
-                1,
-                RecipeTechRegistry.NONE,
-                new Ingredient[]{
-                        new Ingredient("ironbar", 2)
-                }
-        ).showAfter("woodboat")); // Show recipe after wood boat recipe
-
-        // Example sword recipe, crafted in iron anvil using 4 example items and 5 copper bars
-        Recipes.registerModRecipe(new Recipe(
-                "examplesword",
-                1,
-                RecipeTechRegistry.IRON_ANVIL,
-                new Ingredient[]{
-                        new Ingredient("exampleitem", 4),
-                        new Ingredient("copperbar", 5)
-                }
-        ));
-
-        // Example staff recipe, crafted in workstation using 4 example items and 10 gold bars
-        Recipes.registerModRecipe(new Recipe(
-                "examplestaff",
-                1,
-                RecipeTechRegistry.WORKSTATION,
-                new Ingredient[]{
-                        new Ingredient("exampleitem", 4),
-                        new Ingredient("goldbar", 10)
-                }
-        ).showAfter("exampleitem")); // Show the recipe after example item recipe
-
-        // Example food item recipe
-        Recipes.registerModRecipe(new Recipe(
-                "examplefooditem",
-                1,
-                RecipeTechRegistry.COOKING_POT,
-                new Ingredient[]{
-                        new Ingredient("bread", 1),
-                        new Ingredient("strawberry", 2),
-                        new Ingredient("sugar", 1)
-                }
-        ));
+        // load our recipes from the ExampleRecipes class
+        ExampleRecipes.registerRecipes();
 
         // Add our example mob to default cave mobs.
         // Spawn tables use a ticket/weight system. In general, common mobs have about 100 tickets.

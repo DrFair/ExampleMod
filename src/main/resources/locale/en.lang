@@ -8,7 +8,8 @@ exampleore=Example Ore
 
 [item]
 exampleitem=Example Item
-exampleore=Example Ore
+exampleoreitem=Example Ore
+examplebaritem=Example Bar
 examplehuntincursionitem=Example Hunt Incursion Item
 examplepotionitem=Example Potion
 examplesword=Example Sword

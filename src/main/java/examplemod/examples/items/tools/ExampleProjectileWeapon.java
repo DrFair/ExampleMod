@@ -1,5 +1,6 @@
-package examplemod.examples;
+package examplemod.examples.items.tools;
 
+import examplemod.examples.ExampleProjectile;
 import necesse.engine.localization.Localization;
 import necesse.engine.network.gameNetworkData.GNDItemMap;
 import necesse.engine.sound.SoundEffect;
