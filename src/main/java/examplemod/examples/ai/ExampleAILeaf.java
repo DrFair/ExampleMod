@@ -83,6 +83,13 @@ public class ExampleAILeaf<T extends Mob> extends AINode<T> {
         // (Tiles -> pixels. Tiles are 32x32 in Necesse.)
         float openRadiusPx = this.openRadiusTiles * 32.0f;
         if (mob.getDistance(centerX, centerY) <= openRadiusPx) {
+
+            // Sounds must be played on clients, not on the server.
+            // So we send a packet to nearby clients telling them to play the sound here if teleport doesnt happen .
+            mob.getLevel().getServer().network.sendToClientsWithEntity(
+                    new ExamplePlaySoundPacket(mob.x, mob.y),
+                    mob
+            );
             // Already fine, do nothing.
             return AINodeResult.FAILURE;
         }
@@ -102,7 +109,7 @@ public class ExampleAILeaf<T extends Mob> extends AINode<T> {
             mob.setPos(dest.x, dest.y, true);
 
             // Sounds must be played on clients, not on the server.
-            // So we send a packet to nearby clients telling them to play the sound here.
+            // So we send a packet to nearby clients telling them to play the sound here if teleport happens .
             mob.getLevel().getServer().network.sendToClientsWithEntity(
                     new ExamplePlaySoundPacket(mob.x, mob.y),
                     mob
