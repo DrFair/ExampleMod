@@ -14,17 +14,6 @@ public class ExampleRecipes {
     //Put your recipe registrations in here
     public static void registerRecipes(){
 
-        // Example Bar item smelted in the forge
-        Recipes.registerModRecipe(new Recipe(
-                "examplebar",
-                1,
-                RecipeTechRegistry.FORGE,
-                new Ingredient[]{
-                        new Ingredient("exampleore",2)
-                })
-        );
-
-
         // Example item recipe, crafted in inventory for 2 iron bars
         Recipes.registerModRecipe(new Recipe(
                 "exampleitem",
@@ -36,7 +25,17 @@ public class ExampleRecipes {
         ).showAfter("woodboat")); // Show recipe after wood boat recipe
 
 
-        // Example sword recipe, crafted in iron anvil using 4 example items and 5 copper bars
+        //FORGE RECIPES
+        Recipes.registerModRecipe(new Recipe(
+                "examplebar",
+                1,
+                RecipeTechRegistry.FORGE,
+                new Ingredient[]{
+                        new Ingredient("exampleore",2)
+                })
+        );
+
+        //IRON ANVIL RECIPES
         Recipes.registerModRecipe(new Recipe(
                 "examplesword",
                 1,
@@ -47,7 +46,7 @@ public class ExampleRecipes {
                 }
         ));
 
-        // Example staff recipe, crafted in workstation using 4 example items and 10 gold bars
+        //WORKSTATION RECIPES
         Recipes.registerModRecipe(new Recipe(
                 "examplestaff",
                 1,
@@ -58,7 +57,7 @@ public class ExampleRecipes {
                 }
         ).showAfter("exampleitem")); // Show the recipe after example item recipe
 
-        // Example food item recipe
+        //COOKING POT RECIPES
         Recipes.registerModRecipe(new Recipe(
                 "examplefood",
                 1,
@@ -70,7 +69,7 @@ public class ExampleRecipes {
                 }
         ));
 
-        // Example potion item recipe
+        //ALCHEMY RECIPES
         Recipes.registerModRecipe(new Recipe(
                 "examplepotion",
                 1,
@@ -79,5 +78,27 @@ public class ExampleRecipes {
                         new Ingredient("speedpotion", 1),
                 }
         ));
+
+        //LANDSCAPING RECIPES
+        Recipes.registerModRecipe(new Recipe(
+                "examplebaserock",
+                1,
+                RecipeTechRegistry.LANDSCAPING,
+                new Ingredient[]{
+                        new Ingredient("examplestone", 5),
+                }
+        ));
+
+        Recipes.registerModRecipe(new Recipe(
+                "exampleorerock",
+                1,
+                RecipeTechRegistry.LANDSCAPING,
+                new Ingredient[]{
+                        new Ingredient("examplestone", 5),
+                        new Ingredient("exampleore", 5),
+                }
+        ));
+
+
     }
 }
