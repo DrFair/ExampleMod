@@ -16,11 +16,11 @@ public class ExampleRecipes {
 
         // Example Bar item smelted in the forge
         Recipes.registerModRecipe(new Recipe(
-                "examplebaritem",
+                "examplebar",
                 1,
                 RecipeTechRegistry.FORGE,
                 new Ingredient[]{
-                        new Ingredient("exampleoreitem",2)
+                        new Ingredient("exampleore",2)
                 })
         );
 
@@ -31,7 +31,7 @@ public class ExampleRecipes {
                 1,
                 RecipeTechRegistry.NONE,
                 new Ingredient[]{
-                        new Ingredient("examplebaritem", 2)
+                        new Ingredient("examplebar", 2)
                 }
         ).showAfter("woodboat")); // Show recipe after wood boat recipe
 
@@ -43,7 +43,7 @@ public class ExampleRecipes {
                 RecipeTechRegistry.IRON_ANVIL,
                 new Ingredient[]{
                         new Ingredient("exampleitem", 4),
-                        new Ingredient("examplebaritem", 5)
+                        new Ingredient("examplebar", 5)
                 }
         ));
 
@@ -54,13 +54,13 @@ public class ExampleRecipes {
                 RecipeTechRegistry.WORKSTATION,
                 new Ingredient[]{
                         new Ingredient("exampleitem", 4),
-                        new Ingredient("examplebaritem", 10)
+                        new Ingredient("examplebar", 10)
                 }
         ).showAfter("exampleitem")); // Show the recipe after example item recipe
 
         // Example food item recipe
         Recipes.registerModRecipe(new Recipe(
-                "examplefooditem",
+                "examplefood",
                 1,
                 RecipeTechRegistry.COOKING_POT,
                 new Ingredient[]{
@@ -72,7 +72,7 @@ public class ExampleRecipes {
 
         // Example potion item recipe
         Recipes.registerModRecipe(new Recipe(
-                "examplepotionitem",
+                "examplepotion",
                 1,
                 RecipeTechRegistry.ALCHEMY,
                 new Ingredient[]{

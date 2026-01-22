@@ -32,7 +32,7 @@ public class ExampleIncursionBiome extends IncursionBiome {
     // Items required to be obtained when completing an extraction objective in this incursion
     @Override
     public Collection<Item> getExtractionItems(IncursionData data) {
-        return Collections.singleton(ItemRegistry.getItem("exampleoreitem"));
+        return Collections.singleton(ItemRegistry.getItem("exampleore"));
     }
 
     /**
@@ -42,7 +42,7 @@ public class ExampleIncursionBiome extends IncursionBiome {
     @Override
     public LootTable getHuntDrop(IncursionData incursionData) {
         return new LootTable(
-                new ChanceLootItem(0.66F, "examplehuntincursionitem")
+                new ChanceLootItem(0.66F, "examplehuntincursionmaterial")
         );
     }
 

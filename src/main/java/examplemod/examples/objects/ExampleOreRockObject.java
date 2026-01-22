@@ -9,8 +9,6 @@ import java.awt.Color;
  */
 public class ExampleOreRockObject extends RockOreObject {
 
-    public static final String ID = "exampleorerock";
-
     public ExampleOreRockObject(RockObject parentRock) {
         super(
                 parentRock,

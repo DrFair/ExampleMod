@@ -8,13 +8,14 @@ exampleore=Example Ore
 
 [item]
 exampleitem=Example Item
-exampleoreitem=Example Ore
-examplebaritem=Example Bar
-examplehuntincursionitem=Example Hunt Incursion Item
-examplepotionitem=Example Potion
+examplestone=Example Stone
+exampleore=Example Ore
+examplebar=Example Bar
+examplehuntincursionmaterial=Example Hunt Incursion Material
+examplepotion=Example Potion
 examplesword=Example Sword
 examplestaff=Example Staff
-examplefooditem=Example Food
+examplefood=Example Food
 
 [itemtooltip]
 examplestafftip=Shoots a homing, piercing projectile

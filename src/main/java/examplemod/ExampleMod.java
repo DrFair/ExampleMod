@@ -51,20 +51,21 @@ public class ExampleMod {
 
         // Register a rock for the example incursion to use as cave walls
         ExampleBaseRockObject exampleBaseRock = new ExampleBaseRockObject();
-        ObjectRegistry.registerObject(ExampleBaseRockObject.ID, exampleBaseRock, -1.0F, true);
+        ObjectRegistry.registerObject("examplebaserock", exampleBaseRock, -1.0F, true);
 
         // Register an ore rock that overlays onto our incursion rock
-        ObjectRegistry.registerObject(ExampleOreRockObject.ID, new ExampleOreRockObject(exampleBaseRock), -1.0F, true);
+        ObjectRegistry.registerObject("exampleorerock", new ExampleOreRockObject(exampleBaseRock), -1.0F, true);
 
         // Register our items
         ItemRegistry.registerItem("exampleitem", new ExampleMaterialItem(), 10, true);
-        ItemRegistry.registerItem("exampleoreitem", new ExampleOreItem(), 25, true);
-        ItemRegistry.registerItem("examplebaritem", new ExampleBarItem(),50,true);
-        ItemRegistry.registerItem("examplehuntincursionitem", new ExampleHuntIncursionMaterialItem(), 50, true);
+        ItemRegistry.registerItem("examplestone", new ExampleStoneItem(),15,true);
+        ItemRegistry.registerItem("exampleore", new ExampleOreItem(), 25, true);
+        ItemRegistry.registerItem("examplebar", new ExampleBarItem(),50,true);
+        ItemRegistry.registerItem("examplehuntincursionmaterial", new ExampleHuntIncursionMaterialItem(), 50, true);
         ItemRegistry.registerItem("examplesword", new ExampleSwordItem(), 20, true);
         ItemRegistry.registerItem("examplestaff", new ExampleProjectileWeapon(), 30, true);
-        ItemRegistry.registerItem("examplepotionitem", new ExamplePotionItem(), 10, true);
-        ItemRegistry.registerItem("examplefooditem", new ExampleFoodItem(),15, true);
+        ItemRegistry.registerItem("examplepotion", new ExamplePotionItem(), 10, true);
+        ItemRegistry.registerItem("examplefood", new ExampleFoodItem(),15, true);
 
         // Register our mob
         MobRegistry.registerMob("examplemob", ExampleMob.class, true);
