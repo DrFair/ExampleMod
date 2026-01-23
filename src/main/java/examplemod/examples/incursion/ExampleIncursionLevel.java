@@ -1,6 +1,7 @@
 package examplemod.examples.incursion;
 
 import examplemod.ExampleMod;
+import examplemod.examples.ExamplePreset;
 import necesse.engine.GameEvents;
 import necesse.engine.events.worldGeneration.GenerateCaveLayoutEvent;
 import necesse.engine.events.worldGeneration.GeneratedCaveOresEvent;
@@ -15,6 +16,9 @@ import necesse.level.maps.incursion.AltarData;
 import necesse.level.maps.incursion.BiomeExtractionIncursionData;
 import necesse.level.maps.incursion.BiomeMissionIncursionData;
 import necesse.level.maps.incursion.IncursionBiome;
+import necesse.level.maps.presets.Preset;
+
+import java.awt.*;
 
 /**
  * Example incursion level.
@@ -44,44 +48,67 @@ public class ExampleIncursionLevel extends IncursionLevel {
     }
 
     public void generateLevel(BiomeMissionIncursionData incursionData, AltarData altarData) {
-        // Create the cave generator using deep rock tiles for floors and walls
         CaveGeneration cg = new CaveGeneration(this, "deeprocktile", "examplebaserock");
-
-        // Seed the generator so this incursion layout is deterministic per mission
         cg.random.setSeed(incursionData.getUniqueID());
 
-        // Fire the cave layout generation event, allowing mods or perks to modify
-        // or cancel cave generation before the default logic runs
         GameEvents.triggerEvent(
                 new GenerateCaveLayoutEvent(this, cg),
-                e -> {
-                    cg.generateLevel(0.38F, 4, 3, 6);
-                }
+                e -> cg.generateLevel(0.38F, 4, 3, 6)
         );
 
-        // Used to reserve space so later generation steps avoid overwriting the entrance
+        //entrance + perks (anything that must never be overwritten by perk presets)
         PresetGeneration entranceAndPerkPresets = new PresetGeneration(this);
 
-        // Generate an incursion entrance that clears terrain,
-        // blends edges, reserves space, and places the return portal
-        IncursionBiome.generateEntrance(
+        //your own structures (custom rooms, etc.)
+        PresetGeneration structurePresets = new PresetGeneration(this);
+
+        // Generate entrance (this reserves space inside entranceAndPerkPresets)
+        int spawnSize = 32;
+        Point entranceMid = IncursionBiome.generateEntrance(
                 this,
                 entranceAndPerkPresets,
                 cg.random,
-                32,
+                spawnSize,
                 cg.rockTile,
                 "exampletile",
                 "exampletile",
                 "exampleobject"
         );
 
-        // Now call incursion perks to generate their presets
+        // reserve the entrance space in structurePresets too, so your own structures don't overwrite the entrance area.
+        int ex = entranceMid.x - spawnSize / 2;
+        int ey = entranceMid.y - spawnSize / 2;
+        structurePresets.addOccupiedSpace(ex, ey, spawnSize, spawnSize);
+
+
+        //EXAMPLE PRESET
+        Preset examplePreset = new ExamplePreset(cg.random);
+        Point placedAt = structurePresets.findRandomValidPositionAndApply(
+                cg.random,
+                2500,//realistically this would be lower if you didn't want it to be guaranteed
+                examplePreset,
+                8,
+                true,// randomizeMirrorX
+                true,  // randomizeMirrorY
+                true,  // randomizeRotation
+                false  // overrideCanPlace (false = respect canApply rules)
+        );
+
+        if (placedAt != null) {
+            structurePresets.addOccupiedSpace(placedAt.x, placedAt.y, examplePreset.width, examplePreset.height);
+            entranceAndPerkPresets.addOccupiedSpace(placedAt.x, placedAt.y, examplePreset.width, examplePreset.height);
+        }
+
+        /*
+        Perk presets use entranceAndPerkPresets, so they avoid the entrance as well as any presets
+        you added to structurePresets
+        */
         generatePresetsBasedOnPerks(altarData, entranceAndPerkPresets, cg.random, baseBiome);
 
         // This call clears all invalid objects/tiles, so that there are no cut in half beds, etc.
         GenerationTools.checkValid(this);
 
-        // For extraction incursions, guarantee tungsten ore veins for objectives
+        // For extraction incursions, guarantee example ore veins for objectives
         if (incursionData instanceof BiomeExtractionIncursionData) {
             cg.generateGuaranteedOreVeins(40, 4, 8, ObjectRegistry.getObjectID("exampleorerock"));
         }
