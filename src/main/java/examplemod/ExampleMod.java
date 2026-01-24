@@ -9,9 +9,7 @@ import examplemod.examples.items.tools.ExampleProjectileWeapon;
 import examplemod.examples.items.tools.ExampleSwordItem;
 import examplemod.examples.mobs.ExampleMob;
 import examplemod.examples.mobs.ExampleBossMob;
-import examplemod.examples.objects.ExampleObject;
-import examplemod.examples.objects.ExampleBaseRockObject;
-import examplemod.examples.objects.ExampleOreRockObject;
+import examplemod.examples.objects.*;
 import examplemod.examples.ExampleRecipes;
 import examplemod.examples.packets.ExamplePacket;
 import examplemod.examples.packets.ExamplePlaySoundPacket;
@@ -49,12 +47,15 @@ public class ExampleMod {
         // Register our objects
         ObjectRegistry.registerObject("exampleobject", new ExampleObject(), 2, true);
 
-        // Register a rock for the example incursion to use as cave walls
+        // Register a rock object
         ExampleBaseRockObject exampleBaseRock = new ExampleBaseRockObject();
         ObjectRegistry.registerObject("examplebaserock", exampleBaseRock, -1.0F, true);
 
-        // Register an ore rock that overlays onto our incursion rock
+        // Register an ore rock object that overlays onto our incursion rock
         ObjectRegistry.registerObject("exampleorerock", new ExampleOreRockObject(exampleBaseRock), -1.0F, true);
+
+        // Register a wall object, window object and door object
+        ExampleWallWindowDoorObject.registerWallsDoorsWindows();
 
         // Register our items
         ItemRegistry.registerItem("exampleitem", new ExampleMaterialItem(), 10, true);

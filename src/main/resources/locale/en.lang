@@ -5,6 +5,8 @@ exampletile=Example Tile
 exampleobject=Example Object
 examplebaserock=Example Rock
 exampleore=Example Ore
+examplewall=Example Wall
+exampledoor=Example Door
 
 [item]
 exampleitem=Example Item
