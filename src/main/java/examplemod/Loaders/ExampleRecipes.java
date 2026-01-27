@@ -1,4 +1,4 @@
-package examplemod.examples;
+package examplemod.Loaders;
 
 import necesse.engine.registries.RecipeTechRegistry;
 import necesse.inventory.recipe.Ingredient;
