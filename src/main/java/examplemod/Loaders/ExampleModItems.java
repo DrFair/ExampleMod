@@ -1,9 +1,15 @@
 package examplemod.Loaders;
 
-import examplemod.examples.items.*;
+import examplemod.examples.items.armor.ExampleBootsArmorItem;
+import examplemod.examples.items.armor.ExampleChestArmorItem;
+import examplemod.examples.items.armor.ExampleHelmetArmorItem;
+import examplemod.examples.items.consumable.ExampleFoodItem;
+import examplemod.examples.items.consumable.ExamplePotionItem;
+import examplemod.examples.items.materials.*;
 import examplemod.examples.items.tools.ExampleProjectileWeapon;
 import examplemod.examples.items.tools.ExampleSwordItem;
 import necesse.engine.registries.ItemRegistry;
+import necesse.inventory.item.ItemCategory;
 
 public class ExampleModItems {
     public static void load(){
@@ -15,9 +21,14 @@ public class ExampleModItems {
         ItemRegistry.registerItem("examplebar", new ExampleBarItem(), 50, true);
         ItemRegistry.registerItem("examplehuntincursionmaterial", new ExampleHuntIncursionMaterialItem(), 50, true);
 
-        // Weapons / tools
+        // Tools
         ItemRegistry.registerItem("examplesword", new ExampleSwordItem(), 20, true);
         ItemRegistry.registerItem("examplestaff", new ExampleProjectileWeapon(), 30, true);
+
+        // Armor
+        ItemRegistry.registerItem("examplehelmet", new ExampleHelmetArmorItem(), 200f, true);
+        ItemRegistry.registerItem("examplechestplate", new ExampleChestArmorItem(), 250f, true);
+        ItemRegistry.registerItem("exampleboots", new ExampleBootsArmorItem(), 180f, true);
 
         // Consumables
         ItemRegistry.registerItem("examplepotion", new ExamplePotionItem(), 10, true);

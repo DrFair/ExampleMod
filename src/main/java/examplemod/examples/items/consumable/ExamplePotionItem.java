@@ -1,4 +1,4 @@
-package examplemod.examples.items;
+package examplemod.examples.items.consumable;
 
 import necesse.inventory.item.placeableItem.consumableItem.potionConsumableItem.SimplePotionItem;
 

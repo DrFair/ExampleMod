@@ -9,7 +9,7 @@ import necesse.inventory.recipe.Recipes;
 here is where we will register our recipes into the game.
  there is potentially quite a few of them so this will allow us to maintain cleaner code
 */
-public class ExampleRecipes {
+public class ExampleModRecipes {
 
     //Put your recipe registrations in here
     public static void registerRecipes(){
@@ -46,16 +46,74 @@ public class ExampleRecipes {
                 }
         ));
 
-        //WORKSTATION RECIPES
         Recipes.registerModRecipe(new Recipe(
                 "examplestaff",
                 1,
+                RecipeTechRegistry.IRON_ANVIL,
+                new Ingredient[]{
+                        new Ingredient("exampleitem", 5),
+                        new Ingredient("examplebar", 4)
+                }
+        ));
+
+        Recipes.registerModRecipe(new Recipe(
+                "examplehelmet",
+                1,
+                RecipeTechRegistry.IRON_ANVIL,
+                new Ingredient[] {
+                        new Ingredient("examplebar", 8),
+                        new Ingredient("exampleitem", 2)
+                }
+        ));
+
+        Recipes.registerModRecipe(new Recipe(
+                "examplechestplate",
+                1,
+                RecipeTechRegistry.IRON_ANVIL,
+                new Ingredient[] {
+                        new Ingredient("examplebar", 14),
+                        new Ingredient("exampleitem", 4)
+                }
+        ));
+
+        Recipes.registerModRecipe(new Recipe(
+                "exampleboots",
+                1,
+                RecipeTechRegistry.IRON_ANVIL,
+                new Ingredient[] {
+                        new Ingredient("examplebar", 10),
+                        new Ingredient("exampleitem", 3)
+                }
+        ));
+
+        //WORKSTATION RECIPES
+        Recipes.registerModRecipe(new Recipe(
+                "examplewall",
+                1,
                 RecipeTechRegistry.WORKSTATION,
                 new Ingredient[]{
-                        new Ingredient("exampleitem", 4),
-                        new Ingredient("examplebar", 10)
+                        new Ingredient("examplestone", 7)
                 }
-        ).showAfter("exampleitem")); // Show the recipe after example item recipe
+        ));
+
+        Recipes.registerModRecipe(new Recipe(
+                "exampledoor",
+                1,
+                RecipeTechRegistry.WORKSTATION,
+                new Ingredient[]{
+                        new Ingredient("examplestone", 7)
+                }
+        ));
+
+        Recipes.registerModRecipe(new Recipe(
+                "exampleobject",
+                1,
+                RecipeTechRegistry.WORKSTATION,
+                new Ingredient[]{
+                        new Ingredient("examplestone", 7),
+                        new Ingredient("exampleitem", 3)
+                }
+        ));
 
         //COOKING POT RECIPES
         Recipes.registerModRecipe(new Recipe(

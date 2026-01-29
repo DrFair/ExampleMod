@@ -15,9 +15,13 @@ exampleore=Example Ore
 examplebar=Example Bar
 examplehuntincursionmaterial=Example Hunt Incursion Material
 examplepotion=Example Potion
+examplefood=Example Food
 examplesword=Example Sword
 examplestaff=Example Staff
-examplefood=Example Food
+examplehelmet=Example Helmet
+examplechestplate=Example Chestplate
+exampleboots=Example Boots
+
 
 [itemtooltip]
 examplestafftip=Shoots a homing, piercing projectile
@@ -29,9 +33,23 @@ examplebossmob=Example Boss
 
 [buff]
 examplebuff=Example Buff
+examplearmorsetbonus=Example Armor Set Bonus
 
 [biome]
 exampleincursion=Example Incursion
 
 [incursion]
 exampleincursion=Example Incursion
+
+[itemcategory]
+examplemod=ExampleMod
+examplemod_materials=Example Materials
+examplemod_tools=Example Tools
+examplemod_weapons=Example Weapons
+examplemod_armor=Example Armor
+examplemod_placeables=Example Placeables
+examplemod_furniture=Example Furniture
+examplemod_lighting=Example Lighting
+examplemod_decor=Example Decor
+examplemod_consumables=Example Consumables
+examplemod_incursion=Example Incursion

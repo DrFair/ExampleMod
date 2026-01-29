@@ -1,4 +1,4 @@
-package examplemod.examples.items;
+package examplemod.examples.items.consumable;
 
 import necesse.engine.modifiers.ModifierValue;
 import necesse.entity.mobs.buffs.BuffModifiers;
