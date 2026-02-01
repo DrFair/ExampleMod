@@ -115,6 +115,16 @@ public class ExampleModRecipes {
                 }
         ));
 
+        Recipes.registerModRecipe(new Recipe(
+                "exampleobject2",
+                1,
+                RecipeTechRegistry.WORKSTATION,
+                new Ingredient[]{
+                        new Ingredient("examplestone", 7),
+                        new Ingredient("exampleitem", 3)
+                }
+        ));
+
         //COOKING POT RECIPES
         Recipes.registerModRecipe(new Recipe(
                 "examplefood",

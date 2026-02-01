@@ -3,6 +3,7 @@ exampletile=Example Tile
 
 [object]
 exampleobject=Example Object
+exampleobject2 = Example Object Mod Category
 examplebaserock=Example Rock
 exampleore=Example Ore
 examplewall=Example Wall
@@ -42,14 +43,5 @@ exampleincursion=Example Incursion
 exampleincursion=Example Incursion
 
 [itemcategory]
-examplemod=ExampleMod
-examplemod_materials=Example Materials
-examplemod_tools=Example Tools
-examplemod_weapons=Example Weapons
-examplemod_armor=Example Armor
-examplemod_placeables=Example Placeables
-examplemod_furniture=Example Furniture
-examplemod_lighting=Example Lighting
-examplemod_decor=Example Decor
-examplemod_consumables=Example Consumables
-examplemod_incursion=Example Incursion
+examplemodrootcat=ExampleMod
+examplemodobjectsubcat=ExampleMod Objects

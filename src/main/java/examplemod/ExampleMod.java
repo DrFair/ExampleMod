@@ -32,7 +32,6 @@ public class ExampleMod {
 
     public void initResources() {
         ExampleModResources.load();
-
     }
 
     public void postInit() {
