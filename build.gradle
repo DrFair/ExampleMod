@@ -103,6 +103,16 @@ task createModInfoFile(type: JavaExec) {
 // Makes compiling also create mod info file
 classes.dependsOn("createModInfoFile")
 
+task preAntialiasTextures(type: JavaExec) {
+    group "necesse"
+    description "Runs pre-antialiasing on all textures in the resources folder"
+
+    classpath = files(gameDirectory + "/Necesse.jar")
+
+    main "PreAntialiasTextures"
+    args "-folders", "${sourceSets.main.resources.srcDirs.stream().map {file -> file.path}.toArray().join(";")}"
+}
+
 task runClient(type: JavaExec) {
     group "necesse"
     description "Run client with current mod"
