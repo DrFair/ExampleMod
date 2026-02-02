@@ -85,6 +85,8 @@ public final class ExampleModCategories {
     // YOUR MOD SUB CATEGORY
     public static final String MOD_OBJECTS = "objects";
 
+    public static final String EXAMPLEWOOD = "examplewood";
+
     public static void load() {
 
         // ITEM CATEGORIES (not Creative-visible right now, but valid categories)
@@ -93,16 +95,24 @@ public final class ExampleModCategories {
                 MOD);
 
         ItemCategory.createCategory("Z-EXAMPLEMOD-OBJECTS",
-                new LocalMessage("itemcategory", "examplemodobjectssubcat"),
+                new LocalMessage("itemcategory", "examplemodobjectsubcat"),
                 MOD, MOD_OBJECTS);
+
+        ItemCategory.createCategory("Z-EXAMPLEMOD-OBJECTS-FURNATURE",
+                new LocalMessage("itemcategory", "examplemodfurnaturesubcat"),
+                MOD, MOD_OBJECTS,EXAMPLEWOOD);
 
         // CRAFTING CATEGORIES
         ItemCategory.craftingManager.createCategory("Z-EXAMPLEMOD",
                 new LocalMessage("itemcategory", "examplemodrootcat"),
                 MOD);
 
-        ItemCategory.craftingManager.createCategory("Z-EXAMPLEMOD",
-                new LocalMessage("itemcategory", "examplemodobjectscat"),
+        ItemCategory.craftingManager.createCategory("Z-EXAMPLEMOD-OBJECTS",
+                new LocalMessage("itemcategory", "examplemodobjectsubcat"),
                 MOD,MOD_OBJECTS);
+
+        ItemCategory.craftingManager.createCategory("Z-EXAMPLEMOD-OBJECTS-FURNATURE",
+                new LocalMessage("itemcategory", "examplemodfurnaturesubcat"),
+                MOD,MOD_OBJECTS,EXAMPLEWOOD);
     }
 }

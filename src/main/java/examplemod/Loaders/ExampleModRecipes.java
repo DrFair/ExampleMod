@@ -115,16 +115,6 @@ public class ExampleModRecipes {
                 }
         ));
 
-        Recipes.registerModRecipe(new Recipe(
-                "exampleobject2",
-                1,
-                RecipeTechRegistry.WORKSTATION,
-                new Ingredient[]{
-                        new Ingredient("examplestone", 7),
-                        new Ingredient("exampleitem", 3)
-                }
-        ));
-
         //COOKING POT RECIPES
         Recipes.registerModRecipe(new Recipe(
                 "examplefood",
@@ -164,6 +154,16 @@ public class ExampleModRecipes {
                 new Ingredient[]{
                         new Ingredient("examplestone", 5),
                         new Ingredient("exampleore", 5),
+                }
+        ));
+
+        //CARPENTER RECIPES
+        Recipes.registerModRecipe(new Recipe(
+                "examplechair",
+                1,
+                RecipeTechRegistry.CARPENTER,
+                new Ingredient[]{
+                        new Ingredient("examplelog", 5),
                 }
         ));
 

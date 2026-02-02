@@ -6,6 +6,8 @@ exampleobject=Example Object
 exampleobject2 = Example Object Mod Category
 examplebaserock=Example Rock
 exampleore=Example Ore
+examplesapling=Example Sapling
+exampletree=Example Tree
 examplewall=Example Wall
 exampledoor=Example Door
 
@@ -14,6 +16,7 @@ exampleitem=Example Item
 examplestone=Example Stone
 exampleore=Example Ore
 examplebar=Example Bar
+examplelog=Example Log
 examplehuntincursionmaterial=Example Hunt Incursion Material
 examplepotion=Example Potion
 examplefood=Example Food
@@ -45,3 +48,4 @@ exampleincursion=Example Incursion
 [itemcategory]
 examplemodrootcat=ExampleMod
 examplemodobjectsubcat=ExampleMod Objects
+examplemodfurnaturesubcat=ExampleMod Furnature

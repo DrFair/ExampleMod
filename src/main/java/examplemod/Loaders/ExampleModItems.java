@@ -7,9 +7,8 @@ import examplemod.examples.items.consumable.ExampleFoodItem;
 import examplemod.examples.items.consumable.ExamplePotionItem;
 import examplemod.examples.items.materials.*;
 import examplemod.examples.items.tools.ExampleProjectileWeapon;
-import examplemod.examples.items.tools.ExampleSwordItem;
+import examplemod.examples.items.tools.ExampleSwordWeapon;
 import necesse.engine.registries.ItemRegistry;
-import necesse.inventory.item.ItemCategory;
 
 public class ExampleModItems {
     public static void load(){
@@ -20,9 +19,10 @@ public class ExampleModItems {
         ItemRegistry.registerItem("exampleore", new ExampleOreItem(), 25, true);
         ItemRegistry.registerItem("examplebar", new ExampleBarItem(), 50, true);
         ItemRegistry.registerItem("examplehuntincursionmaterial", new ExampleHuntIncursionMaterialItem(), 50, true);
+        ItemRegistry.registerItem("examplelog", new ExampleLogItem().setItemCategory("materials","logs"),10,true);
 
         // Tools
-        ItemRegistry.registerItem("examplesword", new ExampleSwordItem(), 20, true);
+        ItemRegistry.registerItem("examplesword", new ExampleSwordWeapon(), 20, true);
         ItemRegistry.registerItem("examplestaff", new ExampleProjectileWeapon(), 30, true);
 
         // Armor

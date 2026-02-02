@@ -1,9 +1,6 @@
 package examplemod.Loaders;
 
-import examplemod.examples.objects.ExampleBaseRockObject;
-import examplemod.examples.objects.ExampleObject;
-import examplemod.examples.objects.ExampleOreRockObject;
-import examplemod.examples.objects.ExampleWallWindowDoorObject;
+import examplemod.examples.objects.*;
 import necesse.engine.registries.ObjectRegistry;
 
 //NOTE item and crafting categories subject to change
@@ -16,10 +13,7 @@ public class ExampleModObjects {
                 .setItemCategory(ExampleModCategories.ROOT_OBJECTS,ExampleModCategories.OBJECTS_COLUMNS)
                 .setCraftingCategory(ExampleModCategories.ROOT_OBJECTS,ExampleModCategories.OBJECTS_COLUMNS), 2, true);
 
-        //this wont currently display in creative due to how creative is coded but this is subject to change
-        ObjectRegistry.registerObject("exampleobject2", new ExampleObject()
-                .setItemCategory(ExampleModCategories.MOD,ExampleModCategories.MOD_OBJECTS)
-                .setCraftingCategory(ExampleModCategories.MOD,ExampleModCategories.MOD_OBJECTS), 2, true);
+
         // Register a rock object
         ExampleBaseRockObject exampleBaseRock = new ExampleBaseRockObject();
         ObjectRegistry.registerObject("examplebaserock", exampleBaseRock, -1.0F, true);
@@ -29,5 +23,17 @@ public class ExampleModObjects {
 
         // Register a wall object, window object and door object
         ExampleWallWindowDoorObject.registerWallsDoorsWindows();
+
+        // Register a tree object
+        ObjectRegistry.registerObject("exampletree",new ExampleTreeObject(),0.0F,false,false,false);
+
+        // Register a sapling object
+        ObjectRegistry.registerObject("examplesapling", new ExampleTreeSaplingObject(),10,true);
+
+        // Register a furnature object this won't currently display in creative due to how creative is coded but this is subject to change
+        ObjectRegistry.registerObject("examplechair", new ExampleWoodChairObject()
+                .setItemCategory(ExampleModCategories.MOD,ExampleModCategories.MOD_OBJECTS,ExampleModCategories.EXAMPLEWOOD)
+                .setCraftingCategory(ExampleModCategories.MOD,ExampleModCategories.MOD_OBJECTS,ExampleModCategories.EXAMPLEWOOD),50,true);
+
     }
 }
