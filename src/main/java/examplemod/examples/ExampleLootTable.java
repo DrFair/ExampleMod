@@ -11,6 +11,7 @@ public class ExampleLootTable {
         new LootItem("examplebar", 20),
         new LootItem("examplepotion",1),
         new LootItem("examplefood",1),
+        new LootItem("examplesapling",1),
         new OneOfLootItems(
             new ChanceLootItem(0.60f, "examplesword"),
             new ChanceLootItem(0.60f,"examplestaff")
