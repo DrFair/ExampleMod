@@ -1,4 +1,4 @@
-package examplemod.examples.incursion;
+package examplemod.examples.maps.incursion;
 
 import examplemod.ExampleMod;
 import examplemod.examples.ExamplePreset;

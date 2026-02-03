@@ -1,5 +1,6 @@
 [tile]
 exampletile=Example Tile
+examplegrasstile=Example Grass Tile
 
 [object]
 exampleobject=Example Object
@@ -8,6 +9,7 @@ examplebaserock=Example Rock
 exampleore=Example Ore
 examplesapling=Example Sapling
 exampletree=Example Tree
+examplegrass=Example Grass
 examplewall=Example Wall
 exampledoor=Example Door
 examplechair=Example Chair
@@ -18,6 +20,7 @@ examplestone=Example Stone
 exampleore=Example Ore
 examplebar=Example Bar
 examplelog=Example Log
+examplegrassseed=Example Grass Seed
 examplehuntincursionmaterial=Example Hunt Incursion Material
 examplepotion=Example Potion
 examplefood=Example Food

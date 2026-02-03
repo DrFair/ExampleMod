@@ -1,7 +1,7 @@
 package examplemod;
 
 import examplemod.Loaders.*;
-import examplemod.examples.incursion.ExampleBiome;
+import examplemod.examples.maps.biomes.ExampleBiome;
 import necesse.engine.modLoader.annotations.ModEntry;
 import necesse.engine.sound.SoundSettings;
 import necesse.engine.sound.gameSound.GameSound;
@@ -20,6 +20,7 @@ public class ExampleMod {
 
         // The examples are split into different classes here for readability, but you can register them directly here in init if you wish
         ExampleModCategories.load();
+        ExampleModBiomes.load();
         ExampleModIncursions.load();
         ExampleModTiles.load();
         ExampleModObjects.load();

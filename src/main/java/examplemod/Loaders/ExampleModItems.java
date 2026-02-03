@@ -20,6 +20,7 @@ public class ExampleModItems {
         ItemRegistry.registerItem("examplebar", new ExampleBarItem(), 50, true);
         ItemRegistry.registerItem("examplehuntincursionmaterial", new ExampleHuntIncursionMaterialItem(), 50, true);
         ItemRegistry.registerItem("examplelog", new ExampleLogItem().setItemCategory("materials","logs"),10,true);
+        ItemRegistry.registerItem("examplegrassseed", new ExampleGrassSeedItem(),1,true);
 
         // Tools
         ItemRegistry.registerItem("examplesword", new ExampleSwordWeapon(), 20, true);

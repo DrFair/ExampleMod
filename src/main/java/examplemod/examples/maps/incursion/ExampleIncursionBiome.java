@@ -1,4 +1,4 @@
-package examplemod.examples.incursion;
+package examplemod.examples.maps.incursion;
 
 import necesse.engine.network.server.Server;
 import necesse.engine.registries.ItemRegistry;

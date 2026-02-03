@@ -35,5 +35,8 @@ public class ExampleModObjects {
                 .setItemCategory(ExampleModCategories.MOD,ExampleModCategories.MOD_OBJECTS,ExampleModCategories.EXAMPLEWOOD)
                 .setCraftingCategory(ExampleModCategories.MOD,ExampleModCategories.MOD_OBJECTS,ExampleModCategories.EXAMPLEWOOD),50,true);
 
+        // Register a grass object
+        ObjectRegistry.registerObject("examplegrass",new ExampleGrassObject(),1,true);
+
     }
 }
