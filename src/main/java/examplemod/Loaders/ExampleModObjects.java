@@ -38,5 +38,8 @@ public class ExampleModObjects {
         // Register a grass object
         ObjectRegistry.registerObject("examplegrass",new ExampleGrassObject(),1,true);
 
+        // Register an object which uses a level event
+        ObjectRegistry.registerObject("exampleleveleventobject", new ExampleLevelEventObject(),1,true);
+
     }
 }

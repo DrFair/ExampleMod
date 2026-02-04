@@ -20,6 +20,7 @@ public class ExampleMod {
 
         // The examples are split into different classes here for readability, but you can register them directly here in init if you wish
         ExampleModCategories.load();
+        ExampleModEvents.load();;
         ExampleModBiomes.load();
         ExampleModIncursions.load();
         ExampleModTiles.load();

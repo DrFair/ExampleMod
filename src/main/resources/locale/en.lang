@@ -13,6 +13,7 @@ examplegrass=Example Grass
 examplewall=Example Wall
 exampledoor=Example Door
 examplechair=Example Chair
+exampleleveleventobject=Example Level Event Object
 
 [item]
 exampleitem=Example Item
