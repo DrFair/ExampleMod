@@ -1,17 +1,10 @@
 package examplemod;
 
-import examplemod.examples.*;
-import examplemod.examples.items.ExampleFoodItem;
-import examplemod.examples.items.ExampleHuntIncursionMaterialItem;
-import examplemod.examples.items.ExampleMaterialItem;
-import examplemod.examples.items.ExamplePotionItem;
-import necesse.engine.commands.CommandsManager;
+import examplemod.Loaders.*;
+import examplemod.examples.maps.biomes.ExampleBiome;
 import necesse.engine.modLoader.annotations.ModEntry;
-import necesse.engine.registries.*;
-import necesse.gfx.gameTexture.GameTexture;
-import necesse.inventory.recipe.Ingredient;
-import necesse.inventory.recipe.Recipe;
-import necesse.inventory.recipe.Recipes;
+import necesse.engine.sound.SoundSettings;
+import necesse.engine.sound.gameSound.GameSound;
 import necesse.level.maps.biomes.Biome;
 
 @ModEntry
@@ -19,108 +12,39 @@ public class ExampleMod {
 
     // We define our static registered objects here, so they can be referenced elsewhere
     public static ExampleBiome EXAMPLE_BIOME;
+    public static GameSound EXAMPLESOUND;
+    public static SoundSettings EXAMPLESOUNDSETTINGS;
 
     public void init() {
         System.out.println("Hello world from my example mod!");
 
-        // Register a simple biome that will not appear in natural world gen.
-        EXAMPLE_BIOME = BiomeRegistry.registerBiome("exampleincursion", new ExampleBiome(), false);
-
-        // Register the incursion biome with tier requirement 1.
-        IncursionBiomeRegistry.registerBiome("exampleincursion", new ExampleIncursionBiome(), 1);
-
-        // Register the level class used for the incursion.
-        LevelRegistry.registerLevel("exampleincursionlevel", ExampleIncursionLevel.class);
-
-        // Register our tiles
-        TileRegistry.registerTile("exampletile", new ExampleTile(), 1, true);
-
-        // Register our objects
-        ObjectRegistry.registerObject("exampleobject", new ExampleObject(), 2, true);
-
-        // Register our items
-        ItemRegistry.registerItem("exampleitem", new ExampleMaterialItem(), 10, true);
-        ItemRegistry.registerItem("examplehuntincursionitem", new ExampleHuntIncursionMaterialItem(), 50, true);
-        ItemRegistry.registerItem("examplesword", new ExampleSwordItem(), 20, true);
-        ItemRegistry.registerItem("examplestaff", new ExampleProjectileWeapon(), 30, true);
-        ItemRegistry.registerItem("examplepotionitem", new ExamplePotionItem(), 10, true);
-        ItemRegistry.registerItem("examplefooditem", new ExampleFoodItem(),15, true);
-
-        // Register our mob
-        MobRegistry.registerMob("examplemob", ExampleMob.class, true);
-
-        // Register our projectile
-        ProjectileRegistry.registerProjectile("exampleprojectile", ExampleProjectile.class, "exampleprojectile", "exampleprojectile_shadow");
-
-        // Register our buff
-        BuffRegistry.registerBuff("examplebuff", new ExampleBuff());
-
-        // Register our packet
-        PacketRegistry.registerPacket(ExamplePacket.class);
+        // The examples are split into different classes here for readability, but you can register them directly here in init if you wish
+        ExampleModCategories.load();
+        ExampleModEvents.load();;
+        ExampleModBiomes.load();
+        ExampleModIncursions.load();
+        ExampleModTiles.load();
+        ExampleModObjects.load();
+        ExampleModItems.load();
+        ExampleModMobs.load();
+        ExampleModProjectiles.load();
+        ExampleModBuffs.load();
+        ExampleModPackets.load();
     }
 
     public void initResources() {
-        // Sometimes your textures will have a black or other outline unintended under rotation or scaling
-        // This is caused by alpha blending between transparent pixels and the edge
-        // To fix this, run the preAntialiasTextures gradle task
-        // It will process your textures and save them again with a fixed alpha edge color
-
-        ExampleMob.texture = GameTexture.fromFile("mobs/examplemob");
+        ExampleModResources.load();
     }
 
     public void postInit() {
-        // Add recipes
-        // Example item recipe, crafted in inventory for 2 iron bars
-        Recipes.registerModRecipe(new Recipe(
-                "exampleitem",
-                1,
-                RecipeTechRegistry.NONE,
-                new Ingredient[]{
-                        new Ingredient("ironbar", 2)
-                }
-        ).showAfter("woodboat")); // Show recipe after wood boat recipe
+        // load our recipes from the ExampleRecipes class so we can keep this class easy to read
+        ExampleModRecipes.registerRecipes();
 
-        // Example sword recipe, crafted in iron anvil using 4 example items and 5 copper bars
-        Recipes.registerModRecipe(new Recipe(
-                "examplesword",
-                1,
-                RecipeTechRegistry.IRON_ANVIL,
-                new Ingredient[]{
-                        new Ingredient("exampleitem", 4),
-                        new Ingredient("copperbar", 5)
-                }
-        ));
-
-        // Example staff recipe, crafted in workstation using 4 example items and 10 gold bars
-        Recipes.registerModRecipe(new Recipe(
-                "examplestaff",
-                1,
-                RecipeTechRegistry.WORKSTATION,
-                new Ingredient[]{
-                        new Ingredient("exampleitem", 4),
-                        new Ingredient("goldbar", 10)
-                }
-        ).showAfter("exampleitem")); // Show the recipe after example item recipe
-
-        // Example food item recipe
-        Recipes.registerModRecipe(new Recipe(
-                "examplefooditem",
-                1,
-                RecipeTechRegistry.COOKING_POT,
-                new Ingredient[]{
-                        new Ingredient("bread", 1),
-                        new Ingredient("strawberry", 2),
-                        new Ingredient("sugar", 1)
-                }
-        ));
 
         // Add our example mob to default cave mobs.
         // Spawn tables use a ticket/weight system. In general, common mobs have about 100 tickets.
         Biome.defaultCaveMobs
                 .add(100, "examplemob");
-
-        // Register our server chat command
-        CommandsManager.registerServerCommand(new ExampleChatCommand());
     }
 
 }

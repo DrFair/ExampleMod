@@ -1,16 +1,36 @@
 [tile]
 exampletile=Example Tile
+examplegrasstile=Example Grass Tile
 
 [object]
 exampleobject=Example Object
+exampleobject2 = Example Object Mod Category
+examplebaserock=Example Rock
+exampleore=Example Ore
+examplesapling=Example Sapling
+exampletree=Example Tree
+examplegrass=Example Grass
+examplewall=Example Wall
+exampledoor=Example Door
+examplechair=Example Chair
+exampleleveleventobject=Example Level Event Object
 
 [item]
 exampleitem=Example Item
-examplehuntincursionitem=Example Hunt Incursion Item
-examplepotionitem=Example Potion
+examplestone=Example Stone
+exampleore=Example Ore
+examplebar=Example Bar
+examplelog=Example Log
+examplegrassseed=Example Grass Seed
+examplehuntincursionmaterial=Example Hunt Incursion Material
+examplepotion=Example Potion
+examplefood=Example Food
 examplesword=Example Sword
 examplestaff=Example Staff
-examplefooditem=Example Food
+examplehelmet=Example Helmet
+examplechestplate=Example Chestplate
+exampleboots=Example Boots
+
 
 [itemtooltip]
 examplestafftip=Shoots a homing, piercing projectile
@@ -18,12 +38,19 @@ examplepotionitemtip= An example potion
 
 [mob]
 examplemob=Example Mob
+examplebossmob=Example Boss
 
 [buff]
 examplebuff=Example Buff
+examplearmorsetbonus=Example Armor Set Bonus
 
 [biome]
 exampleincursion=Example Incursion
 
 [incursion]
 exampleincursion=Example Incursion
+
+[itemcategory]
+examplemodrootcat=ExampleMod
+examplemodobjectsubcat=ExampleMod Objects
+examplemodfurnaturesubcat=ExampleMod Furnature
