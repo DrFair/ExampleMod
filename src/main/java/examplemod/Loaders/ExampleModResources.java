@@ -3,6 +3,7 @@ package examplemod.Loaders;
 import examplemod.ExampleMod;
 import examplemod.examples.mobs.ExampleBossMob;
 import examplemod.examples.mobs.ExampleMob;
+import examplemod.examples.mobs.ExampleSummonWeaponMob;
 import necesse.engine.sound.SoundSettings;
 import necesse.engine.sound.gameSound.GameSound;
 import necesse.gfx.gameTexture.GameTexture;
@@ -16,6 +17,7 @@ public class ExampleModResources {
 
         ExampleMob.texture = GameTexture.fromFile("mobs/examplemob");
         ExampleBossMob.texture = GameTexture.fromFile("mobs/examplebossmob");
+        ExampleSummonWeaponMob.texture = GameTexture.fromFile("mobs/examplesummonmob");
 
         //initialising the sound to be used by our boss mob
         ExampleMod.EXAMPLESOUND = GameSound.fromFile("examplesound");

@@ -22,5 +22,4 @@ public class ExampleConstructorPatch {
         // Debug message to know it's working
         System.out.println("Exited RabbitMob constructor: " + rabbitMob.getStringID());
     }
-
 }

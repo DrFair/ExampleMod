@@ -4,11 +4,11 @@ import necesse.inventory.item.Item;
 import necesse.inventory.item.toolItem.swordToolItem.SwordToolItem;
 
 // Extends SwordToolItem
-public class ExampleSwordWeapon extends SwordToolItem {
+public class ExampleMeleeSwordWeapon extends SwordToolItem {
 
     // Weapon attack textures are loaded from resources/player/weapons/<itemStringID>
 
-    public ExampleSwordWeapon() {
+    public ExampleMeleeSwordWeapon() {
         super(400, null);
         rarity = Item.Rarity.UNCOMMON;
         attackAnimTime.setBaseValue(300); // 300 ms attack time

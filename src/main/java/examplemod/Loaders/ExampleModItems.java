@@ -6,8 +6,9 @@ import examplemod.examples.items.armor.ExampleHelmetArmorItem;
 import examplemod.examples.items.consumable.ExampleFoodItem;
 import examplemod.examples.items.consumable.ExamplePotionItem;
 import examplemod.examples.items.materials.*;
-import examplemod.examples.items.tools.ExampleProjectileWeapon;
-import examplemod.examples.items.tools.ExampleSwordWeapon;
+import examplemod.examples.items.tools.ExampleMagicProjectileWeapon;
+import examplemod.examples.items.tools.ExampleMeleeSwordWeapon;
+import examplemod.examples.items.tools.ExampleSummonOrbWeapon;
 import necesse.engine.registries.ItemRegistry;
 
 public class ExampleModItems {
@@ -23,8 +24,9 @@ public class ExampleModItems {
         ItemRegistry.registerItem("examplegrassseed", new ExampleGrassSeedItem(),1,true);
 
         // Tools
-        ItemRegistry.registerItem("examplesword", new ExampleSwordWeapon(), 20, true);
-        ItemRegistry.registerItem("examplestaff", new ExampleProjectileWeapon(), 30, true);
+        ItemRegistry.registerItem("examplemeleesword", new ExampleMeleeSwordWeapon(), 20, true);
+        ItemRegistry.registerItem("examplemagicstaff", new ExampleMagicProjectileWeapon(), 30, true);
+        ItemRegistry.registerItem("examplesummonorb", new ExampleSummonOrbWeapon(),40,true);
 
         // Armor
         ItemRegistry.registerItem("examplehelmet", new ExampleHelmetArmorItem(), 200f, true);

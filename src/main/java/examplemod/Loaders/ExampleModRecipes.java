@@ -37,7 +37,7 @@ public class ExampleModRecipes {
 
         //IRON ANVIL RECIPES
         Recipes.registerModRecipe(new Recipe(
-                "examplesword",
+                "examplemeleesword",
                 1,
                 RecipeTechRegistry.IRON_ANVIL,
                 new Ingredient[]{
@@ -47,12 +47,22 @@ public class ExampleModRecipes {
         ));
 
         Recipes.registerModRecipe(new Recipe(
-                "examplestaff",
+                "examplemagicstaff",
                 1,
                 RecipeTechRegistry.IRON_ANVIL,
                 new Ingredient[]{
                         new Ingredient("exampleitem", 5),
                         new Ingredient("examplebar", 4)
+                }
+        ));
+
+        Recipes.registerModRecipe(new Recipe(
+                "examplesummonorb",
+                1,
+                RecipeTechRegistry.IRON_ANVIL,
+                new Ingredient[]{
+                        new Ingredient("exampleitem", 3),
+                        new Ingredient("examplebar", 2)
                 }
         ));
 

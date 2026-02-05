@@ -18,13 +18,13 @@ import necesse.inventory.item.toolItem.projectileToolItem.magicProjectileToolIte
 import necesse.level.maps.Level;
 
 // Extends MagicProjectileToolItem
-public class ExampleProjectileWeapon extends MagicProjectileToolItem {
+public class ExampleMagicProjectileWeapon extends MagicProjectileToolItem {
 
     // This weapon will shoot out some projectiles.
     // Different classes for specific projectile weapon are already in place that you can use:
     // GunProjectileToolItem, BowProjectileToolItem, BoomerangToolItem, etc.
 
-    public ExampleProjectileWeapon() {
+    public ExampleMagicProjectileWeapon() {
         super(400, null);
         rarity = Rarity.RARE;
         attackAnimTime.setBaseValue(300);
@@ -42,7 +42,7 @@ public class ExampleProjectileWeapon extends MagicProjectileToolItem {
     @Override
     public ListGameTooltips getPreEnchantmentTooltips(InventoryItem item, PlayerMob perspective, GameBlackboard blackboard) {
         ListGameTooltips tooltips = super.getPreEnchantmentTooltips(item, perspective, blackboard);
-        tooltips.add(Localization.translate("itemtooltip", "examplestafftip"));
+        tooltips.add(Localization.translate("itemtooltip", "examplemagicstafftip"));
         return tooltips;
     }
 
