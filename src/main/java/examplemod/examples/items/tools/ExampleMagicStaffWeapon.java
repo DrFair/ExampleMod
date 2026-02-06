@@ -1,6 +1,6 @@
 package examplemod.examples.items.tools;
 
-import examplemod.examples.ExampleProjectile;
+import examplemod.examples.projectiles.ExampleProjectile;
 import necesse.engine.localization.Localization;
 import necesse.engine.network.gameNetworkData.GNDItemMap;
 import necesse.engine.sound.SoundEffect;
@@ -18,13 +18,13 @@ import necesse.inventory.item.toolItem.projectileToolItem.magicProjectileToolIte
 import necesse.level.maps.Level;
 
 // Extends MagicProjectileToolItem
-public class ExampleMagicProjectileWeapon extends MagicProjectileToolItem {
+public class ExampleMagicStaffWeapon extends MagicProjectileToolItem {
 
     // This weapon will shoot out some projectiles.
     // Different classes for specific projectile weapon are already in place that you can use:
     // GunProjectileToolItem, BowProjectileToolItem, BoomerangToolItem, etc.
 
-    public ExampleMagicProjectileWeapon() {
+    public ExampleMagicStaffWeapon() {
         super(400, null);
         rarity = Rarity.RARE;
         attackAnimTime.setBaseValue(300);

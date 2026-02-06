@@ -6,8 +6,8 @@ import necesse.entity.mobs.buffs.BuffEventSubscriber;
 import necesse.entity.mobs.buffs.BuffModifiers;
 import necesse.entity.mobs.buffs.staticBuffs.armorBuffs.setBonusBuffs.SimpleSetBonusBuff;
 
-public class ExampleArmorSetBonusBuff extends SimpleSetBonusBuff {
-    public ExampleArmorSetBonusBuff() {
+public class ExampleArmorSetBuff extends SimpleSetBonusBuff {
+    public ExampleArmorSetBuff() {
         super(
                 new ModifierValue<>(BuffModifiers.ALL_DAMAGE, 0.10f),
                 new ModifierValue<>(BuffModifiers.SPEED, 0.10f)

@@ -1,13 +1,15 @@
 package examplemod.Loaders;
 
+import examplemod.examples.items.ammo.ExampleArrowItem;
 import examplemod.examples.items.armor.ExampleBootsArmorItem;
 import examplemod.examples.items.armor.ExampleChestArmorItem;
 import examplemod.examples.items.armor.ExampleHelmetArmorItem;
 import examplemod.examples.items.consumable.ExampleFoodItem;
 import examplemod.examples.items.consumable.ExamplePotionItem;
 import examplemod.examples.items.materials.*;
-import examplemod.examples.items.tools.ExampleMagicProjectileWeapon;
+import examplemod.examples.items.tools.ExampleMagicStaffWeapon;
 import examplemod.examples.items.tools.ExampleMeleeSwordWeapon;
+import examplemod.examples.items.tools.ExampleRangedBowWeapon;
 import examplemod.examples.items.tools.ExampleSummonOrbWeapon;
 import necesse.engine.registries.ItemRegistry;
 
@@ -25,8 +27,9 @@ public class ExampleModItems {
 
         // Tools
         ItemRegistry.registerItem("examplemeleesword", new ExampleMeleeSwordWeapon(), 20, true);
-        ItemRegistry.registerItem("examplemagicstaff", new ExampleMagicProjectileWeapon(), 30, true);
+        ItemRegistry.registerItem("examplemagicstaff", new ExampleMagicStaffWeapon(), 30, true);
         ItemRegistry.registerItem("examplesummonorb", new ExampleSummonOrbWeapon(),40,true);
+        ItemRegistry.registerItem("examplerangedbow", new ExampleRangedBowWeapon(),10,true);
 
         // Armor
         ItemRegistry.registerItem("examplehelmet", new ExampleHelmetArmorItem(), 200f, true);
@@ -36,5 +39,8 @@ public class ExampleModItems {
         // Consumables
         ItemRegistry.registerItem("examplepotion", new ExamplePotionItem(), 10, true);
         ItemRegistry.registerItem("examplefood", new ExampleFoodItem(), 15, true);
+
+        // Ammo
+        ItemRegistry.registerItem("examplearrow", new ExampleArrowItem(),5,true);
     }
 }
