@@ -72,11 +72,12 @@ public class ExampleIncursionLevel extends IncursionLevel {
                 cg.rockTile,
                 "exampletile",
                 "exampletile",
-                "exampleobject"
+                "exampleobject",
+                false
         );
 
         // Now call incursion perks to generate their presets
-        generatePresetsBasedOnPerks(altarData, entranceAndPerkPresets, cg.random, baseBiome);
+        generatePresetsBasedOnPerks(altarData, incursionData, entranceAndPerkPresets, cg.random, baseBiome);
 
         // This call clears all invalid objects/tiles, so that there are no cut in half beds, etc.
         GenerationTools.checkValid(this);
