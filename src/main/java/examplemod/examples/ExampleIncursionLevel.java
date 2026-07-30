@@ -4,6 +4,7 @@ import examplemod.ExampleMod;
 import necesse.engine.GameEvents;
 import necesse.engine.events.worldGeneration.GenerateCaveLayoutEvent;
 import necesse.engine.events.worldGeneration.GeneratedCaveOresEvent;
+import necesse.engine.registries.IncursionPerksRegistry;
 import necesse.engine.registries.ObjectRegistry;
 import necesse.engine.util.LevelIdentifier;
 import necesse.engine.world.WorldEntity;
@@ -64,6 +65,7 @@ public class ExampleIncursionLevel extends IncursionLevel {
 
         // Generate an incursion entrance that clears terrain,
         // blends edges, reserves space, and places the return portal
+        boolean hasBiggerArenaPerk = altarData.hasPerk(IncursionPerksRegistry.BIGGER_ARENA);
         IncursionBiome.generateEntrance(
                 this,
                 entranceAndPerkPresets,
@@ -72,11 +74,12 @@ public class ExampleIncursionLevel extends IncursionLevel {
                 cg.rockTile,
                 "exampletile",
                 "exampletile",
-                "exampleobject"
+                "exampleobject",
+                hasBiggerArenaPerk
         );
 
         // Now call incursion perks to generate their presets
-        generatePresetsBasedOnPerks(altarData, entranceAndPerkPresets, cg.random, baseBiome);
+        generatePresetsBasedOnPerks(altarData, incursionData, entranceAndPerkPresets, cg.random, baseBiome);
 
         // This call clears all invalid objects/tiles, so that there are no cut in half beds, etc.
         GenerationTools.checkValid(this);
