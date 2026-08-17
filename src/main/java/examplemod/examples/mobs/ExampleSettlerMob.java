@@ -1,6 +1,5 @@
 package examplemod.examples.mobs;
 
-import examplemod.examples.settlement.jobs.ExampleLevelJob;
 import necesse.engine.network.server.ServerClient;
 import necesse.entity.mobs.friendly.human.humanShop.HumanShop;
 import necesse.inventory.InventoryItem;
@@ -19,20 +18,6 @@ public class ExampleSettlerMob extends HumanShop {
 
         // Give them a tool to clear grass (optional, but nice)
         this.equipmentInventory.setItem(6, new necesse.inventory.InventoryItem("farmingscythe"));
-
-        // Register handler so they can actually perform the job
-        this.jobTypeHandler.setJobHandler(
-                ExampleLevelJob.class,
-                0, 0,      // cooldown min/max
-                0, 4000,   // work-break buffer usage min/max (matches Forestry)
-                (handler, worker) ->
-                        !isOnWorkBreak()
-                                && !isOnStrike()
-                                && !hasCompletedMission()
-                                && (!isSettler() || isSettlerWithinSettlement())
-                                && !isInventoryFull(true),
-                foundJob -> ExampleLevelJob.getJobSequence(this, isSettler(), foundJob)
-        );
     }
 
     @Override

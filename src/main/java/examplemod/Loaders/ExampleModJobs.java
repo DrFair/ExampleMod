@@ -20,7 +20,7 @@ public class ExampleModJobs {
         );
 
         // 2) Register our ExampleLevelJob //DEBUG
-        LevelJobRegistry.registerJob("examplejob", ExampleLevelJob .class, "examplejobtype");
+        LevelJobRegistry.registerJob("examplejob", ExampleLevelJob .class, ExampleLevelJob::handler, "examplejobtype");
     }
 
 }

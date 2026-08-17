@@ -1,16 +1,15 @@
 package examplemod.examples.settlement.jobs;
 
 import necesse.engine.localization.message.LocalMessage;
+import necesse.engine.localization.message.StaticMessage;
 import necesse.engine.save.LoadData;
 import necesse.entity.ObjectDamageResult;
-import necesse.entity.mobs.job.EntityJobWorker;
-import necesse.entity.mobs.job.FoundJob;
-import necesse.entity.mobs.job.GameLinkedListJobSequence;
-import necesse.entity.mobs.job.JobSequence;
+import necesse.entity.mobs.friendly.human.HumanMob;
+import necesse.entity.mobs.job.*;
 import necesse.entity.mobs.job.activeJob.MineObjectActiveJob;
 import necesse.level.maps.LevelObject;
-import necesse.level.maps.levelData.jobs.LevelJob;
 import necesse.level.maps.levelData.jobs.MineObjectLevelJob;
+import necesse.level.maps.levelData.jobs.TileLevelJob;
 
 /**
  * A simple settlement job:
@@ -46,12 +45,11 @@ public class ExampleLevelJob extends MineObjectLevelJob {
     }
 
     @Override
-    public boolean isSameJob(LevelJob other) {
-        // Jobs system uses this to avoid duplicates.
-        // If another ExampleLevelJob exists at the same tile, treat it as the same job.
-        return other instanceof ExampleLevelJob
-                && other.tileX == this.tileX
-                && other.tileY == this.tileY;
+    public boolean isSameJob(TileLevelJob other) {
+        // When adding a job to a tile, the game checks this to see if another job already exists that is the same.
+        // The super method checks for job ID/type and the tile. If you had anything custom to check for,
+        // we should do it here.
+        return super.isSameJob(other);
     }
 
     @Override
@@ -65,7 +63,7 @@ public class ExampleLevelJob extends MineObjectLevelJob {
      * Here we only add ONE step: mine/destroy the grass object.
      */
     public static <T extends ExampleLevelJob> JobSequence getJobSequence(
-            EntityJobWorker worker, final boolean useItem, final FoundJob<T> foundJob
+            EntityJobWorker worker, FoundJob<T> foundJob
     ) {
         // Get the current object at the job tile (might be null if it changed)
         LevelObject target = foundJob.job.getObject();
@@ -77,47 +75,76 @@ public class ExampleLevelJob extends MineObjectLevelJob {
                 "target",
                 (target != null && target.object != null)
                         ? target.object.getLocalization()
-                        : new LocalMessage("ui", "unknown")
+                        : new StaticMessage("N/A")
         );
 
         // A list of work steps
-        final GameLinkedListJobSequence seq = new GameLinkedListJobSequence(msg);
+        GameLinkedListJobSequence sequence = new GameLinkedListJobSequence(msg, false);
 
         // Add the work step: go to tile + hit the object until it breaks
-        seq.add(new MineObjectActiveJob(
+        sequence.add(new MineObjectActiveJob(
                 worker,
                 foundJob.priority,
                 foundJob.job.tileX,
                 foundJob.job.tileY,
-
                 // Keep working only while the job still exists AND the object is still valid grass
                 lo -> (!foundJob.job.isRemoved() && foundJob.job.isValidObject(lo)),
-
-                // Reservation (stops 2 settlers trying to do the same tile)
-                foundJob.job.reservable,
-
-                // Item used for the "swing" animation (visual only)
-                "farmingscythe",
-
-                // Damage per hit to the object
-                5,
-
-                // Time per swing (ms)
-                250,
-
-                // Extra delay between swings (ms)
-                0
+                foundJob.job.reservable, // Reservation (stops 2 settlers trying to do the same tile)
+                "farmingscythe", // Item used for the "swing" animation (visual only)
+                5, // Damage per hit to the object
+                250, // Time per swing (ms)
+                0 // Extra delay between swings (ms)
         ) {
             @Override
             public void onObjectDestroyed(ObjectDamageResult result) {
-                // Make pickup jobs for any drops
-                addItemPickupJobs(foundJob.priority, result, seq);
+                // Once done with destroying the object, add pickup jobs for any drops that happened
+                addItemPickupJobs(foundJob.priority, result, sequence);
 
                 // Remove the job so it doesn't stay posted
                 foundJob.job.remove();
             }
         });
 
-        return seq;
+        return sequence;
     }
+
+    // The default handler for the job, used when registering the job
+    public static JobTypeHandler.SubHandler<ExampleLevelJob> handler(EntityJobWorker worker, JobTypeHandler handler) {
+        if (worker instanceof HumanMob) {
+            HumanMob humanMob = (HumanMob) worker;
+
+            // We register a job type sub handler for the ExampleLevelJob. And use our sequence getter from above
+            JobTypeHandler.SubHandler<ExampleLevelJob> subHandler = handler.setJobHandler(
+                    ExampleLevelJob.class,
+                    (foundJob) -> getJobSequence(humanMob, foundJob)
+            );
+
+            // Here we define when the worker should be able to do this job
+            subHandler.setPredicate(() -> {
+                // Don't do the job if they are on strike. There are some jobs (like eating), they would
+                // still do while they're on strike
+                if (humanMob.isOnStrike()) return false;
+
+                // Don't do the job if they have currently completed a mission as are
+                // waiting for player pickup (like a Miners mining trip)
+                if (humanMob.hasCompletedMission()) return false;
+
+                // Don't do the job if they are a settler and not within their settlement. Like on adventure party, etc.
+                if (humanMob.isSettler() && !humanMob.isSettlerWithinSettlement()) return false;
+
+                // Don't do the job if they have a full inventory. The parameter is if the settler inventory full
+                // notification should be sent to the players
+                if (humanMob.isInventoryFull(true)) return false;
+
+                // No other checks, return true if successful
+                return true;
+            });
+
+            return subHandler;
+        } else {
+            // If the worker is not a human, we don't do the job.
+            return null;
+        }
+    }
+
 }
