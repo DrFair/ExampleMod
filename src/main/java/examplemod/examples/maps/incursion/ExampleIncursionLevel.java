@@ -19,8 +19,6 @@ import necesse.level.maps.incursion.BiomeMissionIncursionData;
 import necesse.level.maps.incursion.IncursionBiome;
 import necesse.level.maps.presets.Preset;
 
-import java.awt.*;
-
 /**
  * Example incursion level.
  * Demonstrates what is required for a working incursion:
@@ -57,18 +55,15 @@ public class ExampleIncursionLevel extends IncursionLevel {
                 e -> cg.generateLevel(0.38F, 4, 3, 6)
         );
 
-        //entrance + perks (anything that must never be overwritten by perk presets)
-        PresetGeneration entranceAndPerkPresets = new PresetGeneration(this);
+        // Keeps track of occupied space when trying to place presets
+        PresetGeneration presets = new PresetGeneration(this);
 
-        //your own structures (custom rooms, etc.)
-        PresetGeneration structurePresets = new PresetGeneration(this);
-
-        // Generate entrance (this reserves space inside entranceAndPerkPresets)
+        // Generate entrance (this reserves space inside presets)
         int spawnSize = 32;
         boolean hasBiggerArenaPerk = altarData.hasPerk(IncursionPerksRegistry.BIGGER_ARENA);
-        Point entranceMid = IncursionBiome.generateEntrance(
+        IncursionBiome.generateEntrance(
                 this,
-                entranceAndPerkPresets,
+                presets,
                 cg.random,
                 spawnSize,
                 cg.rockTile,
@@ -78,35 +73,23 @@ public class ExampleIncursionLevel extends IncursionLevel {
                 hasBiggerArenaPerk
         );
 
-        // reserve the entrance space in structurePresets too, so your own structures don't overwrite the entrance area.
-        int ex = entranceMid.x - spawnSize / 2;
-        int ey = entranceMid.y - spawnSize / 2;
-        structurePresets.addOccupiedSpace(ex, ey, spawnSize, spawnSize);
+        // Perk presets avoid the entrance preset, since we pass presets as presetGeneration parameter
+        generatePresetsBasedOnPerks(altarData, incursionData, presets, cg.random, baseBiome);
 
-
-        //EXAMPLE PRESET
+        // We add an example preset to the level. We can either decide to do this before or after perk
+        // presets. Depending on how important we think it is as part of generation. If not important,
+        // then add it after the perks like this
         Preset examplePreset = new ExamplePreset(cg.random);
-        Point placedAt = structurePresets.findRandomValidPositionAndApply(
+        presets.findRandomValidPositionAndApply(
                 cg.random,
-                2500,//realistically this would be lower if you didn't want it to be guaranteed
+                250, // It tries to place randomly anywhere with this many attempts
                 examplePreset,
-                8,
-                true,// randomizeMirrorX
-                true,  // randomizeMirrorY
-                true,  // randomizeRotation
-                false  // overrideCanPlace (false = respect canApply rules)
+                8, // How many tiles around the edge of the level it should be within
+                true, // randomizeMirrorX
+                true, // randomizeMirrorY
+                true, // randomizeRotation
+                false // overrideCanPlace (false = respect canApply rules)
         );
-
-        if (placedAt != null) {
-            structurePresets.addOccupiedSpace(placedAt.x, placedAt.y, examplePreset.width, examplePreset.height);
-            entranceAndPerkPresets.addOccupiedSpace(placedAt.x, placedAt.y, examplePreset.width, examplePreset.height);
-        }
-
-        /*
-        Perk presets use entranceAndPerkPresets, so they avoid the entrance as well as any presets
-        you added to structurePresets
-        */
-        generatePresetsBasedOnPerks(altarData, incursionData, entranceAndPerkPresets, cg.random, baseBiome);
 
         // This call clears all invalid objects/tiles, so that there are no cut in half beds, etc.
         GenerationTools.checkValid(this);
