@@ -8,7 +8,7 @@ plugins {
 project.ext.modID = "fair.examplemod" // The unique id of your mod. Must be all lowercase and cannot use special characters.
 project.ext.modName = "Example Mod" // The display name of your mod.
 project.ext.modVersion = "1.0" // Your current builds version. Must follow the xx.xx... format.
-project.ext.gameVersion = "1.1.1" // The target game version.
+project.ext.gameVersion = "1.3.2" // The target game version.
 project.ext.modDescription = "Just an example mod" // Short description of what your mod is.
 project.ext.author = "Fair" // Your name
 
@@ -27,8 +27,8 @@ project.ext.clientside = false
 //project.ext.modDependencies = ["other.modid1", "other.modid2"]
 //project.ext.modOptionalDependencies = ["optional.modid1", "optional.modid2"]
 
-// The path to the games install directory
-def gameDirectory = "C:/Program Files (x86)/Steam/steamapps/common/Necesse"
+// The path to the games install directory, modify this only if the auto-detection fails
+def gameDirectory = getDefaultGamePath()
 
 // =================================================
 // ========== DO NOT EDIT BELOW THIS LINE ==========
@@ -40,8 +40,10 @@ def jarName = "${project.ext.modName.replace(" ", "")}-${project.ext.gameVersion
 group project.ext.modID
 version project.ext.modVersion
 
-setSourceCompatibility(JavaVersion.VERSION_1_8)
-setTargetCompatibility(JavaVersion.VERSION_1_8)
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
 
 repositories {
     mavenCentral()
@@ -52,14 +54,17 @@ configurations {
 }
 
 sourceSets.main.output.resourcesDir = file("build/mod/resources/")
-sourceSets.main.java.outputDir = file("build/mod/")
+sourceSets.main.java.getDestinationDirectory().set(file("build/mod/"))
 sourceSets.main.compileClasspath += configurations.libDepends // Adds libDepends configuration to classpath
 def buildLocation = "build/jar/"
 
 compileJava.options.encoding = "UTF-8"
 
+println "Checking for the Necesse.jar inside: ${gameDirectory}"
 if (!file(gameDirectory + "/Necesse.jar").exists()) {
     throw new Exception("Could not find game install directory. Make sure it is correct in build.gradle file.")
+} else {
+    println "Success"
 }
 
 dependencies {
@@ -73,7 +78,7 @@ dependencies {
 //    libDepends files("path/to/library/jar.jar")
 }
 
-task createAppID {
+tasks.register('createAppID') {
     group "necesse"
     description "Creates steam_appid.txt file"
 
@@ -82,14 +87,15 @@ task createAppID {
     }
 }
 
-task createModInfoFile(type: JavaExec) {
+tasks.register('createModInfoFile', JavaExec) {
     group "necesse"
     description "Creates the mod info file"
 
     classpath = files(gameDirectory + "/Necesse.jar")
 
-    main = "CreateModInfoFile"
-    args "-file", "${sourceSets.main.java.outputDir}/mod.info",
+    getMainClass().set("CreateModInfoFile")
+
+    args "-file", "${sourceSets.main.java.getClassesDirectory().get()}/mod.info",
             "-id", "${project.ext.modID}",
             "-name", "${project.ext.modName}",
             "-version", "${project.ext.modVersion}",
@@ -103,56 +109,56 @@ task createModInfoFile(type: JavaExec) {
 // Makes compiling also create mod info file
 classes.dependsOn("createModInfoFile")
 
-task preAntialiasTextures(type: JavaExec) {
+tasks.register('preAntialiasTextures', JavaExec) {
     group "necesse"
     description "Runs pre-antialiasing on all textures in the resources folder"
 
     classpath = files(gameDirectory + "/Necesse.jar")
 
     main "PreAntialiasTextures"
-    args "-folders", "${sourceSets.main.resources.srcDirs.stream().map {file -> file.path}.toArray().join(";")}"
+    args "-folders", "${sourceSets.main.resources.srcDirs.stream().map { file -> file.path }.toArray().join(";")}"
 }
 
-task runClient(type: JavaExec) {
+tasks.register('runClient', JavaExec) {
     group "necesse"
     description "Run client with current mod"
     dependsOn "buildModJar", "createAppID"
 
     classpath = files(gameDirectory + "/Necesse.jar")
 
-    main = "StartSteamClient"
+    getMainClass().set("StartSteamClient")
     jvmArgs "-Xms512m", "-Xmx4G", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseG1GC", "-XX:G1NewSizePercent=20", "-XX:G1ReservePercent=20", "-XX:MaxGCPauseMillis=50", "-XX:G1HeapRegionSize=32M"
     args "-dev", "-mod \"${buildLocation}\""
 }
 
-task runDevClient(type: JavaExec) {
+tasks.register('runDevClient', JavaExec) {
     group "necesse"
     description "Run client with current mod"
     dependsOn "buildModJar", "createAppID"
 
     classpath = files(gameDirectory + "/Necesse.jar")
 
-    main = "StartSteamClient"
+    getMainClass().set("StartSteamClient")
     jvmArgs "-Xms512m", "-Xmx4G", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseG1GC", "-XX:G1NewSizePercent=20", "-XX:G1ReservePercent=20", "-XX:MaxGCPauseMillis=50", "-XX:G1HeapRegionSize=32M"
     args "-dev 1", "-mod \"${buildLocation}\""
 }
 
-task runServer(type: JavaExec) {
+tasks.register('runServer', JavaExec) {
     group "necesse"
     description "Run server with current mod"
     dependsOn "buildModJar"
 
     classpath = files(gameDirectory + "/Server.jar")
 
-    main = "StartDesktopServer"
+    getMainClass().set("StartDesktopServer")
     jvmArgs "-Xms512m", "-Xmx4G", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseG1GC", "-XX:G1NewSizePercent=20", "-XX:G1ReservePercent=20", "-XX:MaxGCPauseMillis=50", "-XX:G1HeapRegionSize=32M"
     args "-mod \"${buildLocation}\""
 }
 
-task buildModJar(type: Jar) {
+tasks.register('buildModJar', Jar) {
     group "necesse"
     description "Generates the mod jar into the build folder"
-    dependsOn "classes"
+    dependsOn "classes", "createModInfoFile"
 
     doFirst {
         fileTree(dir: buildLocation).exclude("${jarName}.jar").visit { FileVisitDetails details ->
@@ -161,10 +167,35 @@ task buildModJar(type: Jar) {
     }
 
     // Add mod output
-    from sourceSets.main.java.outputDir
+    from sourceSets.main.java.getClassesDirectory()
     // Add the dependencies
     from configurations.libDepends.collect { it.isDirectory() ? it : zipTree(it) }
 
-    archiveName "${jarName}.jar"
-    destinationDir file(buildLocation)
+    setArchiveFileName("${jarName}.jar")
+    setDestinationDirectory(file(buildLocation))
+}
+
+enum OS { WINDOWS, MAC, LINUX, UNKNOWN }
+
+// Returns the Enum value of OS based on the match
+// Linux has more options as Ubuntu-like, NixOS and OpenBSD may not contain "linux"
+def getOS() {
+    def os = System.getProperty("os.name").toLowerCase()
+    println "Detected OS: ${os}"
+
+    if (os.contains("win")) return OS.WINDOWS
+    else if (os.contains("mac") || os.contains("darwin")) return OS.MAC
+    else if (os.contains("untu") || os.contains("nux") || os.contains("nix") || os.contains("bsd")) return OS.LINUX
+    else return OS.UNKNOWN
+}
+
+// On the UNKNOWN we try linux-like path as it's the most likely to have a specific name
+def getDefaultGamePath() {
+    def homeDir = System.getProperty('user.home')
+
+    return switch (getOS()) {
+        case OS.WINDOWS -> "C:/Program Files (x86)/Steam/steamapps/common/Necesse"
+        case OS.MAC -> homeDir + "/Library/Application Support/Steam/steamapps/common/Necesse"
+        case OS.LINUX, OS.UNKNOWN -> homeDir + "/.local/share/Steam/steamapps/common/Necesse"
+    }
 }

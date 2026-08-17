@@ -5,6 +5,7 @@ import examplemod.examples.presets.ExamplePreset;
 import necesse.engine.GameEvents;
 import necesse.engine.events.worldGeneration.GenerateCaveLayoutEvent;
 import necesse.engine.events.worldGeneration.GeneratedCaveOresEvent;
+import necesse.engine.registries.IncursionPerksRegistry;
 import necesse.engine.registries.ObjectRegistry;
 import necesse.engine.util.LevelIdentifier;
 import necesse.engine.world.WorldEntity;
@@ -64,6 +65,7 @@ public class ExampleIncursionLevel extends IncursionLevel {
 
         // Generate entrance (this reserves space inside entranceAndPerkPresets)
         int spawnSize = 32;
+        boolean hasBiggerArenaPerk = altarData.hasPerk(IncursionPerksRegistry.BIGGER_ARENA);
         Point entranceMid = IncursionBiome.generateEntrance(
                 this,
                 entranceAndPerkPresets,
@@ -72,7 +74,8 @@ public class ExampleIncursionLevel extends IncursionLevel {
                 cg.rockTile,
                 "exampletile",
                 "exampletile",
-                "exampleobject"
+                "exampleobject",
+                hasBiggerArenaPerk
         );
 
         // reserve the entrance space in structurePresets too, so your own structures don't overwrite the entrance area.
@@ -103,7 +106,7 @@ public class ExampleIncursionLevel extends IncursionLevel {
         Perk presets use entranceAndPerkPresets, so they avoid the entrance as well as any presets
         you added to structurePresets
         */
-        generatePresetsBasedOnPerks(altarData, entranceAndPerkPresets, cg.random, baseBiome);
+        generatePresetsBasedOnPerks(altarData, incursionData, entranceAndPerkPresets, cg.random, baseBiome);
 
         // This call clears all invalid objects/tiles, so that there are no cut in half beds, etc.
         GenerationTools.checkValid(this);
