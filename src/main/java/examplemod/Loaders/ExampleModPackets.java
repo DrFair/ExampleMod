@@ -1,17 +1,13 @@
 package examplemod.Loaders;
 
 import examplemod.examples.packets.ExamplePacket;
-import examplemod.examples.packets.ExamplePlaySoundPacket;
 import necesse.engine.registries.PacketRegistry;
 
 public class ExampleModPackets {
 
     public static void load() {
-        // Register our packets
+        // Register our packets. In this case we only have one
         PacketRegistry.registerPacket(ExamplePacket.class);
-
-        // Register our sound playing packet
-        PacketRegistry.registerPacket(ExamplePlaySoundPacket.class);
     }
 
 }

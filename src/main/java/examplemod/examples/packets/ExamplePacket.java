@@ -45,6 +45,7 @@ public class ExamplePacket extends Packet {
 
         // Examples how to send packets:
 //        client.sendPacket(this); // To a single client
+//        server.network.sendToClientsWithEntity(packet, mob/player); // To all clients that have the specific entity loaded
 //        server.network.sendToAllClients(packet); // To all clients
     }
 

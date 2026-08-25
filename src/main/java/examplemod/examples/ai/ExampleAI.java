@@ -3,63 +3,47 @@ package examplemod.examples.ai;
 import necesse.entity.mobs.GameDamage;
 import necesse.entity.mobs.Mob;
 import necesse.entity.mobs.ai.behaviourTree.composites.SelectorAINode;
-import necesse.entity.mobs.ai.behaviourTree.leaves.CollisionChaserAINode;
+import necesse.entity.mobs.ai.behaviourTree.decorators.InverterAINode;
 import necesse.entity.mobs.ai.behaviourTree.leaves.WandererAINode;
 import necesse.entity.mobs.ai.behaviourTree.trees.CollisionPlayerChaserAI;
 
-public class ExampleAI<T extends Mob> extends SelectorAINode<T> {
+// Extends the SelectorAINode class, which basically is an "OR" parent. Specifically, it does this:
+// Run child #1, if it returns SUCCESS then stop and return SUCCESS.
+// If it returns FAILURE, run the next child until finding one that returns SUCCESS
+public abstract class ExampleAI<T extends Mob> extends SelectorAINode<T> {
+
+    // We store the different child nodes in variables, so that we can easily access them later if needed
 
     // Plays a sound when then boss appears
-    public final ExampleAILeaf<T> soundPlay;
+    public final ExampleAINode<T> soundPlay;
 
-    // AI that does: find player -> chase -> when close enough, call attackTarget().
-    // We keep it as a field so we can reuse the damage/knockback values from it.
+    // AI that does: find target -> chase -> when colliding with the target, call attackTarget().
+    // In this case, attackTarget call simply damages the target. This can be overridden for something custom.
     public final CollisionPlayerChaserAI<T> chaser;
 
-    // “walk around randomly” node. This is what happens when there’s no player to chase.
+    // “walk around randomly” node. This is what happens when there’s no target to chase.
     public final WandererAINode<T> wanderer;
 
     public ExampleAI(int searchDistance, GameDamage damage, int knockback, int wanderFrequency) {
-
-        // A Selector is basically: "try child #1, if it can run then use it,
-        // otherwise try child #2, otherwise child #3..."
-        // So the ORDER we add children is the ORDER of priority.
+        // This AI is pretty similar to CollisionPlayerChaserWandererAI,
+        // but with added teleport mechanic and no escape node.
 
         // 1) Teleport / reposition leaf (highest priority).
-        // (In my leaf: 8 tiles = how far to check for open space, 10 tiles = how far to search for a valid spot)
-        this.soundPlay = new ExampleAILeaf<>();
-        addChild(this.soundPlay);
+        // Since it always returns SUCCESS, we use inverter node to invert it to FAILURE
+        addChild(new InverterAINode<>(soundPlay = new ExampleAINode<T>() {
+            @Override
+            public boolean teleport(T mob, int x, int y) {
+                return ExampleAI.this.teleport(mob, x, y);
+            }
+        }));
 
         // 2) Chase + attack (second priority).
-        this.chaser = new CollisionPlayerChaserAI<T>(searchDistance, damage, knockback) {
+        addChild(chaser = new CollisionPlayerChaserAI<T>(searchDistance, damage, knockback));
 
-
-
-            // The chaser decides WHEN it should attack, but it asks us HOW to attack.
-            // So we override this and forward it to our own method below.
-            @Override
-            public boolean attackTarget(T mob, Mob target) {
-                return ExampleAI.this.attackTarget(mob, target);
-            }
-        };
-        addChild(this.chaser);
-
-        // 3) Wander around if we aren’t teleporting, and we aren’t chasing anyone.
-        this.wanderer = new WandererAINode<>(wanderFrequency);
-        addChild(this.wanderer);
+        // 3) Wander around if we aren’t teleporting, and we aren’t chasing anyone (last priority)
+        addChild(wanderer = new WandererAINode<>(wanderFrequency));
     }
 
-    // This is the “how to attack” part used by the chaser above.
-    // Keeping it here makes it easy to change later (special attacks, effects, etc).
-    public boolean attackTarget(T mob, Mob target) {
+    public abstract boolean teleport(T mob, int x, int y);
 
-        // simpleAttack is the vanilla helper for a basic melee hit.
-        // It handles cooldown/range stuff internally and returns true if an attack happened.
-        return CollisionChaserAINode.simpleAttack(
-                mob,
-                target,
-                this.chaser.damage,     // use the damage we configured in the chaser
-                this.chaser.knockback   // use the knockback we configured in the chaser
-        );
-    }
 }

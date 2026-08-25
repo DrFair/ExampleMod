@@ -1,18 +1,27 @@
 package examplemod.examples.mobs;
 
-import examplemod.examples.ai.ExampleAI;
+import examplemod.ExampleMod;
+import examplemod.examples.ai.ExampleBossAI;
 import necesse.engine.eventStatusBars.EventStatusBarManager;
 import necesse.engine.gameLoop.tickManager.TickManager;
+import necesse.engine.network.server.ServerClient;
 import necesse.engine.registries.MusicRegistry;
+import necesse.engine.sound.PositionSoundEffect;
+import necesse.engine.sound.SoundEffect;
 import necesse.engine.sound.SoundManager;
+import necesse.engine.sound.SoundSettings;
+import necesse.engine.sound.gameSound.GameSound;
 import necesse.engine.util.GameRandom;
 import necesse.entity.mobs.GameDamage;
+import necesse.entity.mobs.Mob;
 import necesse.entity.mobs.MobDrawable;
 import necesse.entity.mobs.PlayerMob;
+import necesse.entity.mobs.ability.EmptyMobAbility;
 import necesse.entity.mobs.ai.behaviourTree.BehaviourTreeAI;
-import necesse.entity.mobs.hostile.bosses.BossMob;
+import necesse.entity.mobs.hostile.bosses.FlyingBossMob;
 import necesse.entity.particle.FleshParticle;
 import necesse.entity.particle.Particle;
+import necesse.gfx.GameResources;
 import necesse.gfx.camera.GameCamera;
 import necesse.gfx.drawOptions.DrawOptions;
 import necesse.gfx.drawables.OrderableDrawables;
@@ -21,14 +30,14 @@ import necesse.inventory.lootTable.LootTable;
 import necesse.inventory.lootTable.lootItem.ChanceLootItem;
 import necesse.inventory.lootTable.lootItem.LootItem;
 import necesse.inventory.lootTable.lootItem.RotationLootItem;
-import necesse.level.maps.CollisionFilter;
 import necesse.level.maps.Level;
 import necesse.level.maps.light.GameLight;
 
 import java.awt.*;
 import java.util.List;
 
-public class ExampleBossMob extends BossMob {
+// Extends FlyingBossMob, which makes the boss not collide with any objects, etc.
+public class ExampleBossMob extends FlyingBossMob {
 
     // Loaded in examplemod.ExampleMod.initResources()
     public static GameTexture texture;
@@ -38,58 +47,98 @@ public class ExampleBossMob extends BossMob {
             ChanceLootItem.between(0.5f, "exampleitem", 1, 3)
     );
 
-    // Indivitual boss unique loot rotation
+    // Items this boss drops on rotation for each player
     public static RotationLootItem uniqueDrops = RotationLootItem.privateLootRotation(
             new LootItem("examplemeleesword"),
             new LootItem("examplemagicstaff"),
             new LootItem("examplesummonorb"),
             new LootItem("examplerangedbow"));
 
-    // LootTable for unique drops
-    public static LootTable privateLootTable = new LootTable(
-            uniqueDrops);
+    // The loot table that is private for each individual player
+    public static LootTable privateLootTable = new LootTable(uniqueDrops);
+
+    // Deals 40 collision damage. We use this in a getter later
+    public static GameDamage collisionDamage = new GameDamage(40);
+
+    // Similar to ExampleMob, we define an ability that can be run from the server
+    public EmptyMobAbility chargeSoundAbility;
 
     // MUST HAVE an empty constructor
     public ExampleBossMob() {
-        super(200);
+        super(2000);
         setSpeed(50);
         setFriction(3);
-        this.shouldSave = false;
-        this.canDespawn = true;
-        this.isSummoned = true;
+        // Bosses don't save by default, but we could define that here if we want to
+//        this.shouldSave = true;
+
         // Hitbox, collision box, and select box (for hovering)
         collision = new Rectangle(-10, -7, 20, 14);
         hitBox = new Rectangle(-14, -12, 28, 24);
         selectBox = new Rectangle(-14, -7 - 34, 28, 48);
-    }
+        // Swim mask values
+        swimMaskMove = 16;
+        swimMaskOffset = -2;
+        swimSinkOffset = -4;
 
-    //ignore level collisions (this will still collide with the player
-    @Override
-    public CollisionFilter getLevelCollisionFilter() {
-        return null; // Level.collides(..., null) returns false in source
+        // Register our charge sound ability. It will be used in our boss AI
+        chargeSoundAbility = registerAbility(new EmptyMobAbility() {
+            @Override
+            protected void run() {
+                // Play a sound on the client when this ability is run from the server
+                if (isClient()) {
+                    // Choose one of the ascended wizard sounds
+                    GameSound sound = GameRandom.globalRandom.getOneOf(
+                            GameResources.ascendedWizardHurt1,
+                            GameResources.ascendedWizardHurt2,
+                            GameResources.ascendedWizardHurt3
+                    );
+
+                    // Define the effect to come from the mob itself
+                    PositionSoundEffect effect = SoundEffect.effect(ExampleBossMob.this)
+                            .volume(2f) // Let's make it loud
+                            .falloffDistance(2000);
+
+                    // Play the sound
+                    SoundManager.playSound(sound, effect);
+                }
+            }
+        });
     }
 
     @Override
     public void init() {
         super.init();
         // Setup AI
-        this.ai = new BehaviourTreeAI<>(
-                this,
-                new ExampleAI<>(
-                        1380,  // search distance (in pixels)
-                        new GameDamage(60), // collide damage
-                        150,                // knockback
-                        12000               // wander frequency
-                )
-        );
+        ai = new BehaviourTreeAI<>(this, new ExampleBossAI<>());
+
+        // We want to play a spawn sound here. Only do so on the client
+        if (isClient()) {
+            // When passing a sound to somewhere for playing, you can use the SoundSettings class to
+            // specify stuff like pitch, falloff distance, volume, etc.
+            SoundSettings soundSettings = new SoundSettings(ExampleMod.EXAMPLE_SOUND)
+                    .volume(0.8f)
+                    .basePitch(1.0f)
+                    .pitchVariance(0.08f)
+                    .fallOffDistance(1500); // Large falloff distance since this is a boss spawned
+
+            // Finally, play the sound with this mob as the emitter
+            soundSettings.play(this);
+        }
     }
-    // Our regular LootTable
+
+    // Return the defined collision damage in this override method
+    @Override
+    public GameDamage getCollisionDamage(Mob target, boolean fromPacket, ServerClient packetSubmitter) {
+        return collisionDamage;
+    }
+
+    // The regular loot table, shared between all players
     @Override
     public LootTable getLootTable() {
         return lootTable;
     }
 
-    // The boss's Rotating loot table unique to each player
+    // The private loot table, unique to each player
     @Override
     public LootTable getPrivateLootTable() {
         return privateLootTable;
@@ -141,7 +190,7 @@ public class ExampleBossMob extends BossMob {
 
     @Override
     public int getRockSpeed() {
-        // Change the speed at which this mobs animation plays
+        // Defines the speed at which this mobs animation plays (used in getAnimSprite(...))
         return 20;
     }
 
@@ -153,9 +202,9 @@ public class ExampleBossMob extends BossMob {
         if (isClientPlayerNearby()) {
             EventStatusBarManager.registerMobHealthStatusBar(this);
         }
-        // Optional: set boss music here too if you want
+
+        // Make sure the boss music is playing
         SoundManager.setMusic(MusicRegistry.AscendedReturn, SoundManager.MusicPriority.EVENT, 1.5F);
     }
-
 
 }

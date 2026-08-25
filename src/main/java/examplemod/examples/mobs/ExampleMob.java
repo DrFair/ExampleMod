@@ -1,15 +1,17 @@
 package examplemod.examples.mobs;
 
+import examplemod.examples.ai.ExampleAI;
 import necesse.engine.gameLoop.tickManager.TickManager;
 import necesse.engine.util.GameRandom;
 import necesse.entity.mobs.GameDamage;
 import necesse.entity.mobs.MobDrawable;
 import necesse.entity.mobs.PlayerMob;
+import necesse.entity.mobs.ability.CoordinateMobAbility;
 import necesse.entity.mobs.ai.behaviourTree.BehaviourTreeAI;
-import necesse.entity.mobs.ai.behaviourTree.trees.CollisionPlayerChaserWandererAI;
 import necesse.entity.mobs.hostile.HostileMob;
 import necesse.entity.particle.FleshParticle;
 import necesse.entity.particle.Particle;
+import necesse.entity.particle.SmokePuffParticle;
 import necesse.gfx.camera.GameCamera;
 import necesse.gfx.drawOptions.DrawOptions;
 import necesse.gfx.drawables.OrderableDrawables;
@@ -31,6 +33,11 @@ public class ExampleMob extends HostileMob {
             ChanceLootItem.between(0.5f, "exampleitem", 1, 3) // 50% chance to drop between 1-3 example items
     );
 
+    // Here we define a mob ability. Mob abilities are an easy way for the server to run some logic and
+    // send it to the client over the network.
+    // In this case, we use a CoordinateMobAbility which allows us to send a coordinate.
+    public final CoordinateMobAbility teleportAbility;
+
     // MUST HAVE an empty constructor
     public ExampleMob() {
         super(200);
@@ -41,13 +48,40 @@ public class ExampleMob extends HostileMob {
         collision = new Rectangle(-10, -7, 20, 14);
         hitBox = new Rectangle(-14, -12, 28, 24);
         selectBox = new Rectangle(-14, -7 - 34, 28, 48);
+        // Swim mask values
+        swimMaskMove = 16;
+        swimMaskOffset = -2;
+        swimSinkOffset = -4;
+
+        // We construct and register our teleport ability in the constructor. It will be used in our AI.
+        teleportAbility = registerAbility(new CoordinateMobAbility() {
+            @Override
+            protected void run(int x, int y) {
+                if (isClient()) {
+                    // If this is run from a client, spawn particles where we were and where we're teleporting
+                    getLevel().entityManager.addParticle(new SmokePuffParticle(getLevel(), ExampleMob.this.x, ExampleMob.this.y, new Color(30, 165, 161)), Particle.GType.CRITICAL);
+                    getLevel().entityManager.addParticle(new SmokePuffParticle(getLevel(), x, y, new Color(30, 165, 161)), Particle.GType.CRITICAL);
+                }
+                // Teleport to the position
+                setPos(x, y, true);
+            }
+        });
     }
 
     @Override
     public void init() {
         super.init();
         // Setup AI
-        ai = new BehaviourTreeAI<>(this, new CollisionPlayerChaserWandererAI<>(null, 12 * 32, new GameDamage(25), 25, 40000));
+        ai = new BehaviourTreeAI<>(this, new ExampleAI<ExampleMob>(12 * 32, new GameDamage(25), 25, 40_000) {
+            @Override
+            public boolean teleport(ExampleMob mob, int x, int y) {
+                // Use the teleport ability
+                mob.teleportAbility.runAndSend(x, y);
+                // And make sure we stop moving when teleported
+                getBlackboard().mover.stopMoving(mob);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -104,6 +138,5 @@ public class ExampleMob extends HostileMob {
         // Change the speed at which this mobs animation plays
         return 20;
     }
-
 
 }
