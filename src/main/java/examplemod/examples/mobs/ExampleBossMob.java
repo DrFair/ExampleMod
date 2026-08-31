@@ -27,7 +27,6 @@ import necesse.gfx.drawOptions.DrawOptions;
 import necesse.gfx.drawables.OrderableDrawables;
 import necesse.gfx.gameTexture.GameTexture;
 import necesse.inventory.lootTable.LootTable;
-import necesse.inventory.lootTable.lootItem.ChanceLootItem;
 import necesse.inventory.lootTable.lootItem.LootItem;
 import necesse.inventory.lootTable.lootItem.RotationLootItem;
 import necesse.level.maps.Level;
@@ -41,11 +40,6 @@ public class ExampleBossMob extends FlyingBossMob {
 
     // Loaded in examplemod.ExampleMod.initResources()
     public static GameTexture texture;
-
-    // Our regular loot table with a chance item
-    public static LootTable lootTable = new LootTable(
-            ChanceLootItem.between(0.5f, "exampleitem", 1, 3)
-    );
 
     // Items this boss drops on rotation for each player
     public static RotationLootItem uniqueDrops = RotationLootItem.privateLootRotation(
@@ -105,6 +99,7 @@ public class ExampleBossMob extends FlyingBossMob {
         });
     }
 
+    // Init happens after the boss was added to a level
     @Override
     public void init() {
         super.init();
@@ -126,16 +121,24 @@ public class ExampleBossMob extends FlyingBossMob {
         }
     }
 
+    // Client tick happens only on the clients game ticks (20 times a second)
+    @Override
+    public void clientTick() {
+        super.clientTick();
+
+        // Only show boss bar when the client player is close enough
+        if (isClientPlayerNearby()) {
+            EventStatusBarManager.registerMobHealthStatusBar(this);
+        }
+
+        // Make sure the boss music is playing
+        SoundManager.setMusic(MusicRegistry.AscendedReturn, SoundManager.MusicPriority.EVENT, 1.5F);
+    }
+
     // Return the defined collision damage in this override method
     @Override
     public GameDamage getCollisionDamage(Mob target, boolean fromPacket, ServerClient packetSubmitter) {
         return collisionDamage;
-    }
-
-    // The regular loot table, shared between all players
-    @Override
-    public LootTable getLootTable() {
-        return lootTable;
     }
 
     // The private loot table, unique to each player
@@ -144,15 +147,16 @@ public class ExampleBossMob extends FlyingBossMob {
         return privateLootTable;
     }
 
+    // Called only on the client, when it should spawn death particles
     @Override
     public void spawnDeathParticles(float knockbackX, float knockbackY) {
-        // Spawn flesh debris particles
+        // Spawn 4 flesh particles
         for (int i = 0; i < 4; i++) {
             getLevel().entityManager.addParticle(new FleshParticle(
                     getLevel(), texture,
                     GameRandom.globalRandom.nextInt(5), // Randomize between the debris sprites
-                    8,
-                    32,
+                    8, // Sprite y coordinate
+                    32, // Sprite resolution
                     x, y, 20f, // Position
                     knockbackX, knockbackY // Basically start speed of the particles
             ), Particle.GType.IMPORTANT_COSMETIC);
@@ -164,6 +168,7 @@ public class ExampleBossMob extends FlyingBossMob {
         super.addDrawables(list, tileList, topList, level, x, y, tickManager, camera, perspective);
         // Tile positions are basically level positions divided by 32. getTileX() does this for us etc.
         GameLight light = level.getLightLevel(getTileX(), getTileY());
+        // We always draw mobs so that their "feet" at the center of their collision/hotbox
         int drawX = camera.getDrawX(x) - 32;
         int drawY = camera.getDrawY(y) - 51;
 
@@ -192,19 +197,6 @@ public class ExampleBossMob extends FlyingBossMob {
     public int getRockSpeed() {
         // Defines the speed at which this mobs animation plays (used in getAnimSprite(...))
         return 20;
-    }
-
-    @Override
-    public void clientTick() {
-        super.clientTick();
-
-        // Only show boss bar when the client player is close enough
-        if (isClientPlayerNearby()) {
-            EventStatusBarManager.registerMobHealthStatusBar(this);
-        }
-
-        // Make sure the boss music is playing
-        SoundManager.setMusic(MusicRegistry.AscendedReturn, SoundManager.MusicPriority.EVENT, 1.5F);
     }
 
 }

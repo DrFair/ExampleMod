@@ -26,7 +26,7 @@ import java.util.function.Supplier;
 public class ExampleIncursionBiome extends IncursionBiome {
 
     public ExampleIncursionBiome() {
-        super("examplebossmob"); // The boss mob string ID for this incursion
+        super("exampleboss"); // The boss mob string ID for this incursion
     }
 
     // Items required to be obtained when completing an extraction objective in this incursion
@@ -37,12 +37,12 @@ public class ExampleIncursionBiome extends IncursionBiome {
 
     /**
      * Loot dropped from mobs during hunt-type incursion objectives.
-     * This example returns a custom item to demonstrate adding new drops.
+     * This example just returns the example item.
      */
     @Override
     public LootTable getHuntDrop(IncursionData incursionData) {
         return new LootTable(
-                new ChanceLootItem(0.66F, "examplehuntincursionmaterial")
+                new ChanceLootItem(0.66F, "exampleitem")
         );
     }
 
@@ -77,8 +77,8 @@ public class ExampleIncursionBiome extends IncursionBiome {
     }
 
     /**
-     * Colours used for the glowing gateway lights on the fallen altar.
-     * IncursionBiome requires this method; expected to return list of 6 colours.
+     * Colors used for the glowing gateway lights on the fallen altar.
+     * IncursionBiome requires this method; expected to return list of 6 colors.
      */
     @Override
     public ArrayList<Color> getFallenAltarGatewayColorsForBiome() {
@@ -92,4 +92,5 @@ public class ExampleIncursionBiome extends IncursionBiome {
         colors.add(new Color(181, 92, 59));
         return colors;
     }
+
 }

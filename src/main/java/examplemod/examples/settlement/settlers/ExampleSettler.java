@@ -1,6 +1,5 @@
 package examplemod.examples.settlement.settlers;
 
-import java.util.function.Supplier;
 import necesse.engine.localization.message.GameMessage;
 import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.util.TicketSystemList;
@@ -9,11 +8,12 @@ import necesse.gfx.gameTexture.GameTexture;
 import necesse.level.maps.levelData.settlementData.ServerSettlementData;
 import necesse.level.maps.levelData.settlementData.settler.Settler;
 
+import java.util.function.Supplier;
+
 public class ExampleSettler extends Settler {
 
     public ExampleSettler() {
-        // MUST match your registered mob stringID
-        super("examplesettlermob");
+        super("examplehuman"); // Must match the human mob registered stringID in ExampleModMobs
     }
 
     @Override

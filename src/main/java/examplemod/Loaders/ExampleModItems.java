@@ -23,31 +23,30 @@ public class ExampleModItems {
         ItemRegistry.registerItem("examplestone", new ExampleStoneItem(), 15, true);
         ItemRegistry.registerItem("exampleore", new ExampleOreItem(), 25, true);
         ItemRegistry.registerItem("examplebar", new ExampleBarItem(), 50, true);
-        ItemRegistry.registerItem("examplehuntincursionmaterial", new ExampleHuntIncursionMaterialItem(), 50, true);
-        ItemRegistry.registerItem("examplelog", new ExampleLogItem().setItemCategory("materials","logs"),10,true);
-        ItemRegistry.registerItem("examplegrassseed", new ExampleGrassSeedItem(),1,true);
+        ItemRegistry.registerItem("examplelog", new ExampleLogItem().setItemCategory("materials", "logs"), 10, true);
+        ItemRegistry.registerItem("examplegrassseed", new ExampleGrassSeedItem(), 1, true);
 
         // Tools
         ItemRegistry.registerItem("examplemeleesword", new ExampleSwordMeleeWeapon(), 20, true);
         ItemRegistry.registerItem("examplemagicstaff", new ExampleStaffMagicWeapon(), 30, true);
-        ItemRegistry.registerItem("examplesummonorb", new ExampleOrbSummonWeapon(),40,true);
-        ItemRegistry.registerItem("examplerangedbow", new ExampleBowRangedWeapon(),10,true);
+        ItemRegistry.registerItem("examplesummonorb", new ExampleOrbSummonWeapon(), 40, true);
+        ItemRegistry.registerItem("examplerangedbow", new ExampleBowRangedWeapon(), 10, true);
 
         // Armor
-        ItemRegistry.registerItem("examplehelmet", new ExampleHelmetArmorItem(), 200f, true);
-        ItemRegistry.registerItem("examplechestplate", new ExampleChestArmorItem(), 250f, true);
-        ItemRegistry.registerItem("exampleboots", new ExampleBootsArmorItem(), 180f, true);
+        ItemRegistry.registerItem("examplehelmet", new ExampleHelmetArmorItem(), 200, true);
+        ItemRegistry.registerItem("examplechestplate", new ExampleChestArmorItem(), 250, true);
+        ItemRegistry.registerItem("exampleboots", new ExampleBootsArmorItem(), 180, true);
 
         // Consumables
         ItemRegistry.registerItem("examplepotion", new ExamplePotionItem(), 10, true);
         ItemRegistry.registerItem("examplefood", new ExampleFoodItem(), 15, true);
-        ItemRegistry.registerItem("examplebosssummonitem", new ExampleBossSummonItem(),1,true);
+        ItemRegistry.registerItem("examplebosssummonitem", new ExampleBossSummonItem(), 1, true);
 
         // Ammo
-        ItemRegistry.registerItem("examplearrow", new ExampleArrowItem(),5,true);
+        ItemRegistry.registerItem("examplearrow", new ExampleArrowItem(), 5, true);
 
         // Trinkets
-        ItemRegistry.registerItem("exampletrinket",new ExampleTrinketItem(),1,true);
+        ItemRegistry.registerItem("exampletrinket", new ExampleTrinketItem(), 1, true);
     }
 
 }
