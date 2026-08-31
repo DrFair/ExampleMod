@@ -9,17 +9,21 @@ import necesse.engine.registries.MobRegistry;
 public class ExampleModMobs {
 
     public static void load() {
-        // Register our mob
-        MobRegistry.registerMob("examplemob", ExampleMob.class, true);
+        // Register base example mob
+        MobRegistry.registerMob(
+                "examplemob", // The stringID of the mob
+                ExampleMob.class, // The mob class which contains the empty constructor
+                true // If the mob can be killed or not, and should count in player stats
+        );
 
-        // Register boss mob
+        // Register boss mob. This tile we also add isBossMob parameter and set that to true
         MobRegistry.registerMob("exampleboss", ExampleBossMob.class,true,true);
 
-        // Register summon mob
-        MobRegistry.registerMob("examplesummon", ExampleSummonWeaponMob.class, true, false);
+        // Register summon weapon mob. This time we set coundKillStat to false, because you cannot kill this mob
+        MobRegistry.registerMob("examplesummon", ExampleSummonWeaponMob.class, false);
 
-        // Register a example mob (ExampleSettlerMob that uses ExampleSettler for settler settings and is capable of our ExampleLevelJob //DEBUG
-        MobRegistry.registerMob("examplehuman", ExampleHumanMob.class, false, false, true);
+        // Register example human mob (ExampleHumanMob that uses ExampleSettler for settler settings and is capable of our ExampleLevelJob)
+        MobRegistry.registerMob("examplehuman", ExampleHumanMob.class, true);
     }
 
 }
