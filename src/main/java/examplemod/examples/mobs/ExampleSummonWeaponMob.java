@@ -1,8 +1,5 @@
 package examplemod.examples.mobs;
 
-import java.awt.*;
-import java.util.List;
-
 import necesse.engine.gameLoop.tickManager.TickManager;
 import necesse.entity.mobs.MobDrawable;
 import necesse.entity.mobs.PlayerMob;
@@ -16,36 +13,38 @@ import necesse.gfx.gameTexture.GameTexture;
 import necesse.level.maps.Level;
 import necesse.level.maps.light.GameLight;
 
+import java.awt.*;
+import java.util.List;
+
 public class ExampleSummonWeaponMob extends AttackingFollowingMob {
 
     // Loaded in examplemod.ExampleMod.initResources()
     public static GameTexture texture;
 
     public ExampleSummonWeaponMob() {
-        super(20);                 // health
-        setSpeed(60.0F);
-        setFriction(2.0F);
-        this.attackCooldown = 500;
+        // Max health doesn't really matter in this case because the mob is not killable
+        super(20);
+        setSpeed(60);
+        setFriction(2);
+        attackCooldown = 500;
 
-        this.collision = new Rectangle(-10, -7, 20, 14);
-        this.hitBox     = new Rectangle(-12, -14, 24, 24);
-        this.selectBox  = new Rectangle(-13, -14, 26, 24);
+        collision = new Rectangle(-10, -7, 20, 14);
+        hitBox = new Rectangle(-12, -14, 24, 24);
+        selectBox = new Rectangle(-13, -14, 26, 24);
     }
 
     @Override
     public void init() {
         super.init();
 
-        // Range, damage, knockback, cooldown etc.
-        // This uses this.summonDamage which SummonToolItem injects at spawn time.
-        this.ai = new BehaviourTreeAI<>(this,
+        ai = new BehaviourTreeAI<>(this,
                 new PlayerFollowerCollisionChaserAI<>(
-                        576,            // target range
-                        this.summonDamage,
-                        30,             // knockback
-                        500,            // attack windup?
-                        640,            // chase range
-                        64              // give up / pathing distance
+                        18 * 32, // Enemy targeting range (18 tiles)
+                        summonDamage, // This damage is set from the summon weapon before being spawned
+                        50, // Knockback
+                        500, // Cooldown between in milliseconds
+                        20 * 32, // When more than 20 tiles away, teleport to the player
+                        64 // Stop following when within 64 pixels of the player (if it cannot reach the exact follow position)
                 )
         );
     }
@@ -84,4 +83,5 @@ public class ExampleSummonWeaponMob extends AttackingFollowingMob {
         // Change the speed at which this mobs animation plays
         return 20;
     }
+
 }

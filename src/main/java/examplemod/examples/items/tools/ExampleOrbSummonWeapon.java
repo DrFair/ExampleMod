@@ -18,8 +18,8 @@ public class ExampleOrbSummonWeapon extends SummonToolItem {
 
         rarity = Item.Rarity.UNCOMMON;
 
-        // Base damage: 50, and a tier 1 damage: 55
-        attackDamage.setBaseValue(50).setUpgradedValue(1, 55);
+        // Base damage: 15, and a tier 1 damage: 35
+        attackDamage.setBaseValue(15).setUpgradedValue(1, 35);
 
         // The offset in pixels of where the player holds the attack texture
         attackXOffset = 15;
