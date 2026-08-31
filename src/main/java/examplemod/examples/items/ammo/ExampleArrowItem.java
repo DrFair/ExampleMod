@@ -9,22 +9,20 @@ import necesse.inventory.item.arrowItem.ArrowItem;
 public class ExampleArrowItem extends ArrowItem {
 
     public ExampleArrowItem() {
-        super(5000); // stack size like vanilla arrows
+        super(5000); // Stack size like vanilla arrows
 
-        // These fields are on ArrowItem (public), and BowProjectileToolItem uses them via modDamage/modVelocity.
-        this.damage = 8;          // adds +8 damage to the bow’s base damage
-        this.armorPen = 2;        // adds armor pen
-        this.critChance = 0.05f;  // +5% base crit
-        this.speedMod = 1.10f;    // 10% faster arrow velocity
+        damage = 8; // Adds +8 damage to the bows base damage
+        armorPen = 2; // Adds +2 armor pen
+        critChance = 0.05f; // +5% crit chance
+        speedMod = 1.10f; // 10% faster arrow velocity
     }
 
     @Override
     public Projectile getProjectile(float x, float y, float targetX, float targetY,
                                     float velocity, int range, GameDamage damage, int knockback,
                                     ItemAttackerMob owner) {
-
         return ProjectileRegistry.getProjectile(
-                "examplearrowprojectile",           // your projectile stringID
+                "examplearrowprojectile", // Projectile stringID that the arrow shoots
                 owner.getLevel(),
                 x, y, targetX, targetY,
                 velocity, range,

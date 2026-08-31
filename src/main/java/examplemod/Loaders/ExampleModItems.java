@@ -37,6 +37,9 @@ public class ExampleModItems {
         ItemRegistry.registerItem("examplechestplate", new ExampleChestArmorItem(), 250, true);
         ItemRegistry.registerItem("exampleboots", new ExampleBootsArmorItem(), 180, true);
 
+        // Trinkets
+        ItemRegistry.registerItem("exampletrinket", new ExampleTrinketItem(), 5, true);
+
         // Consumables
         ItemRegistry.registerItem("examplepotion", new ExamplePotionItem(), 10, true);
         ItemRegistry.registerItem("examplefood", new ExampleFoodItem(), 15, true);
@@ -44,9 +47,6 @@ public class ExampleModItems {
 
         // Ammo
         ItemRegistry.registerItem("examplearrow", new ExampleArrowItem(), 5, true);
-
-        // Trinkets
-        ItemRegistry.registerItem("exampletrinket", new ExampleTrinketItem(), 1, true);
     }
 
 }

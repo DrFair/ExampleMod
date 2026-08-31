@@ -5,11 +5,13 @@ import necesse.inventory.item.placeableItem.consumableItem.potionConsumableItem.
 public class ExamplePotionItem extends SimplePotionItem {
 
     public ExamplePotionItem() {
-        super(100,                           // Max Stack Size
-                Rarity.COMMON,                        // Item Rarity
-                "examplebuff",                        // Buff to apply
-                100,                                  // Buff Duration in seconds
-                "examplepotionitemtip");   // Localization text to load and display
+        super(
+                100, // Max stack size
+                Rarity.COMMON, // Item rarity
+                "examplebuff", // Buff stringID to apply
+                120, // Buff duration in seconds
+                "examplepotionitemtip" // Localization key for tooltip (under itemtooltip category)
+        );
     }
 
 }
