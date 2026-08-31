@@ -23,7 +23,7 @@ public class ExampleModItems {
         ItemRegistry.registerItem("examplestone", new ExampleStoneItem(), 15, true);
         ItemRegistry.registerItem("exampleore", new ExampleOreItem(), 25, true);
         ItemRegistry.registerItem("examplebar", new ExampleBarItem(), 50, true);
-        ItemRegistry.registerItem("examplelog", new ExampleLogItem().setItemCategory("materials", "logs"), 10, true);
+        ItemRegistry.registerItem("examplelog", new ExampleLogItem(), 10, true);
         ItemRegistry.registerItem("examplegrassseed", new ExampleGrassSeedItem(), 1, true);
 
         // Tools

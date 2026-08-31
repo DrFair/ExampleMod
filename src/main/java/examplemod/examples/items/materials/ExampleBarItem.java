@@ -6,8 +6,10 @@ import necesse.inventory.item.matItem.MatItem;
 public class ExampleBarItem extends MatItem {
 
     public ExampleBarItem() {
-        super(500,              // Max Stack Size
-                Item.Rarity.UNCOMMON);   // Rarity
+        super(
+                500, // Max stack size
+                Item.Rarity.UNCOMMON // Rarity
+        );
 
     }
 }
