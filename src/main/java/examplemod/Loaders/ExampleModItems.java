@@ -8,10 +8,10 @@ import examplemod.examples.items.consumable.ExampleBossSummonItem;
 import examplemod.examples.items.consumable.ExampleFoodItem;
 import examplemod.examples.items.consumable.ExamplePotionItem;
 import examplemod.examples.items.materials.*;
-import examplemod.examples.items.tools.ExampleBowRangedWeapon;
-import examplemod.examples.items.tools.ExampleOrbSummonWeapon;
-import examplemod.examples.items.tools.ExampleStaffMagicWeapon;
-import examplemod.examples.items.tools.ExampleSwordMeleeWeapon;
+import examplemod.examples.items.tools.ExampleBowRangedWeaponItem;
+import examplemod.examples.items.tools.ExampleOrbSummonWeaponItem;
+import examplemod.examples.items.tools.ExampleStaffMagicWeaponItem;
+import examplemod.examples.items.tools.ExampleSwordMeleeWeaponItem;
 import examplemod.examples.items.trinkets.ExampleTrinketItem;
 import necesse.engine.registries.ItemRegistry;
 
@@ -27,10 +27,10 @@ public class ExampleModItems {
         ItemRegistry.registerItem("examplegrassseed", new ExampleGrassSeedItem(), 1, true);
 
         // Tools
-        ItemRegistry.registerItem("examplemeleesword", new ExampleSwordMeleeWeapon(), 20, true);
-        ItemRegistry.registerItem("examplemagicstaff", new ExampleStaffMagicWeapon(), 30, true);
-        ItemRegistry.registerItem("examplesummonorb", new ExampleOrbSummonWeapon(), 40, true);
-        ItemRegistry.registerItem("examplerangedbow", new ExampleBowRangedWeapon(), 10, true);
+        ItemRegistry.registerItem("examplemeleesword", new ExampleSwordMeleeWeaponItem(), 20, true);
+        ItemRegistry.registerItem("examplerangedbow", new ExampleBowRangedWeaponItem(), 10, true);
+        ItemRegistry.registerItem("examplemagicstaff", new ExampleStaffMagicWeaponItem(), 30, true);
+        ItemRegistry.registerItem("examplesummonorb", new ExampleOrbSummonWeaponItem(), 40, true);
 
         // Armor
         ItemRegistry.registerItem("examplehelmet", new ExampleHelmetArmorItem(), 200, true);

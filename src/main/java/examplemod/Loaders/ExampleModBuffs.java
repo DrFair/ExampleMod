@@ -12,7 +12,7 @@ public class ExampleModBuffs {
         // Register our buff
         BuffRegistry.registerBuff("examplebuff", new ExampleBuff());
 
-        // Register our Armor Set Bonus
+        // Register our armor set bonus, used in ExampleHelmetArmorItem
         BuffRegistry.registerBuff("examplearmorsetbonusbuff", new ExampleArmorSetBuff());
 
         // Register our Arrow Buff
