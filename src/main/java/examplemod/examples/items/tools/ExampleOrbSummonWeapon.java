@@ -6,24 +6,24 @@ import necesse.inventory.item.toolItem.summonToolItem.SummonToolItem;
 import necesse.inventory.lootTable.presets.SummonWeaponsLootTable;
 
 public class ExampleOrbSummonWeapon extends SummonToolItem {
+
     public ExampleOrbSummonWeapon() {
-        // , followPosition, summonSpaceTaken, enchantCost, lootTableCategory
-        super("examplesummonmob",               // Mob String ID
-                FollowPosition.PYRAMID,                    // Follow Position
-                1.0F,                                      // Summon Space Taken
-                400,                                       // Enchant Cost
-                SummonWeaponsLootTable.summonWeapons);     // Loot Table Category
+        super(
+                "examplesummon", // Mob stringID
+                FollowPosition.PYRAMID, // Follow position
+                1, // Summon space taken per mob spawned (1 slot)
+                400, // Weapon enchant cost
+                SummonWeaponsLootTable.summonWeapons // Loot table category (used for incursion drop, etc.)
+        );
 
-        this.rarity = Item.Rarity.UNCOMMON;
+        rarity = Item.Rarity.UNCOMMON;
 
-        // This damage is what gets injected into your minion via mob.updateDamage(getAttackDamage(item))
-        this.attackDamage.setBaseValue(50.0F).setUpgradedValue(1.0F, 45.0F);
+        // Base damage: 50, and a tier 1 damage: 55
+        attackDamage.setBaseValue(50).setUpgradedValue(1, 55);
 
-        // Offset the X location of the attack texture
-        this.attackXOffset = 15;
-        // Offset the X location of the attack texture
-        this.attackYOffset = 10;
-
-
+        // The offset in pixels of where the player holds the attack texture
+        attackXOffset = 15;
+        attackYOffset = 10;
     }
+
 }

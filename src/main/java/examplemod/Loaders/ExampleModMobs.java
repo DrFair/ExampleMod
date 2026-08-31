@@ -16,7 +16,7 @@ public class ExampleModMobs {
         MobRegistry.registerMob("exampleboss", ExampleBossMob.class,true,true);
 
         // Register summon mob
-        MobRegistry.registerMob("examplesummonmob", ExampleSummonWeaponMob.class, true, false);
+        MobRegistry.registerMob("examplesummon", ExampleSummonWeaponMob.class, true, false);
 
         // Register a example mob (ExampleSettlerMob that uses ExampleSettler for settler settings and is capable of our ExampleLevelJob //DEBUG
         MobRegistry.registerMob("examplehuman", ExampleHumanMob.class, false, false, true);
