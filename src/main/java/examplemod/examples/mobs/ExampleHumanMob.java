@@ -19,9 +19,6 @@ public class ExampleHumanMob extends HumanShop {
 
         // Unlock the job type for THIS settler only
         this.jobTypeHandler.getPriority("examplejobtype").disabledBySettler = false;
-
-        // Give them a tool to clear grass (optional, but nice)
-        this.equipmentInventory.setItem(6, new necesse.inventory.InventoryItem("farmingscythe"));
     }
 
     // Cost to recruit this as a settler
