@@ -11,7 +11,7 @@ public class ExampleModProjectiles {
         ProjectileRegistry.registerProjectile("exampleprojectile", ExampleProjectile.class, "exampleprojectile", "exampleprojectile_shadow");
 
         // Register our arrow projectile
-        ProjectileRegistry.registerProjectile("examplearrowprojectile", ExampleArrowProjectile.class, "examplearrowprojectile","arrow_shadow");
+        ProjectileRegistry.registerProjectile("examplearrowprojectile", ExampleArrowProjectile.class, "examplearrowprojectile", "arrow_shadow");
     }
 
 }

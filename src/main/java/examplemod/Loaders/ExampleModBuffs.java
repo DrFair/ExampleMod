@@ -8,6 +8,9 @@ import necesse.engine.registries.BuffRegistry;
 
 public class ExampleModBuffs {
 
+    // We store our example arrow buff variable for later use
+    public static ExampleArrowBuff EXAMPLE_ARROW_BUFF;
+
     public static void load() {
         // Register our buff
         BuffRegistry.registerBuff("examplebuff", new ExampleBuff());
@@ -16,7 +19,7 @@ public class ExampleModBuffs {
         BuffRegistry.registerBuff("examplearmorsetbonusbuff", new ExampleArmorSetBuff());
 
         // Register our Arrow Buff
-        BuffRegistry.registerBuff("examplearrowbuff", new ExampleArrowBuff());
+        EXAMPLE_ARROW_BUFF = BuffRegistry.registerBuff("examplearrowbuff", new ExampleArrowBuff());
 
         // Register our Trinket Buff
         BuffRegistry.registerBuff("exampletrinketbuff",new ExampleTrinketBuff());
