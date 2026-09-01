@@ -8,7 +8,7 @@ public class ExampleLogItem extends MatItem {
         super(
                 500, // Max stack size
                 Rarity.UNCOMMON, // Rarity
-                "anylog" // Global ingredient stringIDs
+                new String[]{ "anylog" } // Global ingredient stringIDs
         );
 
         // Adjust the item category to logs
