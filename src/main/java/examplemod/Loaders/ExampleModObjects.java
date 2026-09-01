@@ -4,6 +4,9 @@ import examplemod.examples.objects.*;
 import necesse.engine.registries.ObjectRegistry;
 import necesse.inventory.item.toolItem.ToolType;
 import necesse.level.gameObject.WallObject;
+import necesse.level.maps.presets.set.ChestRoomSet;
+import necesse.level.maps.presets.set.ColumnSet;
+import necesse.level.maps.presets.set.WallSet;
 
 import java.awt.*;
 
@@ -12,6 +15,10 @@ public class ExampleModObjects {
     // Expose IDs for other classes (biomes, levels, etc.)
     public static int EXAMPLE_BASE_ROCK_ID = -1;
     public static int EXAMPLE_ORE_ROCK_ID  = -1;
+
+    // Wall and chest room sets are used for generating presets, etc. This will be set later in the load method
+    public static WallSet EXAMPLE_WALL_SET = null;
+    public static ChestRoomSet EXAMPLE_CHEST_ROOM_SET = null;
 
     public static void load() {
         // Register our objects
@@ -72,6 +79,15 @@ public class ExampleModObjects {
         // Takes the texture of the wall object and overlays our "examplewalltrap"
         WallObject exampleWall = (WallObject) ObjectRegistry.getObject("examplewall");
         ObjectRegistry.registerObject("examplewalltrap",new ExampleWallTrapObject(exampleWall),1,true);
+        EXAMPLE_WALL_SET = new WallSet("example");
+        EXAMPLE_CHEST_ROOM_SET = new ChestRoomSet(
+                "exampletile", // Our tile stringID
+                "examplepressureplate", // Our pressure plate stringID
+                EXAMPLE_WALL_SET, // Our wall set
+                ColumnSet.wood, // For columns, we just use wood
+                "storagebox", // Normal storage box as chest
+                "examplewalltrap" // Our wall trap stringID
+        );
 
         // Register a Crafting Station
         ObjectRegistry.registerObject("examplecraftingstation", new ExampleCraftingStationObject(),1,true);

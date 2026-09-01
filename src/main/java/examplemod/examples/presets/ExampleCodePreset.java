@@ -101,7 +101,7 @@ public class ExampleCodePreset extends Preset {
          * addInventory(...) searches for an object with an inventory at that position
          * (like a storagebox) and then generates loot into it.
          */
-        addInventory(ExampleLootTable.exampleloottable, random, storageboxX, storageboxY);
+        addInventory(ExampleLootTable.exampleLootTable, random, storageboxX, storageboxY);
 
         /*
          * OPTIONAL SAFETY RULE (CanApply predicate):

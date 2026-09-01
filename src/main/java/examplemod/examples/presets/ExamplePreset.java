@@ -85,7 +85,7 @@ public class ExamplePreset extends Preset {
          *
          * We are assuming the storage box was placed at that coordinate in the script.
          */
-        addInventory(ExampleLootTable.exampleloottable, random, 5, 5);
+        addInventory(ExampleLootTable.exampleLootTable, random, 5, 5);
 
         /*
          * Optional placement rule:
