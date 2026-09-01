@@ -203,17 +203,17 @@ public class ExampleBiome extends Biome {
         return preset;
     }
 
-    public RandomCaveChestRoom getNewDeepCaveChestRoomPreset(GameRandom random, AtomicInteger unique) {
+    public RandomCaveChestRoom getNewDeepCaveChestRoomPreset(GameRandom random, AtomicInteger lootRotation) {
         // This example biome does not spawn deep cave chest rooms
         return null;
     }
 
-    public CaveRuins getNewCaveRuinsPreset(GameRandom random, AtomicInteger unique) {
+    public CaveRuins getNewCaveRuinsPreset(GameRandom random, AtomicInteger lootRotation) {
         // This example biome does not spawn cave ruins
         return null;
     }
 
-    public CaveRuins getNewDeepCaveRuinsPreset(GameRandom random, AtomicInteger unique) {
+    public CaveRuins getNewDeepCaveRuinsPreset(GameRandom random, AtomicInteger lootRotation) {
         // This example biome does not spawn cave ruins
         return null;
     }
