@@ -89,11 +89,8 @@ public class ExampleModObjects {
                 "examplewalltrap" // Our wall trap stringID
         );
 
-        // Register a Crafting Station
-        ObjectRegistry.registerObject("examplecraftingstation", new ExampleCraftingStationObject(),1,true);
-
-        // Register Workstation Duo
-        ExampleWorkstationDuoObject.register();
+        // Register example workstation
+        ExampleWorkstationObject.register();
     }
 
 }

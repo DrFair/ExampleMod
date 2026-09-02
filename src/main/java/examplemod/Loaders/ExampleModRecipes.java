@@ -147,18 +147,7 @@ public class ExampleModRecipes {
         ));
 
         Recipes.registerModRecipe(new Recipe(
-                "examplecraftingstation",
-                1,
-                RecipeTechRegistry.WORKSTATION,
-                new Ingredient[]{
-                        new Ingredient("examplelog", 12),
-                        new Ingredient("examplestone", 12),
-                        new Ingredient("examplebar", 4)
-                }
-        ));
-
-        Recipes.registerModRecipe(new Recipe(
-                "exampleworkstationduo",
+                "exampleworkstation",
                 1,
                 RecipeTechRegistry.WORKSTATION,
                 new Ingredient[]{

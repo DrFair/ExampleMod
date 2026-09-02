@@ -17,8 +17,7 @@ examplejobobject=Example Job Object
 exampleconfigobject=Example Config Object
 examplepressureplate=Example Pressure Plate
 examplewalltrap=Example Wall Trap
-examplecraftingstation=Example Crafting Station
-exampleworkstationduo=Example Workstation Duo
+exampleworkstation=Example Workstation
 
 [item]
 exampleitem=Example Item
@@ -41,7 +40,7 @@ examplebosssummonitem=Example Boss Summon Item
 exampletrinket=Example Trinket
 
 [tech]
-exampletech=Example Crafting Station
+exampletech=Example Workstation
 
 [itemtooltip]
 examplemagicstafftip=Shoots a homing, piercing projectile
