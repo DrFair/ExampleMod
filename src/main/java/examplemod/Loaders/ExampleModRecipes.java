@@ -19,7 +19,7 @@ public class ExampleModRecipes {
                 "exampleitem",
                 1,
                 RecipeTechRegistry.NONE,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("examplebar", 2)
                 }
         ).showAfter("woodboat")); // Show recipe after wood boat recipe
@@ -30,7 +30,7 @@ public class ExampleModRecipes {
                 "examplebar",
                 1,
                 RecipeTechRegistry.FORGE,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("exampleore",2)
                 })
         );
@@ -40,7 +40,7 @@ public class ExampleModRecipes {
                 "examplemeleesword",
                 1,
                 RecipeTechRegistry.IRON_ANVIL,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("exampleitem", 4),
                         new Ingredient("examplebar", 5)
                 }
@@ -50,7 +50,7 @@ public class ExampleModRecipes {
                 "examplemagicstaff",
                 1,
                 RecipeTechRegistry.IRON_ANVIL,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("exampleitem", 5),
                         new Ingredient("examplebar", 4)
                 }
@@ -60,7 +60,7 @@ public class ExampleModRecipes {
                 "examplesummonorb",
                 1,
                 RecipeTechRegistry.IRON_ANVIL,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("exampleitem", 3),
                         new Ingredient("examplebar", 2)
                 }
@@ -70,7 +70,7 @@ public class ExampleModRecipes {
                 "examplerangedbow",
                 1,
                 RecipeTechRegistry.IRON_ANVIL,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("examplelog", 8),
                         new Ingredient("examplebar", 2),
                         new Ingredient("exampleitem", 2)
@@ -112,7 +112,7 @@ public class ExampleModRecipes {
                 "examplewall",
                 1,
                 RecipeTechRegistry.WORKSTATION,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("examplestone", 7)
                 }
         ));
@@ -121,16 +121,16 @@ public class ExampleModRecipes {
                 "exampledoor",
                 1,
                 RecipeTechRegistry.WORKSTATION,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("examplestone", 7)
                 }
         ));
 
         Recipes.registerModRecipe(new Recipe(
                 "examplearrow",
-                25, // output amount
+                25, // 25 arrows per craft
                 RecipeTechRegistry.WORKSTATION,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("examplelog", 1),
                         new Ingredient("exampleitem", 1)
                 }
@@ -140,7 +140,7 @@ public class ExampleModRecipes {
                 "examplepressureplate",
                 1,
                 RecipeTechRegistry.WORKSTATION,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("examplestone", 6),
                         new Ingredient("examplebar", 1)
                 }
@@ -150,7 +150,7 @@ public class ExampleModRecipes {
                 "exampleworkstation",
                 1,
                 RecipeTechRegistry.WORKSTATION,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("examplelog", 20),
                         new Ingredient("examplebar", 8)
                 }
@@ -163,7 +163,7 @@ public class ExampleModRecipes {
                 "examplefood",
                 1,
                 RecipeTechRegistry.COOKING_POT,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("bread", 1),
                         new Ingredient("strawberry", 2),
                         new Ingredient("sugar", 1)
@@ -175,7 +175,7 @@ public class ExampleModRecipes {
                 "examplepotion",
                 1,
                 RecipeTechRegistry.ALCHEMY,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("speedpotion", 1),
                 }
         ));
@@ -185,7 +185,7 @@ public class ExampleModRecipes {
                 "examplebaserock",
                 1,
                 RecipeTechRegistry.LANDSCAPING,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("examplestone", 5),
                 }
         ));
@@ -193,8 +193,8 @@ public class ExampleModRecipes {
         Recipes.registerModRecipe(new Recipe(
                 "exampleorerock",
                 1,
-                RecipeTechRegistry.ADVANCED_WORKSTATION,
-                new Ingredient[]{
+                RecipeTechRegistry.LANDSCAPING,
+                new Ingredient[] {
                         new Ingredient("examplestone", 5),
                         new Ingredient("exampleore", 5),
                 }
@@ -205,7 +205,7 @@ public class ExampleModRecipes {
                 "exampleconfigobject",
                 1,
                 ExampleModTech.EXAMPLE_TECH,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("examplestone", 4),
                         new Ingredient("exampleitem", 1)
                 }
@@ -215,7 +215,7 @@ public class ExampleModRecipes {
                 "examplejobobject",
                 1,
                 ExampleModTech.EXAMPLE_TECH,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("examplestone", 4),
                         new Ingredient("exampleitem", 1)
                 }
@@ -225,7 +225,7 @@ public class ExampleModRecipes {
                 "exampleleveleventobject",
                 1,
                 ExampleModTech.EXAMPLE_TECH,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("examplestone", 4),
                         new Ingredient("exampleitem", 1)
                 }
@@ -235,7 +235,7 @@ public class ExampleModRecipes {
                 "exampleobject",
                 1,
                 ExampleModTech.EXAMPLE_TECH,
-                new Ingredient[]{
+                new Ingredient[] {
                         new Ingredient("examplestone", 7),
                         new Ingredient("exampleitem", 3)
                 }
