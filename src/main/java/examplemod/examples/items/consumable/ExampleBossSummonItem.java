@@ -9,12 +9,12 @@ import necesse.engine.registries.MobRegistry;
 import necesse.engine.util.GameBlackboard;
 import necesse.engine.util.GameMath;
 import necesse.engine.util.GameRandom;
-import necesse.engine.util.LevelIdentifier;
 import necesse.entity.mobs.Mob;
 import necesse.entity.mobs.PlayerMob;
 import necesse.gfx.gameTooltips.ListGameTooltips;
 import necesse.inventory.InventoryItem;
 import necesse.inventory.item.Item;
+import necesse.inventory.item.ItemCategory;
 import necesse.inventory.item.placeableItem.consumableItem.ConsumableItem;
 import necesse.level.maps.IncursionLevel;
 import necesse.level.maps.Level;
@@ -27,14 +27,11 @@ import java.awt.geom.Line2D;
 public class ExampleBossSummonItem extends ConsumableItem {
 
     public ExampleBossSummonItem() {
-        // Stack size 1, is "single use" consumable behaviour
+        // Stack size 1, is "single use" consumable behavior
         super(1, true);
 
         // Cooldown (ms) before you can use it again
         itemCooldownTime.setBaseValue(2000);
-
-        // Where it appears in the creative menu
-        setItemCategory("consumable", "bossitems");
 
         // If the player dies, drop this like a material (depending on death penalty rules)
         dropsAsMatDeathPenalty = true;
@@ -50,6 +47,13 @@ public class ExampleBossSummonItem extends ConsumableItem {
 
         // How long it takes the incinerator to destroy this item
         incinerationTimeMillis = 30_000;
+
+        // Often when you extend an existing object (like ChairObject in this case), it will have the categories
+        // defined in that parent class. But in this case we want to use our custom example category, which
+        // we have defined in ExampleModCategories
+        setItemCategory("examplemod", "sub");
+        // If we want to change where it is displayed in workstations, we set the crafting category:
+        setItemCategory(ItemCategory.craftingManager, "examplemod", "sub");
     }
 
     /**
@@ -57,22 +61,20 @@ public class ExampleBossSummonItem extends ConsumableItem {
      */
     public String canPlace(Level level, int x, int y, PlayerMob player,
                            Line2D playerPositionLine, InventoryItem item, GNDItemMap mapContent) {
-        int tileX;
-        int tileY;
-
         // Don't allow boss summoning inside an incursion (special dungeon-like levels)
         if (level instanceof IncursionLevel) {
             return "inincursion";
         }
 
-        // Only allow use in caves (not surface)
-        if (!level.isCave) {
+        // Only allow use in normal caves (not surface or deep caves)
+        if (!level.isBasicCaveLevel()) {
             return "notcave";
         }
 
         // Figure out which tile we should check.
         // If we have a player, use the player's tile.
         // If not (rare cases), convert the clicked pixel coords into tile coords.
+        int tileX, tileY;
         if (player == null) {
             tileX = GameMath.getTileCoordinate(x);
             tileY = GameMath.getTileCoordinate(y);
@@ -81,13 +83,12 @@ public class ExampleBossSummonItem extends ConsumableItem {
             tileY = player.getTileY();
         }
 
-        // Only allow in *cave identifier* AND only if the biome at that tile is our ExampleBiome.
-        // This prevents using the item in other cave biomes.
-        if (!level.getIdentifier().equals(LevelIdentifier.CAVE_IDENTIFIER)
-                || !(level.getBiome(tileX, tileY) instanceof ExampleBiome))
+        // Only allow our ExampleBiome
+        if (level.getBiome(tileX, tileY) instanceof ExampleBiome) {
             return "notexamplebiome";
+        }
 
-        // Allowed
+        // No errors to return, allow the placement
         return null;
     }
 
@@ -98,12 +99,12 @@ public class ExampleBossSummonItem extends ConsumableItem {
     public InventoryItem onAttemptPlace(Level level, int x, int y, PlayerMob player,
                                         InventoryItem item, GNDItemMap mapContent, String error) {
 
-        // Only do chat messages on the server, and only if we have a real server client player
-        if (level.isServer() && player != null && player.isServerClient() && error.equals("inincursion")) {
+        // Only do chat messages on the server, and only if the error was because it's in an incursion
+        if (level.isServer() && player != null && error.equals("inincursion")) {
             player.getServerClient().sendChatMessage(new LocalMessage("misc", "cannotsummoninincursion"));
         }
 
-        // Let vanilla handle the rest (cooldowns, failure behavior, etc.)
+        // Let base game handle the rest
         return super.onAttemptPlace(level, x, y, player, item, mapContent, error);
     }
 
@@ -164,9 +165,10 @@ public class ExampleBossSummonItem extends ConsumableItem {
     }
 
     /**
-     * The "type name" shown in the UI (e.g. Relic).
+     * The "type name" shown in the journal, etc. (e.g. Relic).
      */
     public String getTranslatedTypeName() {
         return Localization.translate("item", "relic");
     }
+
 }

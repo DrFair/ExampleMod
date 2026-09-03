@@ -42,7 +42,7 @@ public class ExampleModObjects {
                 0, // Tool tier
                 new Color(255, 220, 80), // Map color
                 ToolType.PICKAXE, // Tool type used to mine it
-                -1f,  // Wall broker value
+                -1f, // Wall broker value
                 -1f, // Door broker value
                 true // Obtainable
         );
@@ -54,9 +54,6 @@ public class ExampleModObjects {
 
         // Register a sapling object
         ObjectRegistry.registerObject("examplesapling", new ExampleTreeSaplingObject(),10,true);
-
-        // Register a furniture object this won't currently display in creative due to how creative is coded but this is subject to change
-        ObjectRegistry.registerObject("examplechair", new ExampleWoodChairObject(),50,true);
 
         // Register a grass object
         ObjectRegistry.registerObject("examplegrass",new ExampleGrassObject(),1,true);

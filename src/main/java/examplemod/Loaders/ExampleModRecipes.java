@@ -200,16 +200,6 @@ public class ExampleModRecipes {
                 }
         ));
 
-        // CARPENTER RECIPES
-        Recipes.registerModRecipe(new Recipe(
-                "examplechair",
-                1,
-                RecipeTechRegistry.CARPENTER,
-                new Ingredient[]{
-                        new Ingredient("examplelog", 5),
-                }
-        ));
-
         // EXAMPLE TECH RECIPES
         Recipes.registerModRecipe(new Recipe(
                 "exampleconfigobject",
@@ -248,6 +238,17 @@ public class ExampleModRecipes {
                 new Ingredient[]{
                         new Ingredient("examplestone", 7),
                         new Ingredient("exampleitem", 3)
+                }
+        ));
+
+        Recipes.registerModRecipe(new Recipe(
+                "examplebosssummonitem",
+                1,
+                ExampleModTech.EXAMPLE_TECH,
+                new Ingredient[] {
+                        new Ingredient("examplestone", 10),
+                        new Ingredient("examplelog", 10),
+                        new Ingredient("exampleitem", 5)
                 }
         ));
 
