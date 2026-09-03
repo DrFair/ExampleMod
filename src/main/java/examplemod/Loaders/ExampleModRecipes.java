@@ -222,7 +222,7 @@ public class ExampleModRecipes {
         ));
 
         Recipes.registerModRecipe(new Recipe(
-                "exampleleveleventobject",
+                "exampleeventtriggerobject",
                 1,
                 ExampleModTech.EXAMPLE_TECH,
                 new Ingredient[] {

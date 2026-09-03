@@ -13,55 +13,44 @@ import necesse.level.gameObject.GameObject;
 import necesse.level.maps.Level;
 import necesse.level.maps.light.GameLight;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.List;
 
-/*
- * Basic placeable demo object that:
- * - draws a 32x32 sprite in the world
- * - on interact (server side), spawns our ExampleLevelEvent
- * - also triggers our custom ExampleEvent through GameEvents (so listeners can react)
+/**
+ * See ExampleObject for a simple object and ExampleWorkstationObject for a more complex object with
+ * explanations for code without comments here
+ * This object is pretty basic:
+ * - Draws a 32x32 sprite in the world
+ * - Uses ExampleObjectEntity to work as a "pressureplate" which triggers an ExampleLevelEvent
  */
-public class ExampleLevelEventObject extends GameObject {
+public class ExampleEventTriggerObject extends GameObject {
 
-    // Loaded once from mod resources in loadTextures()
     private GameTexture texture;
 
-    public ExampleLevelEventObject() {
-        //no physics shape
-        super(new Rectangle());
-        this.isSolid = false;
+    public ExampleEventTriggerObject() {
+        super(new Rectangle()); // No collision
     }
 
     @Override
     public void loadTextures() {
         super.loadTextures();
-
-        // Loads: src/main/resources/objects/exampleleveleventobject.png
-        // (no ".png" in the string)
-        this.texture = GameTexture.fromFile("objects/exampleleveleventobject");
+        texture = GameTexture.fromFile("objects/exampleeventtriggerobject");
     }
 
     @Override
     public void addDrawables(List<LevelSortedDrawable> list, OrderableDrawables tileList,
                              Level level, int tileX, int tileY, TickManager tickManager,
                              GameCamera camera, PlayerMob perspective) {
-
-        // Match sprite lighting to the level light at this tile
         GameLight light = level.getLightLevel(tileX, tileY);
-
-        // Convert tile coordinates to screen draw coordinates
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
 
-        // Build draw options once (sprite + lighting + position)
-        final TextureDrawOptionsEnd opts = this.texture.initDraw()
-                .sprite(0, 0, 32)     // sprite index (0,0), size 32
+        final TextureDrawOptionsEnd opts = texture.initDraw()
                 .light(light)
                 .pos(drawX, drawY);
 
-        /*
-        */
+        // We add it to the tile list instead of the LevelSortedDrawable list
+        // This makes it draw right after all the tiles have been drawn, but before any other objects
         tileList.add(tm -> opts.draw());
     }
 
@@ -69,21 +58,20 @@ public class ExampleLevelEventObject extends GameObject {
     @Override
     public void drawPreview(Level level, int tileX, int tileY, int rotation, float alpha,
                             PlayerMob player, GameCamera camera) {
-
-        // Placement preview ("ghost" sprite) while holding the item
-        GameLight light = level.getLightLevel(tileX, tileY);
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
-
-        this.texture.initDraw()
-                .sprite(0, 0, 32)
-                .light(light)
+        texture.initDraw()
                 .alpha(alpha)
                 .draw(drawX, drawY);
     }
 
     @Override
     public ObjectEntity getNewObjectEntity(Level level, int x, int y) {
+        // GameObject are static objects, sharing data between all other objects of that same type in the world
+        // If we want custom data for a specific object, we have to assign it an ObjectEntity
+        // Each ObjectEntity is unique to the specific tile and will allow us to define data like items in
+        // a chest, cooldown for a trigger, etc.
         return new ExampleObjectEntity(level, x, y);
     }
+
 }

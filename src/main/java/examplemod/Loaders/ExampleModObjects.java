@@ -59,7 +59,7 @@ public class ExampleModObjects {
         ObjectRegistry.registerObject("examplegrass",new ExampleGrassObject(),1,true);
 
         // Register an object which uses a level event
-        ObjectRegistry.registerObject("exampleleveleventobject", new ExampleLevelEventObject(),1,true);
+        ObjectRegistry.registerObject("exampleeventtriggerobject", new ExampleEventTriggerObject(),1,true);
 
         // Register ExampleJobObject an object that triggers our new job to happen //DEBUG
         ObjectRegistry.registerObject("examplejobobject",new ExampleJobObject(),1,true);

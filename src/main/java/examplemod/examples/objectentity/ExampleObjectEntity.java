@@ -1,97 +1,76 @@
 package examplemod.examples.objectentity;
 
-import examplemod.examples.events.ExampleEvent;
 import examplemod.examples.events.ExampleLevelEvent;
-import necesse.engine.GameEvents;
-import necesse.engine.network.server.ServerClient;
+import necesse.entity.mobs.PlayerMob;
 import necesse.entity.objectEntity.ObjectEntity;
 import necesse.level.maps.Level;
 
 import java.awt.*;
 
 public class ExampleObjectEntity extends ObjectEntity {
+
     // Tracks whether a player was on it last tick (so we only trigger once per step-on)
-    private boolean pressed = false;
+    protected boolean isPressed = false;
 
     // Small cooldown to avoid rapid re-triggers if the player jitters on the edge
-    private long nextTriggerTime = 0L;
-
+    protected long nextTriggerTime = 0L;
 
     public ExampleObjectEntity(Level level, int tileX, int tileY) {
-        // Create an ObjectEntity instance for the object placed at (tileX, tileY) on this level.
-        // The string is this ObjectEntity's type/id used by the engine for identification (save/load/sync).
-        super(level, "examplelevelevent", tileX, tileY);
+        // The type we define here is used to verify corruption on level loading, etc.
+        // Make sure it's always the same for the same object
+        super(level, "exampleeventtrigger", tileX, tileY);
 
-        // no need to save this is only a demo
-        this.shouldSave = false;
-    }
-
-    private Rectangle getWorldTileRect() {
-        // Full tile area in world pixels
-        return new Rectangle(tileX * 32, tileY * 32, 32, 32);
+        // If the cooldown is significant, it may be worth to save it using addSaveData and applyLoadData
+        // But in this case there's really no need for it
+        shouldSave = false;
     }
 
     @Override
     public void serverTick() {
         super.serverTick();
+        // serverTick runs on the server and main menu at 20 ticks per second (TickManager.ticksPerSec)
 
         // Get the level
         Level level = getLevel();
 
-        // Get the current time
-        long now = level.getTime();
-        Rectangle tileRect = getWorldTileRect();
+        // Get the current time (used later for cooldown management)
+        long currentTime = level.getTime();
 
-        boolean hasPlayerOnTile = false;
+        // The hitbox covering the full tile under this object
+        // Level positions are different from tile positions
+        // Each tile is 32x32 in size, so here we convert from tile to level position
+        Rectangle hitbox = new Rectangle(
+                tileX * 32,
+                tileY * 32,
+                32,
+                32
+        );
 
+        // Here we iterate through all the regions which the hitbox overlaps with
+        // We add 1 extra region range to avoid edge cases of players being on the edge of regions, etc.
+        // We then check if any of the players collision intersects with the hitbox
+        PlayerMob target = level.entityManager.players.streamInRegionsShape(hitbox, 1)
+                .filter(player -> player.getCollision().intersects(hitbox))
+                .findFirst()
+                .orElse(null);
 
-        // Check all connected server clients
-        for (ServerClient client : level.getServer().getClients()) {
-            if (client == null || client.playerMob == null) continue;
-
-            // we want to specifically target the player rather than any mob
-            if (client.playerMob.getCollision().intersects(tileRect)) {
-                hasPlayerOnTile = true;
-                break;
-            }
-        }
-
-        // if there's a player on the tile, and it's not pressed, and it's time to check
-        if (hasPlayerOnTile && !pressed && now >= nextTriggerTime) {
-            pressed = true;
-            nextTriggerTime = now + 300; // 300 time units cooldown (tweak as you like)
-
-            int px = tileX * 32 + 16;
-            int py = tileY * 32 + 16;
-
-            // If your ExampleLevelEvent targets a player slot, pick the first player standing on it:
-            int targetSlot = -1;
-            for (ServerClient client : level.getServer().getClients()) {
-                if (client != null && client.playerMob != null && client.playerMob.getCollision().intersects(tileRect)) {
-                    targetSlot = client.slot;
-
-                    break;
-                }
-            }
+        // If a target was found, and it is not currently pressed or on cooldown
+        if (target != null && !isPressed && currentTime >= nextTriggerTime) {
+            isPressed = true;
+            nextTriggerTime = currentTime + 300; // 300 milliseconds cooldown
 
             /*
-             * This is an example of triggering a level event (in this case ExampleLevelEvent).
-             * Use events.add(...) when both client and server need to be sent it.
-             * Use events.addHidden(...) when only the server needs to be sent it.
+             * This is an example of triggering a level event (in this case ExampleLevelEvent)
+             * Using events.add(...) will add it to the servers level and send it over to other clients
+             * Using events.addHidden(...) will just add it to the servers level without sending it
              */
-            level.entityManager.events.add(new ExampleLevelEvent(targetSlot, px, py));
-
-            /*
-             * This is an example of triggering an event (in this case ExampleEvent)
-             * which will fire the event listener for ExampleEvent to run its code
-             */
-            GameEvents.triggerEvent(new ExampleEvent(level, targetSlot));
+            level.entityManager.events.add(new ExampleLevelEvent(target.getServerClient(), tileX, tileY));
         }
-
         // Reset when nobody is standing on it
-        if (!hasPlayerOnTile) {
-            pressed = false;
+        if (target == null) {
+            isPressed = false;
         }
     }
+
 }
 
