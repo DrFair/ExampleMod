@@ -17,9 +17,15 @@ import necesse.level.maps.light.GameLight;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * See ExampleObject for a simple object and ExampleWorkstationObject for a more complex object with
+ * explanations for code without comments here
+ * This object is pretty basic:
+ * - Draws a 32x32 sprite in the world
+ * - You can interact with this object to change the example settings
+ */
 public class ExampleConfigObject extends GameObject {
 
-    // Loaded once from mod resources in loadTextures()
     private GameTexture texture;
 
     public ExampleConfigObject() {
@@ -30,9 +36,6 @@ public class ExampleConfigObject extends GameObject {
     @Override
     public void loadTextures() {
         super.loadTextures();
-
-        // Loads the texture file from "src/main/resources/objects/exampleconfigobject.png"
-        // You don't need the .png extension when loading textures
         texture = GameTexture.fromFile("objects/exampleconfigobject");
     }
 
@@ -40,35 +43,25 @@ public class ExampleConfigObject extends GameObject {
     public void addDrawables(List<LevelSortedDrawable> list, OrderableDrawables tileList,
                              Level level, int tileX, int tileY, TickManager tickManager,
                              GameCamera camera, PlayerMob perspective) {
-
-        // Match sprite lighting to the level light at this tile
         GameLight light = level.getLightLevel(tileX, tileY);
-
-        // Convert tile coordinates to screen draw coordinates
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
 
-        // Build draw options once (sprite + lighting + position)
         TextureDrawOptionsEnd opts = texture.initDraw()
-                .sprite(0, 0, 32) // sprite index (0,0), size 32
                 .light(light)
                 .pos(drawX, drawY);
 
+        // We add it to the tile list instead of the LevelSortedDrawable list
+        // This makes it draw right after all the tiles have been drawn, but before any other objects
         tileList.add(tm -> opts.draw());
     }
 
     @Override
     public void drawPreview(Level level, int tileX, int tileY, int rotation, float alpha,
                             PlayerMob player, GameCamera camera) {
-
-        // Placement preview ("ghost" sprite) while holding the item
-        GameLight light = level.getLightLevel(tileX, tileY);
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
-
         texture.initDraw()
-                .sprite(0, 0, 32)
-                .light(light)
                 .alpha(alpha)
                 .draw(drawX, drawY);
     }
@@ -81,7 +74,7 @@ public class ExampleConfigObject extends GameObject {
     @Override
     public void interact(Level level, int x, int y, PlayerMob player) {
         // This interact method will run both on the server and the client. In this case we only want something
-        // to happen when runs on the server, so we do this if check.
+        // to happen when runs on the server, so we do this if check below.
 
         // In general, when the player does an action you want to verify that it's a valid action on the server.
         // The base game already do this in the case of the interact method. All the client does is send a packet

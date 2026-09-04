@@ -19,7 +19,8 @@ public class ExampleWallTrapObject extends WallTrapObject {
 
     @Override
     public ObjectEntity getNewObjectEntity(Level level, int x, int y) {
-        // Creates the object entity that handles the trap behaviour.
+        // Creates the object entity that handles the trap behavior.
         return new ExampleTrapObjectEntity(level, x, y);
     }
+
 }
