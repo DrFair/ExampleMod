@@ -13,7 +13,7 @@ public class ExampleTreeObject extends TreeObject {
                 "exampletree", // Texture name
                 "examplelog", // Log item stringID
                 "examplesapling", // Sapling stringID
-                new Color(116, 69, 43), // Minimap color
+                new Color(87, 6, 86), // Minimap color
                 45, // Width of the tree's crown texture (where dropped leaves will spawn from)
                 60, // Min height that leaves will be dropped from
                 110, // Max height that leaves will be dropped from

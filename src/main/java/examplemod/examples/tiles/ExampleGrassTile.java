@@ -15,10 +15,10 @@ import necesse.level.maps.regionSystem.SimulatePriorityList;
 import java.awt.*;
 
 /**
- * ExampleGrassTile
+ * ExampleGrassTile which extends TerrainSplatterTile
  * This is a ground tile.
  * It does 3 main things:
- *  1) Drops a seed sometimes when mined.
+ *  1) Sometimes drops a seed sometimes when mined.
  *  2) Can grow a grass object on top of it ("examplegrass").
  *  3) Can spread onto nearby dirt tiles.
  */
@@ -38,18 +38,22 @@ public class ExampleGrassTile extends TerrainSplatterTile {
     public ExampleGrassTile() {
         // isFloor parameter defines how some other systems interact with it
         // For example if settlers are happy with it in their rooms
-        // Texture file: resources/tiles/examplegrasstile.png
+        // Texture file: resources/tiles/examplegrasstile_splat.png
+        // The texture is a very specific format. It consists of several rows that looks similar,
+        // but also a bit different. This gives some variance in which texture is drawn.
+        // TerrainSplatterTile asks which row/column to use in our getTerrainSprite method below.
+        // The texture name we give here does not include the "_splat" part for backwards compatibility reasons
         super(false, "examplegrasstile");
 
-        this.mapColor = new Color(70, 120, 40); // Minimap color
-        this.canBeMined = true; // Player can mine/remove it
-        this.isOrganic = true; // Marks it as organic. Defines how some other systems interact with it
+        mapColor = new Color(140, 0, 133); // Minimap color
+        canBeMined = true; // Player can mine/remove it
+        isOrganic = true; // Marks it as organic. Defines how some other systems interact with it
     }
 
     @Override
     public LootTable getLootTable(Level level, int tileX, int tileY) {
         // 4% chance to drop a grass seed when mined
-        return new LootTable(new ChanceLootItem(0.04F, "examplegrassseed"));
+        return new LootTable(new ChanceLootItem(0.04f, "examplegrassseed"));
     }
 
     @Override
@@ -75,12 +79,15 @@ public class ExampleGrassTile extends TerrainSplatterTile {
         // Only the server should change the world
         if (!level.isServer()) return;
 
-        // Grow the grass OBJECT on empty tiles sometimes
+        // If there is no object on the tile and our random chance passes
         if (level.getObjectID(x, y) == 0 && GameRandom.globalRandom.getChance(growChance)) {
-            GameObject grassObj = ObjectRegistry.getObject(ObjectRegistry.getObjectID("examplegrass"));
+
+            // Check if the grass object can be placed. If the canPlace returns null, it means there is no reason
+            // it cannot be placed. If it returns a string, that string is the reason it cannot be placed
+            GameObject grassObj = ObjectRegistry.getObject("examplegrass");
             if (grassObj.canPlace(level, x, y, 0, false) == null) {
+                // Place the object and send an update packet to clients about it
                 grassObj.placeObject(level, x, y, 0, false);
-                level.objectLayer.setIsPlayerPlaced(x, y, false);
                 level.sendObjectUpdatePacket(x, y);
             }
         }
@@ -91,15 +98,21 @@ public class ExampleGrassTile extends TerrainSplatterTile {
         // Pick a random row for the sprite, but keep it consistent per tile position
         int row;
         synchronized (drawRandom) {
+            // The reason this is handled in a synchronized segment, is because this method is run on
+            // different threads on the same time to faster setup rendering of the next frame
+            // See ExampleObject.addDrawables for a bit more explanation on this
+
             row = drawRandom.seeded(getTileSeed(tileX, tileY))
                     .nextInt(terrainTexture.getHeight() / 32);
         }
-        return new Point(0, row); // column 0, chosen row
+        // We only have one column, so we return 0 for the column and the random row we picked
+        return new Point(0, row);
     }
 
     @Override
     public int getTerrainPriority() {
-        // Used when tiles overlap/compete in drawing/spreading rules
+        // TerrainPriority is used to determine which tiles should draw on top,
+        // when they're next to each other and overlapping
         return TerrainSplatterTile.PRIORITY_TERRAIN;
     }
 
