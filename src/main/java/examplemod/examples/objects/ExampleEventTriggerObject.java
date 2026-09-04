@@ -45,7 +45,7 @@ public class ExampleEventTriggerObject extends GameObject {
         int drawX = camera.getTileDrawX(tileX);
         int drawY = camera.getTileDrawY(tileY);
 
-        final TextureDrawOptionsEnd opts = texture.initDraw()
+        TextureDrawOptionsEnd opts = texture.initDraw()
                 .light(light)
                 .pos(drawX, drawY);
 
