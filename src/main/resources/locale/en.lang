@@ -71,11 +71,7 @@ examplemodsub=Example subcategory
 
 [jobs]
 examplejobname=Example Job
-examplejobtip=Keeps grass cleared in assigned zones.
-
-[ui]
-examplejobzone=Example Job Zone
-examplejobzonedefname=Example Job Zone {number}
+examplejobtip=Keeps grass cleared in assigned zones
 
 [activities]
 examplejob=Doing Example Job
