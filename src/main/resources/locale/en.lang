@@ -74,7 +74,7 @@ examplejobname=Example Job
 examplejobtip=Keeps grass cleared in assigned zones
 
 [activities]
-examplejob=Doing Example Job
+examplejob=Doing Example Job on <target>
 
 [journal]
 examplebiomesurface=Example Biome Surface

@@ -1,7 +1,7 @@
 package examplemod.examples.settlement.jobs;
 
+import examplemod.examples.objectentity.ExampleJobObjectEntity;
 import necesse.engine.localization.message.LocalMessage;
-import necesse.engine.localization.message.StaticMessage;
 import necesse.engine.save.LoadData;
 import necesse.entity.ObjectDamageResult;
 import necesse.entity.mobs.friendly.human.HumanMob;
@@ -19,9 +19,14 @@ import necesse.level.maps.levelData.jobs.TileLevelJob;
  */
 public class ExampleLevelJob extends MineObjectLevelJob {
 
+    // Since this job is never saved to the level, we can easily have variables like entities, etc.
+    // We can use this to determine if the job is still valid
+    public ExampleJobObjectEntity jobObjectEntity;
+
     // Create a new job at a tile position
-    public ExampleLevelJob(int tileX, int tileY) {
+    public ExampleLevelJob(int tileX, int tileY, ExampleJobObjectEntity jobObjectEntity) {
         super(tileX, tileY);
+        this.jobObjectEntity = jobObjectEntity;
     }
 
     // Create a job from saved data (not used if shouldSave() returns false)
@@ -30,18 +35,14 @@ public class ExampleLevelJob extends MineObjectLevelJob {
     }
 
     @Override
-    public boolean isValid() {
-        // Use the base checks (it will call isValidObject on the current object)
-        return super.isValid();
-    }
-
-    @Override
     public boolean isValidObject(LevelObject object) {
-        // Do NOT let settlers clear objects that a player placed.
-        if (getLevel().objectLayer.isPlayerPlaced(this.tileX, this.tileY)) return false;
-
-        // Only allow this job to target grass objects.
-        return object.object != null && object.object.isGrass;
+        // This is called by our extending "MineObjectLevelJob" class. Which in turn calls this in
+        // it's isValid() method. It is used to determine if this job should be removed from the
+        // level or not. In this case, we check if the job entity that created this is still valid,
+        // and if the object we are targeting is still valid. This means if the object has changed between
+        // the job was added and now, we won't destroy the new object. And if we have cleared the job entity,
+        // it will also clear all jobs that it created.
+        return !jobObjectEntity.removed() && jobObjectEntity.isValidLevelObject(object);
     }
 
     @Override
@@ -49,18 +50,23 @@ public class ExampleLevelJob extends MineObjectLevelJob {
         // When adding a job to a tile, the game checks this to see if another job already exists that is the same.
         // The super method checks for job ID/type and the tile. If you had anything custom to check for,
         // we should do it here.
+
+        // In this case, we have nothing else to check for. We could check if it's the same jobObjectEntity, but
+        // that could lead to 2 ExampleLevelJobs being at the same tile, not sharing the same "reservable".
+        // Which means 2 settlers will try to go for the same job
         return super.isSameJob(other);
     }
 
     @Override
     public boolean shouldSave() {
-        // Don't save this job. The settlement can recreate it later if needed.
+        // Don't save this job. The ExampleJobObjectEntity will recreate it if needed.
         return false;
     }
 
     /**
      * This builds the actual steps the settler will do.
-     * Here we only add ONE step: mine/destroy the grass object.
+     * Here we only add one step: mine/destroy the grass object.
+     * Once that is complete, we add the pickup dropped items steps
      */
     public static <T extends ExampleLevelJob> JobSequence getJobSequence(
             EntityJobWorker worker, FoundJob<T> foundJob
@@ -73,9 +79,7 @@ public class ExampleLevelJob extends MineObjectLevelJob {
                 "activities",
                 "examplejob",
                 "target",
-                (target != null && target.object != null)
-                        ? target.object.getLocalization()
-                        : new StaticMessage("N/A")
+                target.object.getLocalization()
         );
 
         // A list of work steps
@@ -90,7 +94,7 @@ public class ExampleLevelJob extends MineObjectLevelJob {
                 // Keep working only while the job still exists AND the object is still valid grass
                 lo -> (!foundJob.job.isRemoved() && foundJob.job.isValidObject(lo)),
                 foundJob.job.reservable, // Reservation (stops 2 settlers trying to do the same tile)
-                "farmingscythe", // Item used for the "swing" animation (visual only)
+                "sickle", // Item used for the "swing" animation (visual only)
                 5, // Damage per hit to the object
                 250, // Time per swing (ms)
                 0 // Extra delay between swings (ms)
