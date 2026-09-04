@@ -49,10 +49,10 @@ exampletrinkettip=Example Trinket. Acts like a Spelunker Potion
 
 [mob]
 examplemob=Example Mob
-examplebossmob=Example Boss
-examplesummonmob=Example Summon Mob
-examplesettlermob=Example Settler
-examplesettlermobname=<name> The Example Settler
+exampleboss=Example Boss
+examplesummon=Example Summon Mob
+examplehuman=Example Settler
+examplehumanname=<name> The Example Settler
 
 [buff]
 examplebuff=Example Buff
