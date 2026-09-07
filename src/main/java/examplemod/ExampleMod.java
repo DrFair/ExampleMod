@@ -1,7 +1,6 @@
 package examplemod;
 
 import examplemod.Loaders.*;
-import examplemod.examples.maps.biomes.ExampleBiome;
 import necesse.engine.modLoader.annotations.ModEntry;
 import necesse.engine.sound.gameSound.GameSound;
 
@@ -12,7 +11,6 @@ public class ExampleMod {
     public static ExampleModSettings SETTINGS;
 
     // We define our static registered objects here, so they can be referenced elsewhere
-    public static ExampleBiome EXAMPLE_BIOME;
     public static GameSound EXAMPLE_SOUND;
 
     // Load settings for the example mod from the external file defined in ExampleModSettings

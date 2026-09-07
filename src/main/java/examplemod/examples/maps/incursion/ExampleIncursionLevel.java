@@ -1,6 +1,6 @@
 package examplemod.examples.maps.incursion;
 
-import examplemod.ExampleMod;
+import examplemod.Loaders.ExampleModBiomes;
 import examplemod.examples.presets.ExamplePreset;
 import necesse.engine.GameEvents;
 import necesse.engine.events.worldGeneration.GenerateCaveLayoutEvent;
@@ -31,7 +31,7 @@ public class ExampleIncursionLevel extends IncursionLevel {
      */
     public ExampleIncursionLevel(LevelIdentifier identifier, int width, int height, WorldEntity worldEntity) {
         super(identifier, width, height, worldEntity);
-        baseBiome = ExampleMod.EXAMPLE_BIOME;
+        baseBiome = ExampleModBiomes.EXAMPLE_BIOME;
         isCave = true;
     }
 
@@ -41,7 +41,7 @@ public class ExampleIncursionLevel extends IncursionLevel {
      */
     public ExampleIncursionLevel(LevelIdentifier identifier, BiomeMissionIncursionData incursionData, WorldEntity worldEntity, AltarData altarData) {
         super(identifier, 150, 150, incursionData, worldEntity);
-        baseBiome = ExampleMod.EXAMPLE_BIOME;
+        baseBiome = ExampleModBiomes.EXAMPLE_BIOME;
         isCave = true;
 
         // Generate the full level

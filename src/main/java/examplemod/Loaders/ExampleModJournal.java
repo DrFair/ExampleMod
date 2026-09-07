@@ -1,10 +1,8 @@
 package examplemod.Loaders;
 
-import examplemod.ExampleMod;
 import necesse.engine.journal.JournalEntry;
 import necesse.engine.registries.JournalRegistry;
 import necesse.engine.util.LevelIdentifier;
-
 
 public class ExampleModJournal {
 
@@ -12,7 +10,7 @@ public class ExampleModJournal {
         // Surface
         JournalEntry exampleBiomeJournalSurface = JournalRegistry.registerJournalEntry(
                 "examplebiomesurface",
-                new JournalEntry(ExampleMod.EXAMPLE_BIOME, LevelIdentifier.SURFACE_IDENTIFIER)
+                new JournalEntry(ExampleModBiomes.EXAMPLE_BIOME, LevelIdentifier.SURFACE_IDENTIFIER)
         );
         // Content lists inside the journal page
         exampleBiomeJournalSurface.addBiomeLootEntry("examplelog");
@@ -21,7 +19,7 @@ public class ExampleModJournal {
         // Caves
         JournalEntry exampleBiomeJournalCave = JournalRegistry.registerJournalEntry(
                 "examplebiomecave",
-                new JournalEntry(ExampleMod.EXAMPLE_BIOME, LevelIdentifier.CAVE_IDENTIFIER)
+                new JournalEntry(ExampleModBiomes.EXAMPLE_BIOME, LevelIdentifier.CAVE_IDENTIFIER)
         );
         // Content lists inside the journal page
         exampleBiomeJournalCave.addBiomeLootEntry("exampleore","examplestone");
@@ -30,7 +28,7 @@ public class ExampleModJournal {
         // Deep Caves
         JournalEntry exampleBiomeJournalDeepCave = JournalRegistry.registerJournalEntry(
                 "examplebiomedeepcave",
-                new JournalEntry(ExampleMod.EXAMPLE_BIOME, LevelIdentifier.DEEP_CAVE_IDENTIFIER)
+                new JournalEntry(ExampleModBiomes.EXAMPLE_BIOME, LevelIdentifier.DEEP_CAVE_IDENTIFIER)
         );
         // Content lists inside the journal page
         exampleBiomeJournalDeepCave.addBiomeLootEntry("exampleore","examplestone");
