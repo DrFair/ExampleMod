@@ -11,6 +11,10 @@ public class ExampleArrowItem extends ArrowItem {
     public ExampleArrowItem() {
         super(5000); // Stack size like vanilla arrows
 
+        // Here we set the stats that is added to the bow when using this arrow
+        // In our case, the arrow actually hits friendlies and heals instead (see ExampleArrowProjectile)
+        // It heals based on the damage, so these stats still does something
+
         damage = 8; // Adds +8 damage to the bows base damage
         armorPen = 2; // Adds +2 armor pen
         critChance = 0.05f; // +5% crit chance
