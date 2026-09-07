@@ -62,8 +62,8 @@ public class ExampleIncursionBiome extends IncursionBiome {
         }
 
         // Register hunt and extraction incursions with their calculated weights
-        system.addObject(huntTickets, () -> new BiomeHuntIncursionData(1.0F, this, tabletTier));
-        system.addObject(extractionTickets, () -> new BiomeExtractionIncursionData(1.0F, this, tabletTier));
+        system.addObject(huntTickets, () -> new BiomeHuntIncursionData(1f, this, tabletTier));
+        system.addObject(extractionTickets, () -> new BiomeExtractionIncursionData(1f, this, tabletTier));
 
         return system;
     }
