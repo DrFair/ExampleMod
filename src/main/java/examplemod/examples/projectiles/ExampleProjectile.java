@@ -65,7 +65,7 @@ public class ExampleProjectile extends FollowingProjectile {
 
     @Override
     public void updateTarget() {
-        // When we have travelled longer than 20 distance, start to find and update the target
+        // When we have traveled longer than 20 distance, start to find and update the target
         if (traveledDistance > 20) {
             findTarget(
                     m -> m.isHostile, // Filter all non hostile
