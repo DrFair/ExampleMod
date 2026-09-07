@@ -13,7 +13,9 @@ public class ExampleBaseRockObject extends RockObject {
                 "examplestone", // Dropped stone stringID
                 "objects", "landscaping" // Item categories
         );
-        this.toolTier = 0; // Tier of pickaxe required to mine this rock
+        toolTier = 0; // Tier of pickaxe required to mine this rock
+        // Specific tool tiers are stored in ItemRegistry class. For example, Ivy can be accessed like this:
+        // toolTier = ItemRegistry.IVY_TOOL_TIER;
     }
 
 }
