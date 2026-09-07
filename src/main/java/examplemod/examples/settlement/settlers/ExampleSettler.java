@@ -1,7 +1,6 @@
 package examplemod.examples.settlement.settlers;
 
 import necesse.engine.localization.message.GameMessage;
-import necesse.engine.localization.message.LocalMessage;
 import necesse.engine.util.TicketSystemList;
 import necesse.entity.mobs.friendly.human.HumanMob;
 import necesse.gfx.gameTexture.GameTexture;
@@ -18,19 +17,26 @@ public class ExampleSettler extends Settler {
 
     @Override
     public void loadTextures() {
-        // Use an existing icon for now, or add your own under mobs/icons/
-        this.texture = GameTexture.fromFile("mobs/icons/human");
+        // By default, this method loads from "mobs/icons/<stringID>".
+        // In our case we just want the existing human icon:
+        texture = GameTexture.fromFile("mobs/icons/human");
     }
 
     @Override
     public GameMessage getAcquireTip() {
-        return new LocalMessage("settlement", "foundinvillagetip");
+        // If we want a tooltip showing how you can find this settler
+        // We don't spawn ours in villages, so no tooltip here
+//        return new LocalMessage("settlement", "foundinvillagetip");
+        return null;
     }
 
     @Override
     public void addNewRecruitSettler(ServerSettlementData data, boolean isRandomEvent,
                                      TicketSystemList<Supplier<HumanMob>> ticketSystem) {
         // Weight controls how often they appear as recruits
+
+        // If conditions are met, every second visitor are guaranteed to be a recruit (not exotic merchant or pawnbroker)
+        // When this is the case, isRandomEvent is set to false. All other cases it's true
         ticketSystem.addObject(isRandomEvent ? 50 : 25, getNewRecruitMob(data));
     }
 }
