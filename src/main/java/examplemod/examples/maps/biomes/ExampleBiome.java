@@ -1,8 +1,8 @@
 package examplemod.examples.maps.biomes;
 
-import examplemod.Loaders.ExampleModObjects;
-import examplemod.Loaders.ExampleModTiles;
 import examplemod.examples.ExampleLootTable;
+import examplemod.loaders.ExampleModObjects;
+import examplemod.loaders.ExampleModTiles;
 import necesse.engine.AbstractMusicList;
 import necesse.engine.MusicList;
 import necesse.engine.registries.MusicRegistry;

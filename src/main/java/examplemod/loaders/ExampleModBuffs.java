@@ -1,4 +1,4 @@
-package examplemod.Loaders;
+package examplemod.loaders;
 
 import examplemod.examples.buffs.ExampleArmorSetBuff;
 import examplemod.examples.buffs.ExampleArrowBuff;

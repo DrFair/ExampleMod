@@ -1,4 +1,4 @@
-package examplemod.Loaders;
+package examplemod.loaders;
 
 import necesse.engine.journal.JournalEntry;
 import necesse.engine.registries.JournalRegistry;

@@ -1,6 +1,6 @@
 package examplemod.examples.objects;
 
-import examplemod.Loaders.ExampleModTech;
+import examplemod.loaders.ExampleModTech;
 import necesse.engine.gameLoop.tickManager.TickManager;
 import necesse.engine.registries.ObjectRegistry;
 import necesse.entity.mobs.PlayerMob;

@@ -1,4 +1,4 @@
-package examplemod.Loaders;
+package examplemod.loaders;
 
 import examplemod.examples.settlement.jobs.ExampleLevelJob;
 import necesse.engine.localization.message.LocalMessage;

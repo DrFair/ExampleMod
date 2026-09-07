@@ -1,4 +1,4 @@
-package examplemod.Loaders;
+package examplemod.loaders;
 
 import examplemod.examples.maps.biomes.ExampleBiome;
 import examplemod.examples.presets.ExampleWorldPreset;

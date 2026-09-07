@@ -1,6 +1,6 @@
 package examplemod;
 
-import examplemod.Loaders.*;
+import examplemod.loaders.*;
 import necesse.engine.modLoader.annotations.ModEntry;
 import necesse.engine.sound.gameSound.GameSound;
 

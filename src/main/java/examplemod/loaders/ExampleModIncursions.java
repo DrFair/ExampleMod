@@ -1,4 +1,4 @@
-package examplemod.Loaders;
+package examplemod.loaders;
 
 import examplemod.examples.maps.incursion.ExampleIncursionBiome;
 import examplemod.examples.maps.incursion.ExampleIncursionLevel;

@@ -1,4 +1,4 @@
-package examplemod.Loaders;
+package examplemod.loaders;
 
 import examplemod.examples.objects.*;
 import necesse.engine.registries.ObjectRegistry;

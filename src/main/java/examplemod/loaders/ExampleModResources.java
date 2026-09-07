@@ -1,4 +1,4 @@
-package examplemod.Loaders;
+package examplemod.loaders;
 
 import examplemod.ExampleMod;
 import examplemod.examples.mobs.ExampleBossMob;

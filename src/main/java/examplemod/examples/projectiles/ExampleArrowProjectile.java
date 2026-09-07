@@ -1,6 +1,6 @@
 package examplemod.examples.projectiles;
 
-import examplemod.Loaders.ExampleModBuffs;
+import examplemod.loaders.ExampleModBuffs;
 import necesse.engine.gameLoop.tickManager.TickManager;
 import necesse.engine.util.GameRandom;
 import necesse.entity.levelEvent.mobAbilityLevelEvent.AmethystGlyphEvent;

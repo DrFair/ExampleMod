@@ -1,4 +1,4 @@
-package examplemod.Loaders;
+package examplemod.loaders;
 
 import examplemod.examples.projectiles.ExampleArrowProjectile;
 import examplemod.examples.projectiles.ExampleProjectile;

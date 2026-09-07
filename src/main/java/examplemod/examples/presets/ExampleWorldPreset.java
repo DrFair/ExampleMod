@@ -1,6 +1,6 @@
 package examplemod.examples.presets;
 
-import examplemod.Loaders.ExampleModBiomes;
+import examplemod.loaders.ExampleModBiomes;
 import necesse.engine.gameLoop.tickManager.PerformanceTimerManager;
 import necesse.engine.util.GameRandom;
 import necesse.engine.world.biomeGenerator.BiomeGeneratorStack;

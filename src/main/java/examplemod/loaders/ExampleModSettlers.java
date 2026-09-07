@@ -1,4 +1,4 @@
-package examplemod.Loaders;
+package examplemod.loaders;
 
 import examplemod.examples.settlement.settlers.ExampleSettler;
 import necesse.engine.registries.SettlerRegistry;

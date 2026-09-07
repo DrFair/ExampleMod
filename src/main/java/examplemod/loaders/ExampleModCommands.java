@@ -1,4 +1,4 @@
-package examplemod.Loaders;
+package examplemod.loaders;
 
 import examplemod.examples.ExampleChatCommand;
 import necesse.engine.commands.CommandsManager;

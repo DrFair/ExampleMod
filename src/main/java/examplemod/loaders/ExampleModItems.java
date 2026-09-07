@@ -1,4 +1,4 @@
-package examplemod.Loaders;
+package examplemod.loaders;
 
 import examplemod.examples.items.ammo.ExampleArrowItem;
 import examplemod.examples.items.armor.ExampleBootsArmorItem;

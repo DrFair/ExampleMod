@@ -1,4 +1,4 @@
-package examplemod.Loaders;
+package examplemod.loaders;
 
 import examplemod.examples.events.ExampleLevelEvent;
 import necesse.engine.registries.LevelEventRegistry;

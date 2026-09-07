@@ -1,4 +1,4 @@
-package examplemod.Loaders;
+package examplemod.loaders;
 
 import necesse.engine.localization.message.LocalMessage;
 import necesse.inventory.item.ItemCategory;

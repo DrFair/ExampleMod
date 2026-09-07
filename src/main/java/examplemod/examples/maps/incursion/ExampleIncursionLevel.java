@@ -1,7 +1,7 @@
 package examplemod.examples.maps.incursion;
 
-import examplemod.Loaders.ExampleModBiomes;
 import examplemod.examples.presets.ExamplePreset;
+import examplemod.loaders.ExampleModBiomes;
 import necesse.engine.GameEvents;
 import necesse.engine.events.worldGeneration.GenerateCaveLayoutEvent;
 import necesse.engine.events.worldGeneration.GeneratedCaveOresEvent;

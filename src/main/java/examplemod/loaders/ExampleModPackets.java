@@ -1,4 +1,4 @@
-package examplemod.Loaders;
+package examplemod.loaders;
 
 import examplemod.examples.packets.ExamplePacket;
 import necesse.engine.registries.PacketRegistry;

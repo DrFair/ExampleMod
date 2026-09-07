@@ -1,4 +1,4 @@
-package examplemod.Loaders;
+package examplemod.loaders;
 
 import examplemod.examples.tiles.ExampleGrassTile;
 import examplemod.examples.tiles.ExampleTile;
