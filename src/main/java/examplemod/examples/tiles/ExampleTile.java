@@ -8,6 +8,11 @@ import necesse.level.maps.Level;
 
 import java.awt.*;
 
+/**
+ * This example tile uses the old and simple way of fading between tiles. Check out ExampleGrassTile for the
+ * newer way of doing this, which allows for more customization of the fade as well. That class also has more
+ * explanations of how everything works.
+ */
 public class ExampleTile extends TerrainSplatterTile {
 
     private GameTexture texture;
