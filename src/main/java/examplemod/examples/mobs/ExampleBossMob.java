@@ -1,7 +1,7 @@
 package examplemod.examples.mobs;
 
-import examplemod.ExampleMod;
 import examplemod.examples.ai.ExampleBossAI;
+import examplemod.loaders.ExampleModResources;
 import necesse.engine.eventStatusBars.EventStatusBarManager;
 import necesse.engine.gameLoop.tickManager.TickManager;
 import necesse.engine.network.server.ServerClient;
@@ -110,7 +110,7 @@ public class ExampleBossMob extends FlyingBossMob {
         if (isClient()) {
             // When passing a sound to somewhere for playing, you can use the SoundSettings class to
             // specify stuff like pitch, falloff distance, volume, etc.
-            SoundSettings soundSettings = new SoundSettings(ExampleMod.EXAMPLE_SOUND)
+            SoundSettings soundSettings = new SoundSettings(ExampleModResources.EXAMPLE_SOUND)
                     .volume(0.8f)
                     .basePitch(1.0f)
                     .pitchVariance(0.08f)

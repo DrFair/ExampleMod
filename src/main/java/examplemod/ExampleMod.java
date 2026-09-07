@@ -2,16 +2,12 @@ package examplemod;
 
 import examplemod.loaders.*;
 import necesse.engine.modLoader.annotations.ModEntry;
-import necesse.engine.sound.gameSound.GameSound;
 
 @ModEntry
 public class ExampleMod {
 
     // Global access point for mod settings
     public static ExampleModSettings SETTINGS;
-
-    // We define our static registered objects here, so they can be referenced elsewhere
-    public static GameSound EXAMPLE_SOUND;
 
     // Load settings for the example mod from the external file defined in ExampleModSettings
     public ExampleModSettings initSettings() {
@@ -65,7 +61,7 @@ public class ExampleMod {
     }
 
     public void postInit() {
-        // load our recipes from the ExampleRecipes class so we can keep this class easy to read
+        // Load our recipes from the ExampleRecipes class so we can keep this class easy to read
         ExampleModRecipes.registerRecipes();
     }
 

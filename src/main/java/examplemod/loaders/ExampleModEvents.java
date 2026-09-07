@@ -6,7 +6,7 @@ import necesse.engine.registries.LevelEventRegistry;
 public class ExampleModEvents {
 
     public static void load() {
-        // Register our Level Event to the registry
+        // Register our LevelEvent
         LevelEventRegistry.registerEvent("examplelevelevent", ExampleLevelEvent.class);
     }
 
