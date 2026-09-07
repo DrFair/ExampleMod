@@ -66,7 +66,7 @@ public abstract class ExampleAINode<T extends Mob> extends AINode<T> {
         // Next we randomly select a position from the list of possible positions and attempt to teleport there
         while (!possiblePositions.isEmpty()) {
             int index = GameRandom.globalRandom.nextInt(possiblePositions.size());
-            Point point = possiblePositions.get(index);
+            Point point = possiblePositions.remove(index);
             if (teleport(mob, point.x, point.y)) {
                 return true;
             }
