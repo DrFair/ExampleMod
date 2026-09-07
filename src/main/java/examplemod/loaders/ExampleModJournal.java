@@ -1,8 +1,10 @@
 package examplemod.loaders;
 
+import examplemod.examples.ExampleLootTable;
 import necesse.engine.journal.JournalEntry;
 import necesse.engine.registries.JournalRegistry;
 import necesse.engine.util.LevelIdentifier;
+import necesse.inventory.lootTable.LootTablePresets;
 
 public class ExampleModJournal {
 
@@ -15,6 +17,7 @@ public class ExampleModJournal {
         // Content lists inside the journal page
         exampleBiomeJournalSurface.addBiomeLootEntry("examplelog");
         exampleBiomeJournalSurface.addMobEntries("examplemob");
+        exampleBiomeJournalSurface.addTreasureEntry(ExampleLootTable.exampleLootTable, LootTablePresets.surfaceRuinsChest);
 
         // Caves
         JournalEntry exampleBiomeJournalCave = JournalRegistry.registerJournalEntry(
@@ -24,6 +27,7 @@ public class ExampleModJournal {
         // Content lists inside the journal page
         exampleBiomeJournalCave.addBiomeLootEntry("exampleore","examplestone");
         exampleBiomeJournalCave.addMobEntries("examplemob");
+        exampleBiomeJournalCave.addTreasureEntry(ExampleLootTable.exampleLootTable);
 
         // Deep Caves
         JournalEntry exampleBiomeJournalDeepCave = JournalRegistry.registerJournalEntry(
