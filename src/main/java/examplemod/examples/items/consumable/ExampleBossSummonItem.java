@@ -118,7 +118,7 @@ public class ExampleBossSummonItem extends ConsumableItem {
         // Only spawn mobs on the server (clients are just visuals)
         if (level.isServer()) {
             // Simple debug log
-            System.out.println("Example Boss Mob has been summoned at " + level.getIdentifier() + ".");
+            System.out.println(player.getDisplayName() + " summoned Example Boss Mob at " + level.getIdentifier() + ".");
 
             // Pick a random direction (angle 0-359 degrees)
             int angle = GameRandom.globalRandom.nextInt(360);
