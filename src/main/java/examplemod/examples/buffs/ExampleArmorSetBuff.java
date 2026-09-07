@@ -6,8 +6,7 @@ import necesse.entity.mobs.buffs.staticBuffs.armorBuffs.setBonusBuffs.SimpleSetB
 
 /**
  * Set bonus buff:
- * When a player wears the full armor set, this buff is applied.
- * It gives +10% damage and +10% movement speed.
+ * When a player wears the full armor set, this buff is applied
  */
 public class ExampleArmorSetBuff extends SimpleSetBonusBuff {
 

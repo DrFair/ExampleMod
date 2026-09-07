@@ -14,7 +14,7 @@ public class ExampleTrinketItem extends SimpleTrinketItem {
     public ExampleTrinketItem() {
         super(
                 Rarity.UNCOMMON, // Rarity
-                "exampletrinketbuff", // The buffs stringID that it gives
+                "exampletrinketbuff", // The buffs stringID that it gives (registered in ExampleModBuffs)
                 400, // Enchant cost
                 TrinketsLootTable.trinkets // Loot table category
         );
@@ -24,7 +24,7 @@ public class ExampleTrinketItem extends SimpleTrinketItem {
     public ListGameTooltips getPreEnchantmentTooltips(InventoryItem item, PlayerMob perspective, GameBlackboard blackboard) {
         ListGameTooltips tooltips = super.getPreEnchantmentTooltips(item, perspective, blackboard);
 
-        // Add our custom tooltip
+        // Add our custom tooltip, showing that it lights up ores
         tooltips.add(Localization.translate("itemtooltip", "exampletrinkettip"));
 
         return tooltips;
