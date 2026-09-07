@@ -5,110 +5,70 @@ import necesse.engine.util.GameRandom;
 import necesse.level.maps.presets.Preset;
 
 /**
- * ExamplePreset (Script-based)
- * This preset is the same idea as the code-built room, but it is created using a big text string
- * in Necesse's "PRESET script" format.
+ * Presets are predefined builds (tiles, objects, etc), which can be used in world generation
  */
 public class ExamplePreset extends Preset {
 
     /**
-     * You pass in GameRandom so anything random (like loot) can be rolled properly.
-     * In world generation, Necesse often uses a seeded random so the same world seed
-     * produces the same results every time.
+     * There are several different ways to construct a preset. The most common and easiest way is to copy a
+     * build you've made in the game using either:
+     * F10 -> Dev tool -> Copy preset -> Select an area -> Press "Copy to clipboard"
+     * or
+     * Be in creative mode -> In the tools creative tab -> Use "Select and copy to clipboard" -> Select an area
+     *
+     * Doing this will copy it to your clipboard, and you can then paste it in a string like I did below.
+     *
+     * You can also simply pass in the tile width/height of the preset you want to create,
+     * and later apply the preset script you have copied
      */
     public ExamplePreset(GameRandom random) {
+        super("PRESET = {\n" +
+                "\twidth = 11,\n" +
+                "\theight = 11,\n" +
+                "\ttileIDs = [105, exampletile],\n" +
+                "\ttiles = [105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105],\n" +
+                "\tobjectIDs = [0, air, 309, walltorch, 1610, examplewall, 300, storagebox],\n" +
+                "\tobjects = [1610, 1610, 1610, 1610, 1610, 1610, 1610, 1610, 1610, 1610, 1610, 1610, 309, 0, 0, 0, 0, 0, 0, 0, 309, 1610, 1610, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1610, 1610, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1610, 1610, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1610, 1610, 0, 0, 0, 0, 300, 0, 0, 0, 0, 1610, 1610, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1610, 1610, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1610, 1610, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1610, 1610, 309, 0, 0, 0, 0, 0, 0, 0, 309, 1610, 1610, 1610, 1610, 1610, 1610, 1610, 1610, 1610, 1610, 1610, 1610],\n" +
+                "\trotations = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 3, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 3, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2],\n" +
+                "\ttileObjectsClear = true,\n" +
+                "\twallDecorObjectsClear = true,\n" +
+                "\ttableDecorObjectsClear = true,\n" +
+                "\tclearOtherWires = false\n" +
+                "}");
 
-        // Create a preset that is 11 tiles wide and 11 tiles tall.
-        // The Preset parent class uses this to create arrays for tiles/objects/rotations.
-        super(11, 11);
+        // The data in a preset is stored in arrays with the object IDs, tile IDs, etc.
+        // If you have not set anything yet, the default data will be -1, which means pasting the preset
+        // will not replace anything on the level. You can also set specific areas of the preset to -1,
+        // which allows having presets that are other shapes than square
 
-        /*
-         * This is a PRESET script string.
-         *
-         * It's basically a "saved blueprint" of a structure.
-         * The game can export these, and you can paste them into code like this.
-         *
-         * The important parts
-         *
-         * width / height
-         *   - Size of the structure.
-         *
-         * tileIDs + tiles
-         *   - "tileIDs" is a list of tile types used in this preset.
-         *   - "tiles" is the full grid.
-         *   - Each number in "tiles" refers to an entry from tileIDs.
-         *
-         * objectIDs + objects
-         *   - Same idea as tiles, but for objects
-         *   - "objectIDs" is the palette.
-         *   - "objects" is the full grid.
-         *
-         * rotations
-         *   - Rotation for each placed object (same length/order as the objects grid).
-         *   - Most objects use rotation 0/1/2/3 for directions.
-         *
-         * ...Clear flags...
-         *   - These tell the game whether it should clear decorations/walls/etc when stamping the preset.
-         *
-         * The string is huge because it contains *every tile* in the 11x11 grid.
-         * 11 x 11 = 121 entries, which matches the long arrays you see.
-         */
-        String examplePresetScript =
-                "PRESET={width=11,height=11," +
-                        "tileIDs=[98, exampletile]," +
-                        "tiles=[98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98, 98]," +
-                        "objectIDs=[0, air, 290, storagebox, 1436, examplewall, 298, walltorch]," +
-                        "objects=[1436, 1436, 1436, 1436, 1436, 1436, 1436, 1436, 1436, 1436, 1436, 1436, 298, 0, 0, 0, 0, 0, 0, 0, 298, 1436, 1436, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1436, 1436, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1436, 1436, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1436, 1436, 0, 0, 0, 0, 290, 0, 0, 0, 0, 1436, 1436, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1436, 1436, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1436, 1436, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1436, 1436, 298, 0, 0, 0, 0, 0, 0, 0, 298, 1436, 1436, 1436, 1436, 1436, 1436, 1436, 1436, 1436, 1436, 1436, 1436]," +
-                        "rotations=[2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 3, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 2, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 1, 0, 0, 0, 0, 0, 0, 0, 3, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2]," +
-                        "tileObjectsClear=true,wallDecorObjectsClear=true,tableDecorObjectsClear=true," +
-                        "clearOtherWires=false}\n";
+        // To apply other preset scripts later or at specific offsets, you can use:
+        // applyPreset(x, y, ...);
 
-        /*
-         * applyScript(...) reads that big PRESET string and fills in:
-         * - which tiles exist at each coordinate
-         * - which objects exist at each coordinate
-         * - which rotations the objects use
-         *
-         * After this line runs, this Preset now "contains" that room layout.
-         */
-        this.applyScript(examplePresetScript);
+        // Coordinates are from top-left corner
 
-        /*
-         * Add loot into the storage box inside the preset.
-         *
-         * The idea here is:
-         * Coordinates here are PRESET coordinates, not world coordinates.
-         *
-         * So (5, 5) means:
-         * - 5 tiles from the left edge of the preset
-         * - 5 tiles from the top edge of the preset
-         *
-         * We are assuming the storage box was placed at that coordinate in the script.
-         */
+        // And you can set tile/object data with:
+        // setTile(x, y, ...);
+        // setObject(x, y, ...);
+
+
+        // You can also add a loot table based on the random seed from the constructor parameter
+        // In this case, the script we used have a chest in the middle. So we add loot to that like this:
         addInventory(ExampleLootTable.exampleLootTable, random, 5, 5);
 
-        /*
-         * Optional placement rule:
-         *
-         * addCanApplyRectEachPredicate checks a rectangle area and decides if the preset is allowed
-         * to be stamped there.
-         *
-         * This can prevent things like:
-         * - placing the room on top of an existing base
-         * - overwriting important tiles
-         *
-         * The lambda (level, levelX, levelY, dir) -> ... is a short way to write a function.
-         *
-         * Our rule says:
-         *   "If the world tile is already a floor, do NOT allow the preset to be placed."
-         *
-         * The ! means "not".
-         * So:
-         * - if isFloor is true, !isFloor is false then placement fails
-         * - if isFloor is false, !isFloor is true then placement is allowed
-         */
+        // When you want to use them in world generation, you can also add placement rules
+        // In this case, we do not allow placement on anything that is not floor tiles
         addCanApplyRectEachPredicate(0, 0, width, height, 0,
                 (level, levelX, levelY, dir) -> !level.getTile(levelX, levelY).isFloor
         );
+        // The reason you give a "dir" (direction) and there is one in the apply lambda as well,
+        // is because the preset might be rotated/mirrored. In those cases, the dir in the lambda will
+        // be different from the on you gave as a parameter
+        // There are several other helper methods like the one above as well
+
+
+        // If you want to place presets you've created in the surface or caves (infinite procedural generation),
+        // this is done through the WorldPresetRegistry. Take a look in ExampleModBiomes where we register our
+        // own ExampleWorldPreset for a bunch of comments on how they work
     }
+
 }
