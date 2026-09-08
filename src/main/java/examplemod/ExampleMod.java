@@ -1,126 +1,69 @@
 package examplemod;
 
-import examplemod.examples.*;
-import examplemod.examples.items.ExampleFoodItem;
-import examplemod.examples.items.ExampleHuntIncursionMaterialItem;
-import examplemod.examples.items.ExampleMaterialItem;
-import examplemod.examples.items.ExamplePotionItem;
-import necesse.engine.commands.CommandsManager;
+import examplemod.loaders.*;
 import necesse.engine.modLoader.annotations.ModEntry;
-import necesse.engine.registries.*;
-import necesse.gfx.gameTexture.GameTexture;
-import necesse.inventory.recipe.Ingredient;
-import necesse.inventory.recipe.Recipe;
-import necesse.inventory.recipe.Recipes;
-import necesse.level.maps.biomes.Biome;
 
 @ModEntry
 public class ExampleMod {
 
-    // We define our static registered objects here, so they can be referenced elsewhere
-    public static ExampleBiome EXAMPLE_BIOME;
+    // Global access point for mod settings
+    public static ExampleModSettings SETTINGS;
+
+    // Load settings for the example mod from the external file defined in ExampleModSettings
+    public ExampleModSettings initSettings() {
+        SETTINGS = new ExampleModSettings();
+        return SETTINGS;
+    }
 
     public void init() {
         System.out.println("Hello world from my example mod!");
+        SETTINGS.logLoadedSettings(); // log the loaded settings for debug
 
-        // Register a simple biome that will not appear in natural world gen.
-        EXAMPLE_BIOME = BiomeRegistry.registerBiome("exampleincursion", new ExampleBiome(), false);
+        // Note: If you're using Intellij IDEA, you can ctrl+click the different references
+        // like "load()" to jump to their code and see how they work!
 
-        // Register the incursion biome with tier requirement 1.
-        IncursionBiomeRegistry.registerBiome("exampleincursion", new ExampleIncursionBiome(), 1);
+        // The order which you register your content is important. Before registering any
+        // objects, items, etc. you want to register anything that might use that. In our case,
+        // we register our item categories, recipe tech and packets first. If we had custom
+        // global ingredients, we would also register them here
+        ExampleModTech.load();
+        ExampleModCategories.load();
+        ExampleModPackets.load();
 
-        // Register the level class used for the incursion.
-        LevelRegistry.registerLevel("exampleincursionlevel", ExampleIncursionLevel.class);
+        // Next we register all our content:
+        // Our tiles, objects and items in that order
+        ExampleModTiles.load();
+        ExampleModObjects.load();
+        ExampleModItems.load();
 
-        // Register our tiles
-        TileRegistry.registerTile("exampletile", new ExampleTile(), 1, true);
+        // Our biomes/level
+        ExampleModBiomes.load();
+        ExampleModIncursions.load();
 
-        // Register our objects
-        ObjectRegistry.registerObject("exampleobject", new ExampleObject(), 2, true);
+        // Now any entities and content the entities use after
+        ExampleModProjectiles.load();
+        ExampleModBuffs.load();
+        ExampleModMobs.load();
 
-        // Register our items
-        ItemRegistry.registerItem("exampleitem", new ExampleMaterialItem(), 10, true);
-        ItemRegistry.registerItem("examplehuntincursionitem", new ExampleHuntIncursionMaterialItem(), 50, true);
-        ItemRegistry.registerItem("examplesword", new ExampleSwordItem(), 20, true);
-        ItemRegistry.registerItem("examplestaff", new ExampleProjectileWeapon(), 30, true);
-        ItemRegistry.registerItem("examplepotionitem", new ExamplePotionItem(), 10, true);
-        ItemRegistry.registerItem("examplefooditem", new ExampleFoodItem(),15, true);
+        // Content that our entities use
+        ExampleModSettlers.load(); // Settlers
+        ExampleModJobs.load(); // Jobs
+        ExampleModEvents.load(); // Level events, etc.
 
-        // Register our mob
-        MobRegistry.registerMob("examplemob", ExampleMob.class, true);
+        // Lastly, anything that uses our content, entities, etc. Like our adventure journal entries
+        ExampleModJournal.load();
 
-        // Register our projectile
-        ProjectileRegistry.registerProjectile("exampleprojectile", ExampleProjectile.class, "exampleprojectile", "exampleprojectile_shadow");
-
-        // Register our buff
-        BuffRegistry.registerBuff("examplebuff", new ExampleBuff());
-
-        // Register our packet
-        PacketRegistry.registerPacket(ExamplePacket.class);
+        // And anything remaining, like our chat commands
+        ExampleModCommands.load();
     }
 
     public void initResources() {
-        // Sometimes your textures will have a black or other outline unintended under rotation or scaling
-        // This is caused by alpha blending between transparent pixels and the edge
-        // To fix this, run the preAntialiasTextures gradle task
-        // It will process your textures and save them again with a fixed alpha edge color
-
-        ExampleMob.texture = GameTexture.fromFile("mobs/examplemob");
+        ExampleModResources.load();
     }
 
     public void postInit() {
-        // Add recipes
-        // Example item recipe, crafted in inventory for 2 iron bars
-        Recipes.registerModRecipe(new Recipe(
-                "exampleitem",
-                1,
-                RecipeTechRegistry.NONE,
-                new Ingredient[]{
-                        new Ingredient("ironbar", 2)
-                }
-        ).showAfter("woodboat")); // Show recipe after wood boat recipe
-
-        // Example sword recipe, crafted in iron anvil using 4 example items and 5 copper bars
-        Recipes.registerModRecipe(new Recipe(
-                "examplesword",
-                1,
-                RecipeTechRegistry.IRON_ANVIL,
-                new Ingredient[]{
-                        new Ingredient("exampleitem", 4),
-                        new Ingredient("copperbar", 5)
-                }
-        ));
-
-        // Example staff recipe, crafted in workstation using 4 example items and 10 gold bars
-        Recipes.registerModRecipe(new Recipe(
-                "examplestaff",
-                1,
-                RecipeTechRegistry.WORKSTATION,
-                new Ingredient[]{
-                        new Ingredient("exampleitem", 4),
-                        new Ingredient("goldbar", 10)
-                }
-        ).showAfter("exampleitem")); // Show the recipe after example item recipe
-
-        // Example food item recipe
-        Recipes.registerModRecipe(new Recipe(
-                "examplefooditem",
-                1,
-                RecipeTechRegistry.COOKING_POT,
-                new Ingredient[]{
-                        new Ingredient("bread", 1),
-                        new Ingredient("strawberry", 2),
-                        new Ingredient("sugar", 1)
-                }
-        ));
-
-        // Add our example mob to default cave mobs.
-        // Spawn tables use a ticket/weight system. In general, common mobs have about 100 tickets.
-        Biome.defaultCaveMobs
-                .add(100, "examplemob");
-
-        // Register our server chat command
-        CommandsManager.registerServerCommand(new ExampleChatCommand());
+        // Load our recipes from the ExampleRecipes class so we can keep this class easy to read
+        ExampleModRecipes.registerRecipes();
     }
 
 }
